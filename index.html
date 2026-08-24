@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <meta name="description" content="Dashboard demonstrativo do tema administrativo Quiet UI.">
+    <title>Dashboard — Quiet UI</title>
+    <script src="assets/js/vendor.js" data-vendors="poppins,lucide,chartjs"></script>
+    <link rel="stylesheet" href="assets/css/theme.css">
+    <script src="assets/js/theme.js" defer></script>
+  </head>
+  <body class="ui-page" data-page="dashboard">
+    <a class="ui-skip-link" href="#main-content">Ir para o conteúdo principal</a>
+    <div class="ui-shell" data-ui-shell data-sidebar-open="false">
+      <aside class="ui-sidebar" id="ui-sidebar" data-ui-sidebar aria-label="Navegação principal"></aside>
+
+      <div class="ui-workspace">
+        <header class="ui-topbar" data-ui-topbar></header>
+        <main class="ui-main" id="main-content" tabindex="-1">
+          <header class="ui-page-heading">
+            <div class="ui-page-heading-copy">
+              <p class="ui-eyebrow">Visão geral</p>
+              <h1>Bom dia, equipe</h1>
+              <p>Acompanhe prioridades, andamento e atalhos sem transformar a página em um painel de BI.</p>
+            </div>
+            <div class="ui-heading-actions">
+              <a class="ui-button is-ghost" href="docs.html"><i data-lucide="book-open" aria-hidden="true"></i> Guia</a>
+              <button class="ui-button is-secondary" type="button" data-ui-toast-trigger data-message="Relatório demonstrativo preparado.">
+                <i data-lucide="download" aria-hidden="true"></i>
+                Exportar
+              </button>
+              <a class="ui-button" href="forms.html">
+                <i data-lucide="plus" aria-hidden="true"></i>
+                Novo registro
+              </a>
+            </div>
+          </header>
+
+          <section aria-labelledby="metrics-title">
+            <div class="ui-section-heading">
+              <div>
+                <p class="ui-kicker">Resumo</p>
+                <h2 id="metrics-title">O que merece atenção</h2>
+              </div>
+              <span class="ui-badge">Atualizado agora</span>
+            </div>
+            <div class="ui-grid-4">
+              <article class="ui-metric is-primary" data-ui-reveal>
+                <div class="ui-metric-top">
+                  <span class="ui-metric-icon"><i data-lucide="list-checks" aria-hidden="true"></i></span>
+                  <span class="ui-trend"><i data-lucide="trending-up" aria-hidden="true"></i> 12%</span>
+                </div>
+                <strong class="ui-metric-value" data-ui-counter-value="24">24</strong>
+                <h2>Itens em andamento</h2>
+                <p>Seis foram atualizados hoje</p>
+              </article>
+              <article class="ui-metric is-danger" data-ui-reveal>
+                <div class="ui-metric-top">
+                  <span class="ui-metric-icon"><i data-lucide="clock-alert" aria-hidden="true"></i></span>
+                  <span class="ui-trend is-down"><i data-lucide="trending-down" aria-hidden="true"></i> 2</span>
+                </div>
+                <strong class="ui-metric-value" data-ui-counter-value="3">3</strong>
+                <h2>Prazos vencidos</h2>
+                <p>Precisam de uma decisão</p>
+              </article>
+              <article class="ui-metric is-success" data-ui-reveal>
+                <div class="ui-metric-top">
+                  <span class="ui-metric-icon"><i data-lucide="circle-check-big" aria-hidden="true"></i></span>
+                  <span class="ui-trend"><i data-lucide="trending-up" aria-hidden="true"></i> 8%</span>
+                </div>
+                <strong class="ui-metric-value" data-ui-counter-value="47">47</strong>
+                <h2>Concluídos no mês</h2>
+                <p>Acima do período anterior</p>
+              </article>
+              <article class="ui-metric is-warning" data-ui-reveal>
+                <div class="ui-metric-top">
+                  <span class="ui-metric-icon"><i data-lucide="messages-square" aria-hidden="true"></i></span>
+                  <span class="ui-badge is-warning">Novo</span>
+                </div>
+                <strong class="ui-metric-value" data-ui-counter-value="8">8</strong>
+                <h2>Comentários abertos</h2>
+                <p>Três mencionam sua equipe</p>
+              </article>
+            </div>
+          </section>
+
+          <section class="ui-section" aria-labelledby="evolution-title">
+            <div class="ui-section-heading">
+              <div><p class="ui-kicker">Evolução</p><h2 id="evolution-title">Indicadores operacionais</h2></div>
+              <a class="ui-button is-ghost is-small" href="charts.html">Explorar gráficos</a>
+            </div>
+            <div class="ui-grid-3">
+              <article class="ui-panel ui-insight-card" data-ui-reveal>
+                <div class="ui-insight-head"><span>Taxa de conclusão</span><i data-lucide="circle-check-big" aria-hidden="true"></i></div>
+                <div class="ui-insight-value-row">
+                  <strong class="ui-insight-value" data-ui-counter-value="78" data-ui-counter-suffix="%">78%</strong>
+                  <span class="ui-trend"><i data-lucide="trending-up" aria-hidden="true"></i> 8% no mês</span>
+                </div>
+                <p>A proporção de entregas concluídas cresceu de forma consistente nas últimas seis semanas.</p>
+                <div class="ui-sparkline">
+                  <canvas data-ui-chart="sparkline" data-chart-values="48,52,57,61,69,78" data-chart-color="#14795a" data-chart-fill="rgba(20, 121, 90, 0.1)" role="img" aria-label="Taxa de conclusão evoluiu de 48 para 78 por cento em seis semanas"></canvas>
+                </div>
+              </article>
+
+              <article class="ui-panel ui-insight-card" data-ui-reveal>
+                <div class="ui-insight-head"><span>Tempo médio de entrega</span><i data-lucide="timer" aria-hidden="true"></i></div>
+                <div class="ui-insight-value-row">
+                  <strong class="ui-insight-value" data-ui-counter-value="4.2" data-ui-counter-decimals="1" data-ui-counter-suffix=" d">4,2 d</strong>
+                  <span class="ui-trend"><i data-lucide="trending-down" aria-hidden="true"></i> 0,8 dia</span>
+                </div>
+                <p>O ciclo ficou mais curto; a tendência descendente representa uma evolução positiva.</p>
+                <div class="ui-sparkline">
+                  <canvas data-ui-chart="sparkline" data-chart-values="7.1,6.4,5.8,5.2,4.7,4.2" data-chart-color="#3b5ccc" data-chart-fill="rgba(59, 92, 204, 0.1)" role="img" aria-label="Tempo médio de entrega caiu de 7,1 para 4,2 dias em seis semanas"></canvas>
+                </div>
+              </article>
+
+              <article class="ui-panel ui-insight-card" data-ui-reveal>
+                <div class="ui-insight-head"><span>Capacidade planejada</span><i data-lucide="gauge" aria-hidden="true"></i></div>
+                <div class="ui-insight-value-row">
+                  <strong class="ui-insight-value" data-ui-counter-value="86" data-ui-counter-suffix="%">86%</strong>
+                  <span class="ui-badge is-warning">Atenção em 90%</span>
+                </div>
+                <p>A equipe ainda possui margem segura para novas atividades de baixa complexidade.</p>
+                <div class="ui-progress-meta"><strong>43 de 50 pontos</strong><span>7 disponíveis</span></div>
+                <div class="ui-progress is-large" role="progressbar" aria-label="86% da capacidade planejada utilizada" aria-valuemin="0" aria-valuemax="100" aria-valuenow="86">
+                  <span class="ui-progress-bar is-warning is-animated" style="width: 86%"></span>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <div class="ui-dashboard-grid ui-section">
+            <section class="ui-panel" aria-labelledby="priorities-title">
+              <div class="ui-panel-heading">
+                <div>
+                  <p class="ui-kicker">Prioridades</p>
+                  <h2 id="priorities-title">Próximas entregas</h2>
+                </div>
+                <a class="ui-button is-ghost is-small" href="calendar.html">Ver calendário</a>
+              </div>
+              <ul class="ui-list">
+                <li class="ui-list-item">
+                  <span class="ui-list-icon is-danger"><i data-lucide="file-warning" aria-hidden="true"></i></span>
+                  <div class="ui-list-copy">
+                    <h3>Revisar relatório operacional</h3>
+                    <p>Operações · Responsável: Equipe Norte</p>
+                  </div>
+                  <div class="ui-list-meta"><span class="ui-badge is-danger">Atrasado</span><br>ontem</div>
+                </li>
+                <li class="ui-list-item">
+                  <span class="ui-list-icon is-warning"><i data-lucide="presentation" aria-hidden="true"></i></span>
+                  <div class="ui-list-copy">
+                    <h3>Preparar apresentação mensal</h3>
+                    <p>Produto · Quatro anexos disponíveis</p>
+                  </div>
+                  <div class="ui-list-meta"><span class="ui-badge is-warning">Hoje</span><br>até 18h</div>
+                </li>
+                <li class="ui-list-item">
+                  <span class="ui-list-icon"><i data-lucide="clipboard-check" aria-hidden="true"></i></span>
+                  <div class="ui-list-copy">
+                    <h3>Validar novo fluxo de atendimento</h3>
+                    <p>Suporte · Revisão compartilhada</p>
+                  </div>
+                  <div class="ui-list-meta"><span class="ui-badge is-primary">Em revisão</span><br>amanhã</div>
+                </li>
+                <li class="ui-list-item">
+                  <span class="ui-list-icon is-success"><i data-lucide="badge-check" aria-hidden="true"></i></span>
+                  <div class="ui-list-copy">
+                    <h3>Publicar guia de boas práticas</h3>
+                    <p>Conhecimento · Aprovação concluída</p>
+                  </div>
+                  <div class="ui-list-meta"><span class="ui-badge is-success">Pronto</span><br>sexta</div>
+                </li>
+              </ul>
+            </section>
+
+            <aside class="ui-panel" aria-labelledby="quick-actions-title">
+              <div class="ui-panel-heading">
+                <div>
+                  <p class="ui-kicker">Atalhos</p>
+                  <h2 id="quick-actions-title">Ações rápidas</h2>
+                </div>
+              </div>
+              <div class="ui-quick-actions">
+                <a class="ui-quick-action" href="forms.html">
+                  <span class="ui-quick-icon"><i data-lucide="square-pen" aria-hidden="true"></i></span>
+                  <span><strong>Criar registro</strong><small>Formulário completo</small></span>
+                  <i data-lucide="chevron-right" aria-hidden="true"></i>
+                </a>
+                <a class="ui-quick-action" href="calendar.html">
+                  <span class="ui-quick-icon"><i data-lucide="calendar-plus" aria-hidden="true"></i></span>
+                  <span><strong>Agendar evento</strong><small>Calendário mensal</small></span>
+                  <i data-lucide="chevron-right" aria-hidden="true"></i>
+                </a>
+                <a class="ui-quick-action" href="timeline.html">
+                  <span class="ui-quick-icon"><i data-lucide="milestone" aria-hidden="true"></i></span>
+                  <span><strong>Acompanhar projeto</strong><small>Timeline com fotos e marcos</small></span>
+                  <i data-lucide="chevron-right" aria-hidden="true"></i>
+                </a>
+                <a class="ui-quick-action" href="components.html#chips">
+                  <span class="ui-quick-icon"><i data-lucide="tags" aria-hidden="true"></i></span>
+                  <span><strong>Gerenciar marcadores</strong><small>Chips adicionáveis</small></span>
+                  <i data-lucide="chevron-right" aria-hidden="true"></i>
+                </a>
+                <a class="ui-quick-action" href="charts.html">
+                  <span class="ui-quick-icon"><i data-lucide="chart-no-axes-combined" aria-hidden="true"></i></span>
+                  <span><strong>Analisar indicadores</strong><small>Gráficos com resumo textual</small></span>
+                  <i data-lucide="chevron-right" aria-hidden="true"></i>
+                </a>
+              </div>
+
+              <div class="ui-section">
+                <div class="ui-progress-meta"><strong>Meta do mês</strong><span>47 de 60</span></div>
+                <div class="ui-progress" role="progressbar" aria-label="78% da meta mensal concluída" aria-valuemin="0" aria-valuemax="100" aria-valuenow="78">
+                  <span class="ui-progress-bar is-success is-animated" style="width: 78%"></span>
+                </div>
+              </div>
+            </aside>
+          </div>
+
+          <section class="ui-section" aria-labelledby="recent-title">
+            <div class="ui-section-heading">
+              <div><p class="ui-kicker">Equipe</p><h2 id="recent-title">Atividade recente</h2></div>
+              <span class="ui-badge is-success">Sistema operacional</span>
+            </div>
+            <div class="ui-table-wrap">
+              <table class="ui-table">
+                <thead><tr><th>Registro</th><th>Área</th><th>Responsável</th><th>Status</th><th>Atualização</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Plano de lançamento</strong><small>#PRD-204</small></td><td>Produto</td><td>Marina Lopes</td><td><span class="ui-badge is-primary">Em revisão</span></td><td>há 12 min</td></tr>
+                  <tr><td><strong>Indicadores de suporte</strong><small>#SUP-138</small></td><td>Atendimento</td><td>Caio Souza</td><td><span class="ui-badge is-success">Concluído</span></td><td>há 34 min</td></tr>
+                  <tr><td><strong>Política de acesso</strong><small>#OPS-087</small></td><td>Operações</td><td>Ana Reis</td><td><span class="ui-badge is-warning">Pendente</span></td><td>há 1 h</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </main>
+      </div>
+
+      <button class="ui-sidebar-backdrop" type="button" data-ui-sidebar-backdrop aria-label="Fechar menu lateral" tabindex="-1"></button>
+    </div>
+    <div class="ui-toast-region" id="ui-toast-region" aria-live="polite"></div>
+    <noscript><p class="ui-noscript">Ative o JavaScript para usar a navegação e os componentes interativos desta demonstração.</p></noscript>
+  </body>
+</html>

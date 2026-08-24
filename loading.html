@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <meta name="description" content="Loading states, spinners e skeletons padronizados do tema Quiet UI.">
+    <title>Loading states — Quiet UI</title>
+    <script src="assets/js/vendor.js" data-vendors="poppins,lucide"></script>
+    <link rel="stylesheet" href="assets/css/theme.css">
+    <script src="assets/js/theme.js" defer></script>
+  </head>
+  <body class="ui-page" data-page="loading">
+    <a class="ui-skip-link" href="#main-content">Ir para o conteúdo principal</a>
+    <div class="ui-shell" data-ui-shell data-sidebar-open="false">
+      <aside class="ui-sidebar" id="ui-sidebar" data-ui-sidebar aria-label="Navegação principal"></aside>
+      <div class="ui-workspace">
+        <header class="ui-topbar" data-ui-topbar></header>
+        <main class="ui-main" id="main-content" tabindex="-1" lang="en">
+          <header class="ui-page-heading">
+            <div class="ui-page-heading-copy">
+              <p class="ui-eyebrow">Feedback patterns</p>
+              <h1>Loading states</h1>
+              <p>A reusable catalog for spinners, progress indicators, skeletons, loading buttons and page-level feedback.</p>
+            </div>
+            <span class="ui-badge is-primary">Motion aware</span>
+          </header>
+
+          <div class="ui-alert is-success" role="status">
+            <i data-lucide="circle-check" aria-hidden="true"></i>
+            <div><strong>Accessible by default</strong><p>Every animated example keeps a visible text label and respects the user’s reduced-motion preference.</p></div>
+          </div>
+
+          <section class="ui-section" aria-labelledby="spinners-title">
+            <div class="ui-section-heading">
+              <div><p class="ui-kicker">Immediate feedback</p><h2 id="spinners-title">Spinners and loading dots</h2></div>
+              <span class="ui-counter">3 patterns</span>
+            </div>
+            <div class="ui-grid-3">
+              <article class="ui-panel">
+                <div class="ui-panel-heading"><div><h2>Spinner sizes</h2><p>Use the smallest size that remains clear in context.</p></div></div>
+                <div class="ui-loading-sample">
+                  <div class="ui-loading" role="status"><span class="ui-spinner is-small" aria-hidden="true"></span><span>Loading inline data…</span></div>
+                  <div class="ui-loading" role="status"><span class="ui-spinner" aria-hidden="true"></span><span>Loading content…</span></div>
+                  <div class="ui-loading" role="status"><span class="ui-spinner is-large" aria-hidden="true"></span><span>Preparing workspace…</span></div>
+                </div>
+              </article>
+
+              <article class="ui-panel">
+                <div class="ui-panel-heading"><div><h2>Semantic tones</h2><p>The message explains the state; color only reinforces it.</p></div></div>
+                <div class="ui-loading-sample">
+                  <div class="ui-loading" role="status"><span class="ui-spinner" aria-hidden="true"></span><span>Syncing project data…</span></div>
+                  <div class="ui-loading" role="status"><span class="ui-spinner is-success" aria-hidden="true"></span><span>Finalizing import…</span></div>
+                  <div class="ui-loading" role="status"><span class="ui-spinner is-warning" aria-hidden="true"></span><span>Retrying connection…</span></div>
+                </div>
+              </article>
+
+              <article class="ui-panel">
+                <div class="ui-panel-heading"><div><h2>Loading dots</h2><p>A compact option for conversational or inline updates.</p></div></div>
+                <div class="ui-loading-sample">
+                  <div class="ui-loading" role="status">
+                    <span class="ui-loading-dots" aria-hidden="true"><span class="ui-loading-dot"></span><span class="ui-loading-dot"></span><span class="ui-loading-dot"></span></span>
+                    <span>Generating project summary…</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="ui-section" aria-labelledby="progress-title">
+            <div class="ui-section-heading"><div><p class="ui-kicker">Measurable work</p><h2 id="progress-title">Progress indicators</h2></div></div>
+            <div class="ui-grid-2">
+              <article class="ui-panel">
+                <div class="ui-panel-heading"><div><h2>Determinate progress</h2><p>Use when the application knows how much work is complete.</p></div><span class="ui-badge is-primary">68%</span></div>
+                <div class="ui-progress-meta"><strong id="upload-progress-label">Uploading project assets</strong><span>34 of 50 files</span></div>
+                <div class="ui-progress is-large" role="progressbar" aria-labelledby="upload-progress-label" aria-valuemin="0" aria-valuemax="100" aria-valuenow="68">
+                  <span class="ui-progress-bar is-animated" style="width: 68%"></span>
+                </div>
+              </article>
+
+              <article class="ui-panel">
+                <div class="ui-panel-heading"><div><h2>Indeterminate progress</h2><p>Use when duration or total work is unknown.</p></div></div>
+                <div class="ui-progress-meta"><strong>Loading project timeline</strong><span>Please wait</span></div>
+                <div class="ui-progress is-large is-indeterminate" role="progressbar" aria-label="Loading project timeline">
+                  <span class="ui-progress-bar"></span>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="ui-section" aria-labelledby="skeleton-title">
+            <div class="ui-section-heading"><div><p class="ui-kicker">Layout preview</p><h2 id="skeleton-title">Skeleton loaders</h2></div><span class="ui-badge">Decorative shapes are hidden from assistive technology</span></div>
+            <div class="ui-grid-2">
+              <article class="ui-card" aria-busy="true" aria-describedby="card-loading-status">
+                <div class="ui-skeleton-group" aria-hidden="true">
+                  <div class="ui-skeleton is-media"></div>
+                  <div class="ui-skeleton is-title"></div>
+                  <div class="ui-skeleton is-line"></div>
+                  <div class="ui-skeleton is-line-short"></div>
+                  <div class="ui-skeleton is-button"></div>
+                </div>
+                <span class="ui-visually-hidden" id="card-loading-status" role="status">Loading project summary…</span>
+              </article>
+
+              <article class="ui-card" aria-busy="true" aria-describedby="profile-loading-status">
+                <div class="ui-skeleton-group" aria-hidden="true">
+                  <div class="ui-skeleton is-avatar"></div>
+                  <div class="ui-skeleton is-title"></div>
+                  <div class="ui-skeleton is-line"></div>
+                  <div class="ui-skeleton is-line"></div>
+                  <div class="ui-skeleton is-line-short"></div>
+                </div>
+                <span class="ui-visually-hidden" id="profile-loading-status" role="status">Loading team member details…</span>
+              </article>
+            </div>
+          </section>
+
+          <section class="ui-section" aria-labelledby="interactive-loading-title">
+            <div class="ui-section-heading"><div><p class="ui-kicker">Interactive demo</p><h2 id="interactive-loading-title">Loading buttons and page loader</h2></div></div>
+            <div class="ui-grid-2">
+              <article class="ui-panel">
+                <div class="ui-panel-heading"><div><h2>Loading button</h2><p>Prevents duplicate actions while preserving a clear label.</p></div></div>
+                <div class="ui-button-row">
+                  <button class="ui-button" type="button" data-ui-loading-trigger aria-busy="false">
+                    <span class="ui-button-loading" data-ui-loading-idle><i data-lucide="save" aria-hidden="true"></i> Save changes</span>
+                    <span class="ui-button-loading" data-ui-loading-busy hidden><span class="ui-spinner is-small is-inverse" aria-hidden="true"></span> Saving…</span>
+                  </button>
+                  <button class="ui-button is-secondary is-loading" type="button" aria-busy="true" disabled><span class="ui-spinner is-small" aria-hidden="true"></span> Processing…</button>
+                </div>
+                <span class="ui-visually-hidden" data-ui-loading-live role="status" aria-live="polite"></span>
+              </article>
+
+              <article class="ui-panel">
+                <div class="ui-panel-heading"><div><h2>Page loader</h2><p>Use only when the whole workspace must wait for one blocking operation.</p></div></div>
+                <button class="ui-button is-secondary" type="button" data-ui-page-loader-open><i data-lucide="scan" aria-hidden="true"></i> Preview page loader</button>
+              </article>
+            </div>
+          </section>
+
+          <section class="ui-section ui-code-card" aria-labelledby="loading-contract-title">
+            <h2 id="loading-contract-title">Reusable contract</h2>
+            <p>Keep the component name, a visible status message and the correct busy state together.</p>
+            <pre><code>&lt;div class="ui-loading" role="status"&gt;
+  &lt;span class="ui-spinner" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;span&gt;Loading project data…&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+          </section>
+        </main>
+      </div>
+      <button class="ui-sidebar-backdrop" type="button" data-ui-sidebar-backdrop aria-label="Fechar menu lateral" tabindex="-1"></button>
+    </div>
+
+    <div class="ui-page-loader" data-ui-page-loader lang="en" hidden>
+      <div class="ui-page-loader-panel" role="status" aria-live="polite" aria-atomic="true" tabindex="-1">
+        <span class="ui-spinner is-large" aria-hidden="true"></span>
+        <strong>Loading workspace…</strong>
+        <span>Please wait while the latest project data is prepared.</span>
+      </div>
+    </div>
+    <div class="ui-toast-region" id="ui-toast-region" aria-live="polite"></div>
+    <noscript><p class="ui-noscript" lang="en">The static loading patterns remain visible, but interactive demos require JavaScript.</p></noscript>
+  </body>
+</html>

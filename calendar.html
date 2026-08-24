@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <meta name="description" content="Calendário mensal interativo do tema administrativo Quiet UI.">
+    <title>Calendário — Quiet UI</title>
+    <script src="assets/js/vendor.js" data-vendors="poppins,lucide"></script>
+    <link rel="stylesheet" href="assets/css/theme.css">
+    <script src="assets/js/theme.js" defer></script>
+  </head>
+  <body class="ui-page" data-page="calendar">
+    <a class="ui-skip-link" href="#main-content">Ir para o conteúdo principal</a>
+    <div class="ui-shell" data-ui-shell data-sidebar-open="false">
+      <aside class="ui-sidebar" id="ui-sidebar" data-ui-sidebar aria-label="Navegação principal"></aside>
+      <div class="ui-workspace">
+        <header class="ui-topbar" data-ui-topbar></header>
+        <main class="ui-main" id="main-content" tabindex="-1">
+          <header class="ui-page-heading">
+            <div class="ui-page-heading-copy">
+              <p class="ui-eyebrow">Calendário</p>
+              <h1>Planejamento mensal</h1>
+              <p>Navegue entre meses e selecione os eventos. A lista lateral preserva uma alternativa textual escaneável.</p>
+            </div>
+            <button class="ui-button" type="button" data-ui-modal-open="event-modal">
+              <i data-lucide="calendar-plus" aria-hidden="true"></i>
+              Novo evento
+            </button>
+          </header>
+
+          <div class="ui-alert" role="status">
+            <i data-lucide="info" aria-hidden="true"></i>
+            <div><strong>Calendário demonstrativo</strong><p>Os eventos são fictícios e reaparecem em cada mês para facilitar a reutilização do componente.</p></div>
+          </div>
+
+          <div class="ui-dashboard-grid ui-section">
+            <section class="ui-calendar-shell" data-ui-calendar aria-labelledby="calendar-title">
+              <header class="ui-calendar-toolbar">
+                <div><p class="ui-kicker">Visualização mensal</p><h2 id="calendar-title" data-ui-calendar-title>Calendário</h2></div>
+                <div class="ui-calendar-controls">
+                  <button class="ui-icon-button" type="button" data-calendar-action="previous" aria-label="Mês anterior"><i data-lucide="chevron-left" aria-hidden="true"></i></button>
+                  <button class="ui-button is-secondary is-small" type="button" data-calendar-action="today">Hoje</button>
+                  <button class="ui-icon-button" type="button" data-calendar-action="next" aria-label="Próximo mês"><i data-lucide="chevron-right" aria-hidden="true"></i></button>
+                </div>
+              </header>
+              <div class="ui-calendar-grid" data-ui-calendar-grid aria-live="polite"></div>
+              <div class="ui-calendar-detail" data-ui-calendar-detail aria-live="polite"></div>
+            </section>
+
+            <aside class="ui-panel" aria-labelledby="agenda-title">
+              <div class="ui-panel-heading">
+                <div><p class="ui-kicker">Agenda</p><h2 id="agenda-title">Próximos eventos</h2></div>
+                <span class="ui-counter">5 itens</span>
+              </div>
+              <ul class="ui-list">
+                <li class="ui-list-item">
+                  <span class="ui-list-icon"><i data-lucide="clipboard-list" aria-hidden="true"></i></span>
+                  <div class="ui-list-copy"><h3>Revisão semanal</h3><p>Dia 3 · 09:00</p></div>
+                  <span class="ui-badge is-primary">Equipe</span>
+                </li>
+                <li class="ui-list-item">
+                  <span class="ui-list-icon is-warning"><i data-lucide="users" aria-hidden="true"></i></span>
+                  <div class="ui-list-copy"><h3>Reunião de projeto</h3><p>Dia 8 · 14:30</p></div>
+                  <span class="ui-badge is-warning">Reunião</span>
+                </li>
+                <li class="ui-list-item">
+                  <span class="ui-list-icon is-success"><i data-lucide="send" aria-hidden="true"></i></span>
+                  <div class="ui-list-copy"><h3>Publicação do relatório</h3><p>Dia 14 · 10:00</p></div>
+                  <span class="ui-badge is-success">Entrega</span>
+                </li>
+                <li class="ui-list-item">
+                  <span class="ui-list-icon is-comment"><i data-lucide="messages-square" aria-hidden="true"></i></span>
+                  <div class="ui-list-copy"><h3>Planejamento do ciclo</h3><p>Dia 21 · 16:00</p></div>
+                  <span class="ui-badge is-comment">Oficina</span>
+                </li>
+              </ul>
+            </aside>
+          </div>
+
+          <section class="ui-section" aria-labelledby="calendar-legend-title">
+            <div class="ui-section-heading"><div><p class="ui-kicker">Convenção</p><h2 id="calendar-legend-title">Categorias semânticas</h2></div></div>
+            <div class="ui-status-legend">
+              <span class="ui-chip is-primary">Equipe</span>
+              <span class="ui-chip is-warning">Reunião</span>
+              <span class="ui-chip is-success">Entrega</span>
+              <span class="ui-chip is-comment">Oficina</span>
+              <span class="ui-chip is-danger">Prazo crítico</span>
+            </div>
+          </section>
+        </main>
+      </div>
+      <button class="ui-sidebar-backdrop" type="button" data-ui-sidebar-backdrop aria-label="Fechar menu lateral" tabindex="-1"></button>
+    </div>
+
+    <dialog class="ui-modal" id="event-modal" data-ui-modal aria-labelledby="event-modal-title">
+      <div class="ui-modal-header">
+        <h2 id="event-modal-title">Novo evento</h2>
+        <button class="ui-icon-button" type="button" data-ui-modal-close aria-label="Fechar modal"><i data-lucide="x" aria-hidden="true"></i></button>
+      </div>
+      <div class="ui-modal-body">
+        <div class="ui-field-grid">
+          <div class="ui-field is-full"><label class="ui-label" for="event-title">Título</label><input class="ui-input" id="event-title" type="text" placeholder="Nome do evento"></div>
+          <div class="ui-field"><label class="ui-label" for="event-date">Data</label><input class="ui-input" id="event-date" type="date"></div>
+          <div class="ui-field"><label class="ui-label" for="event-time">Horário</label><input class="ui-input" id="event-time" type="time"></div>
+        </div>
+      </div>
+      <div class="ui-modal-footer">
+        <button class="ui-button is-secondary" type="button" data-ui-modal-close>Cancelar</button>
+        <button class="ui-button" type="button" data-ui-modal-close data-ui-toast-trigger data-message="Evento demonstrativo criado.">Criar evento</button>
+      </div>
+    </dialog>
+    <div class="ui-toast-region" id="ui-toast-region" aria-live="polite"></div>
+    <noscript><p class="ui-noscript">Ative o JavaScript para navegar entre os meses e abrir o formulário de evento.</p></noscript>
+  </body>
+</html>
