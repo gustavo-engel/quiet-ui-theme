@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light">
-    <meta name="description" content="Guia rápido do tema administrativo reutilizável Quiet UI.">
+    <meta name="description" content="Catálogo e guia de adaptação do tema administrativo aberto Quiet UI.">
     <title>Guia rápido — Quiet UI</title>
     <script src="assets/js/vendor.js" data-vendors="poppins,lucide"></script>
     <link rel="stylesheet" href="assets/css/theme.css">
@@ -21,19 +21,19 @@
             <div class="ui-page-heading-copy">
               <p class="ui-eyebrow">Guia rápido</p>
               <h1>Copie, adapte e continue</h1>
-              <p>O tema é deliberadamente estático: sem build, banco ou backend. Use as páginas como documentação viva.</p>
+              <p>Uma biblioteca viva de componentes administrativos independentes, pronta para receber novas páginas, modelos e contextos de uso.</p>
             </div>
             <a class="ui-button" href="index.html"><i data-lucide="layout-dashboard" aria-hidden="true"></i> Abrir dashboard</a>
           </header>
 
           <div class="ui-alert is-success">
             <i data-lucide="circle-check" aria-hidden="true"></i>
-            <div><strong>Estrutura mínima</strong><p>Para reaproveitar o tema, copie <code>assets/</code>, uma página HTML e mantenha os atributos <code>data-ui-*</code> dos componentes interativos.</p></div>
+            <div><strong>Contrato compartilhado</strong><p>Pessoas e agentes de IA podem adaptar o tema mantendo os tokens, as classes <code>.ui-*</code>, os estados <code>.is-*</code> e os atributos <code>data-ui-*</code>.</p></div>
           </div>
 
           <section class="ui-section ui-doc-grid" aria-label="Primeiros passos">
             <article class="ui-code-card">
-              <h2>1. Sirva a pasta</h2>
+              <h2>1. Abra o projeto</h2>
               <p>O servidor nativo do Python é suficiente para a demonstração.</p>
               <pre><code>python3 -m http.server 4173
 
@@ -79,6 +79,27 @@ http://127.0.0.1:4173</code></pre>
                   <li><span><i class="ui-token-swatch" style="background: #b42318"></i>Erro</span><code>#b42318</code></li>
                   <li><span><i class="ui-token-swatch" style="background: #6941c6"></i>Comentário</span><code>#6941c6</code></li>
                 </ul>
+              </article>
+            </div>
+          </section>
+
+          <section class="ui-section" aria-labelledby="principles-title">
+            <div class="ui-section-heading"><div><p class="ui-kicker">Base aberta</p><h2 id="principles-title">Feito para evoluir sem perder consistência</h2></div></div>
+            <div class="ui-grid-3">
+              <article class="ui-card">
+                <span class="ui-list-icon"><i data-lucide="boxes" aria-hidden="true"></i></span>
+                <h3>Componentes independentes</h3>
+                <p class="ui-help">Cada padrão possui estrutura, estado e comportamento próprios, podendo ser copiado ou combinado conforme a página.</p>
+              </article>
+              <article class="ui-card">
+                <span class="ui-list-icon is-success"><i data-lucide="library-big" aria-hidden="true"></i></span>
+                <h3>Catálogo vivo</h3>
+                <p class="ui-help">As páginas demonstram o uso real dos componentes e permanecem alinhadas ao CSS e JavaScript centrais.</p>
+              </article>
+              <article class="ui-card">
+                <span class="ui-list-icon is-comment"><i data-lucide="bot" aria-hidden="true"></i></span>
+                <h3>Semântica para agentes</h3>
+                <p class="ui-help">Nomes previsíveis, HTML nativo e ganchos explícitos ajudam agentes de IA a ampliar o tema com segurança.</p>
               </article>
             </div>
           </section>

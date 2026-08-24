@@ -1,4 +1,4 @@
-"""Validação leve e sem dependências para os arquivos estáticos do tema."""
+"""Validação leve e sem dependências para os arquivos do Quiet UI."""
 
 from __future__ import annotations
 

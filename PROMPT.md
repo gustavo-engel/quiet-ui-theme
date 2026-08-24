@@ -1,7 +1,10 @@
-# Prompt curto para novas páginas
+# Prompt para agentes de IA
 
 ```text
 Crie {{PÁGINA}} dentro do tema Quiet UI existente.
+
+Antes de editar, leia AGENTS.md, README.md e consulte docs.html.
+O Quiet UI é um tema administrativo independente, modular e aberto à expansão.
 
 Reutilize o shell, os tokens e os componentes de assets/css/theme.css.
 Use os comportamentos data-ui-* já disponíveis em assets/js/theme.js.

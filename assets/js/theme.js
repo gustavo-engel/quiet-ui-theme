@@ -78,7 +78,7 @@
         <nav class="ui-sidebar-nav" aria-label="Navegação principal">${items}</nav>
         <div class="ui-sidebar-status">
           <span class="ui-status-dot" aria-hidden="true"></span>
-          <span class="ui-sidebar-status-copy"><strong>Tema independente</strong><small>HTML, CSS e JS reutilizáveis</small></span>
+          <span class="ui-sidebar-status-copy"><strong>Biblioteca aberta</strong><small>Componentes reutilizáveis</small></span>
         </div>`;
     }
 

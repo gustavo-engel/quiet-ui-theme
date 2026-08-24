@@ -1,7 +1,22 @@
 # Quiet UI
 
-Tema administrativo estático extraído do design do portal. Ele não depende do
-FastAPI, do banco ou de dados escolares.
+Quiet UI é um tema administrativo aberto, modular e independente. Ele reúne
+componentes individuais, páginas de referência e padrões de interação bem
+catalogados para acelerar a criação de novas interfaces.
+
+A estrutura foi pensada para ser fácil de adaptar, ampliar e combinar com
+diferentes modelos de aplicação. As convenções visuais e semânticas também
+permitem que agentes de IA entendam o projeto, reutilizem seus componentes e
+criem novas páginas sem descaracterizar o design.
+
+## Princípios
+
+- componentes independentes e reutilizáveis;
+- catálogo visual que também funciona como documentação viva;
+- CSS e JavaScript centralizados;
+- HTML semântico, acessível e previsível;
+- adaptação por tokens e contratos, sem duplicar estilos;
+- estrutura legível para pessoas e agentes de IA.
 
 ## Abrir
 
@@ -25,6 +40,8 @@ Acesse `http://127.0.0.1:4173`.
 ├── charts.html         # Chart.js + alternativas textuais
 ├── loading.html        # loading states nomeados em inglês
 ├── docs.html           # documentação viva
+├── AGENTS.md           # regras para agentes de IA
+├── PROMPT.md           # prompt para novas páginas
 └── assets/
     ├── css/theme.css   # único CSS autoral
     └── js/
@@ -69,6 +86,16 @@ bibliotecas localmente.
 - `--ui-space-*`: ritmo de espaçamento;
 - `role`, `aria-*`, `time`, `figure`, `figcaption` e `dl`: semântica preservada.
 
+## Continuidade com agentes de IA
+
+Antes de alterar o tema, um agente deve ler [`AGENTS.md`](AGENTS.md), este README
+e a documentação visual em [`docs.html`](docs.html). Para solicitar uma nova
+página, use [`PROMPT.md`](PROMPT.md) como ponto de partida.
+
+Esses arquivos definem o vocabulário visual, as responsabilidades de cada
+arquivo e as verificações necessárias para que extensões futuras permaneçam
+compatíveis com o catálogo existente.
+
 As fotografias da timeline são exemplos remotos com crédito no próprio HTML.
 Substitua-as por arquivos do projeto ao usar o tema sem conexão.
 
@@ -79,6 +106,3 @@ python3 validate.py
 node --check assets/js/vendor.js
 node --check assets/js/theme.js
 ```
-
-O arquivo [`PROMPT.md`](PROMPT.md) contém uma solicitação curta para criar novas
-páginas com este tema.
