@@ -9,6 +9,7 @@
     components: "Componentes",
     charts: "Gráficos",
     loading: "Loading states",
+    profile: "Account Settings",
     docs: "Guia rápido",
   });
 
@@ -90,20 +91,20 @@
             aria-controls="ui-sidebar" aria-expanded="true" aria-label="Recolher menu lateral">
             ${icon("panel-left")}
           </button>
-          <div><strong>Quiet UI</strong><span>${escapeHtml(title)}</span></div>
+          <div><strong>Quiet UI</strong><span${page === "profile" ? ' lang="en"' : ""}>${escapeHtml(title)}</span></div>
         </div>
         <div class="ui-topbar-actions">
           <a class="ui-icon-button ui-hide-mobile" href="docs.html" aria-label="Abrir guia rápido"
             title="Guia rápido">${icon("circle-help")}</a>
           <div class="ui-menu" data-ui-menu>
             <button class="ui-user-button" type="button" data-ui-menu-button aria-expanded="false">
-              <span class="ui-avatar" aria-hidden="true">AD</span>
-              <span class="ui-user-copy"><strong>Conta demo</strong><small>Administrador</small></span>
+              <span class="ui-avatar" aria-hidden="true">MC</span>
+              <span class="ui-user-copy"><strong>Marina Costa</strong><small>Conta demo</small></span>
               ${icon("chevron-down", "ui-menu-chevron")}
             </button>
             <div class="ui-menu-panel" data-ui-menu-panel hidden>
-              <a href="forms.html">${icon("user-round")} Perfil</a>
-              <a href="components.html">${icon("settings-2")} Preferências</a>
+              <a href="profile.html#my-account">${icon("user-round")} Perfil</a>
+              <a href="profile.html#preferences">${icon("settings-2")} Preferências</a>
               <span class="ui-menu-separator"></span>
               <button type="button" data-ui-toast-trigger data-message="Sessão de demonstração encerrada.">
                 ${icon("log-out")} Sair da demonstração
@@ -225,35 +226,73 @@
   const initializeTabs = () => {
     document.querySelectorAll("[data-ui-tabs]").forEach((group) => {
       const tabs = [...group.querySelectorAll('[role="tab"]')];
+      const tablist = group.querySelector('[role="tablist"]');
       const panels = tabs
         .map((tab) => document.getElementById(tab.getAttribute("aria-controls")))
         .filter(Boolean);
       if (!tabs.length || !panels.length) return;
 
-      const activate = (selected, focus = false) => {
+      const hashEnabled = group.hasAttribute("data-ui-tabs-hash");
+      const responsiveTabs = tablist?.hasAttribute("data-ui-responsive-tabs");
+      const compactTabs = window.matchMedia("(max-width: 70rem)");
+      const updateOrientation = () => {
+        if (responsiveTabs) {
+          tablist.setAttribute("aria-orientation", compactTabs.matches ? "horizontal" : "vertical");
+        }
+      };
+      updateOrientation();
+      if (responsiveTabs) compactTabs.addEventListener("change", updateOrientation);
+
+      const tabFromHash = () =>
+        hashEnabled
+          ? tabs.find((tab) => `#${tab.getAttribute("aria-controls")}` === window.location.hash)
+          : undefined;
+
+      const activate = (selected, focus = false, historyMode = undefined) => {
         tabs.forEach((tab) => {
           const active = tab === selected;
           tab.setAttribute("aria-selected", String(active));
           tab.tabIndex = active ? 0 : -1;
+          tab.classList.toggle("is-active", active);
           document.getElementById(tab.getAttribute("aria-controls"))?.toggleAttribute("hidden", !active);
         });
+        const panelId = selected.getAttribute("aria-controls");
+        if (hashEnabled && historyMode && panelId && window.location.hash !== `#${panelId}`) {
+          window.history[historyMode === "replace" ? "replaceState" : "pushState"](
+            null,
+            "",
+            `#${panelId}`,
+          );
+        }
         if (focus) selected.focus();
       };
 
       tabs.forEach((tab, index) => {
-        tab.addEventListener("click", () => activate(tab));
+        tab.addEventListener("click", (event) => {
+          if (hashEnabled) event.preventDefault();
+          activate(tab, false, hashEnabled ? "push" : undefined);
+        });
         tab.addEventListener("keydown", (event) => {
-          if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+          const vertical = tablist?.getAttribute("aria-orientation") === "vertical";
+          const previousKey = vertical ? "ArrowUp" : "ArrowLeft";
+          const nextKey = vertical ? "ArrowDown" : "ArrowRight";
+          if (![previousKey, nextKey, "Home", "End"].includes(event.key)) return;
           event.preventDefault();
           let next = index;
-          if (event.key === "ArrowLeft") next = (index - 1 + tabs.length) % tabs.length;
-          if (event.key === "ArrowRight") next = (index + 1) % tabs.length;
+          if (event.key === previousKey) next = (index - 1 + tabs.length) % tabs.length;
+          if (event.key === nextKey) next = (index + 1) % tabs.length;
           if (event.key === "Home") next = 0;
           if (event.key === "End") next = tabs.length - 1;
-          activate(tabs[next], true);
+          activate(tabs[next], true, hashEnabled ? "replace" : undefined);
         });
       });
-      activate(tabs.find((tab) => tab.getAttribute("aria-selected") === "true") || tabs[0]);
+
+      if (hashEnabled) {
+        const syncFromHash = () => activate(tabFromHash() || tabs[0]);
+        window.addEventListener("popstate", syncFromHash);
+        window.addEventListener("hashchange", syncFromHash);
+      }
+      activate(tabFromHash() || tabs.find((tab) => tab.getAttribute("aria-selected") === "true") || tabs[0]);
     });
   };
 
@@ -344,22 +383,63 @@
   };
 
   const initializeForms = () => {
+    const validateConfirmation = (confirmation) => {
+      const source = document.getElementById(confirmation.dataset.uiConfirmField);
+      if (!source) return;
+      confirmation.setCustomValidity(
+        confirmation.value && confirmation.value !== source.value
+          ? "The confirmation does not match."
+          : "",
+      );
+    };
+
     document.querySelectorAll("[data-ui-password-toggle]").forEach((button) => {
       const field = document.getElementById(button.dataset.uiPasswordToggle);
       if (!field) return;
       button.addEventListener("click", () => {
         const visible = field.type === "text";
         field.type = visible ? "password" : "text";
-        button.setAttribute("aria-label", visible ? "Mostrar senha" : "Ocultar senha");
+        const showLabel = button.dataset.showLabel || "Mostrar senha";
+        const hideLabel = button.dataset.hideLabel || "Ocultar senha";
+        button.setAttribute("aria-label", visible ? showLabel : hideLabel);
         button.innerHTML = icon(visible ? "eye" : "eye-off");
         refreshIcons();
       });
     });
 
+    document.querySelectorAll("[data-ui-confirm-field]").forEach((confirmation) => {
+      const source = document.getElementById(confirmation.dataset.uiConfirmField);
+      if (!source) return;
+      source.addEventListener("input", () => validateConfirmation(confirmation));
+      confirmation.addEventListener("input", () => validateConfirmation(confirmation));
+    });
+
+    document.querySelectorAll("[data-ui-verification-field]").forEach((field) => {
+      const status = document.getElementById(field.dataset.uiVerificationField);
+      if (!status) return;
+      const update = () => {
+        const changed = field.value.trim() !== field.defaultValue.trim();
+        status.textContent = changed ? "Verification required" : "Verified";
+        status.classList.toggle("is-success", !changed);
+        status.classList.toggle("is-warning", changed);
+      };
+      field.addEventListener("input", update);
+      field.form?.addEventListener("reset", () => window.requestAnimationFrame(update));
+    });
+
     document.querySelectorAll("form[data-ui-form]").forEach((form) => {
+      form.addEventListener("reset", () => {
+        form.querySelectorAll('[aria-invalid="true"]').forEach((field) => field.removeAttribute("aria-invalid"));
+        form.querySelectorAll("[data-error-for]").forEach((error) => {
+          error.hidden = true;
+        });
+        form.querySelectorAll("[data-ui-confirm-field]").forEach((field) => field.setCustomValidity(""));
+      });
+
       form.addEventListener("submit", (event) => {
         event.preventDefault();
         let firstInvalid;
+        form.querySelectorAll("[data-ui-confirm-field]").forEach(validateConfirmation);
         form.querySelectorAll("[required]").forEach((field) => {
           const invalid = !field.checkValidity();
           field.toggleAttribute("aria-invalid", invalid);
@@ -369,10 +449,54 @@
         });
         if (firstInvalid) {
           firstInvalid.focus();
-          showToast("Revise os campos destacados.", "danger");
+          showToast(form.dataset.errorMessage || "Revise os campos destacados.", "danger");
           return;
         }
-        showToast("Formulário validado. Nenhum dado foi enviado.");
+        showToast(form.dataset.successMessage || "Formulário validado. Nenhum dado foi enviado.");
+      });
+    });
+  };
+
+  const initializeImageUploads = () => {
+    const allowedTypes = new Set(["image/jpeg", "image/png", "image/webp"]);
+    const maxSize = 5 * 1024 * 1024;
+
+    document.querySelectorAll("[data-ui-image-upload]").forEach((input) => {
+      const target = document.getElementById(input.dataset.uiImageUpload);
+      const status = document.getElementById(input.dataset.uiImageStatus);
+      if (!target) return;
+      let previewUrl;
+
+      const setFeedback = (message, danger = false) => {
+        input.toggleAttribute("aria-invalid", danger);
+        if (!status) return;
+        status.hidden = false;
+        status.textContent = message;
+        status.classList.toggle("ui-help", !danger);
+        status.classList.toggle("ui-error", danger);
+        status.setAttribute("role", danger ? "alert" : "status");
+        status.setAttribute("aria-live", danger ? "assertive" : "polite");
+      };
+
+      input.addEventListener("change", () => {
+        const file = input.files?.[0];
+        if (!file) return;
+        if (!allowedTypes.has(file.type) || file.size > maxSize) {
+          const message = "Choose a JPG, PNG or WebP image up to 5 MB.";
+          input.value = "";
+          setFeedback(message, true);
+          return;
+        }
+
+        if (previewUrl) URL.revokeObjectURL(previewUrl);
+        previewUrl = URL.createObjectURL(file);
+        target.src = previewUrl;
+        const message = `${file.name} is ready in the local preview.`;
+        setFeedback(message);
+      });
+
+      window.addEventListener("beforeunload", () => {
+        if (previewUrl) URL.revokeObjectURL(previewUrl);
       });
     });
   };
@@ -739,6 +863,7 @@
     initializeDismissible();
     initializeChips();
     initializeForms();
+    initializeImageUploads();
     initializeCalendar();
     initializeCounters();
     initializeReveals();

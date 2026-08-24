@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <meta name="description" content="Account Settings page with profile, notification, security and preference patterns for Quiet UI.">
+    <title>Account Settings — Quiet UI</title>
+    <script src="assets/js/vendor.js" data-vendors="poppins,lucide"></script>
+    <link rel="stylesheet" href="assets/css/theme.css">
+    <script src="assets/js/theme.js" defer></script>
+  </head>
+  <body class="ui-page" data-page="profile">
+    <a class="ui-skip-link" href="#main-content">Skip to main content</a>
+    <div class="ui-shell" data-ui-shell data-sidebar-open="false">
+      <aside class="ui-sidebar" id="ui-sidebar" data-ui-sidebar lang="pt-BR" aria-label="Navegação principal"></aside>
+      <div class="ui-workspace">
+        <header class="ui-topbar" data-ui-topbar lang="pt-BR"></header>
+        <main class="ui-main" id="main-content" tabindex="-1">
+          <header class="ui-page-heading">
+            <div class="ui-page-heading-copy">
+              <p class="ui-eyebrow">Profile &amp; preferences</p>
+              <h1>Account Settings</h1>
+              <p>Manage your public profile, notification channels, account security and regional preferences in one place.</p>
+            </div>
+            <span class="ui-badge is-success"><i data-lucide="circle-check" aria-hidden="true"></i> Profile 85% complete</span>
+          </header>
+
+          <div class="ui-settings-layout" data-ui-tabs data-ui-tabs-hash>
+            <aside class="ui-settings-nav" aria-label="Account settings sections">
+              <div class="ui-settings-nav-heading">
+                <p class="ui-kicker">Settings</p>
+                <strong>Personal workspace</strong>
+                <span>Choose a section to update.</span>
+              </div>
+
+              <div class="ui-settings-nav-list" role="tablist" aria-label="Account settings sections" aria-orientation="vertical" data-ui-responsive-tabs>
+                <a class="ui-settings-nav-item is-active" id="my-account-tab" href="#my-account" role="tab" aria-controls="my-account" aria-selected="true">
+                  <span class="ui-settings-nav-icon"><i data-lucide="user-round" aria-hidden="true"></i></span>
+                  <span><strong>My Account</strong><small>Identity and profile photo</small></span>
+                  <i data-lucide="chevron-right" aria-hidden="true"></i>
+                </a>
+                <a class="ui-settings-nav-item" id="notifications-tab" href="#notifications" role="tab" aria-controls="notifications" aria-selected="false" tabindex="-1">
+                  <span class="ui-settings-nav-icon"><i data-lucide="bell" aria-hidden="true"></i></span>
+                  <span><strong>My Notifications</strong><small>Channels and summaries</small></span>
+                  <i data-lucide="chevron-right" aria-hidden="true"></i>
+                </a>
+                <a class="ui-settings-nav-item" id="security-tab" href="#security" role="tab" aria-controls="security" aria-selected="false" tabindex="-1">
+                  <span class="ui-settings-nav-icon"><i data-lucide="shield-check" aria-hidden="true"></i></span>
+                  <span><strong>Security &amp; Sessions</strong><small>Password and access</small></span>
+                  <i data-lucide="chevron-right" aria-hidden="true"></i>
+                </a>
+                <a class="ui-settings-nav-item" id="preferences-tab" href="#preferences" role="tab" aria-controls="preferences" aria-selected="false" tabindex="-1">
+                  <span class="ui-settings-nav-icon"><i data-lucide="sliders-horizontal" aria-hidden="true"></i></span>
+                  <span><strong>Preferences</strong><small>Language and interface</small></span>
+                  <i data-lucide="chevron-right" aria-hidden="true"></i>
+                </a>
+              </div>
+
+              <div class="ui-settings-progress">
+                <div class="ui-progress-meta"><strong id="profile-completion-label">Profile completion</strong><span>85%</span></div>
+                <div class="ui-progress" role="progressbar" aria-labelledby="profile-completion-label" aria-valuemin="0" aria-valuemax="100" aria-valuenow="85">
+                  <span class="ui-progress-bar is-success" style="width: 85%"></span>
+                </div>
+                <p>Add a short bio to complete your profile.</p>
+              </div>
+            </aside>
+
+            <div class="ui-settings-panels">
+              <section class="ui-panel ui-settings-panel" id="my-account" role="tabpanel" aria-labelledby="my-account-tab" tabindex="0">
+                <div class="ui-panel-heading">
+                  <div><p class="ui-kicker">Profile</p><h2>My Account</h2><p>Update the identity and visual information associated with your account.</p></div>
+                  <div class="ui-heading-actions">
+                    <span class="ui-badge is-primary">Public profile</span>
+                    <a class="ui-button is-secondary is-small" href="#security"><i data-lucide="key-round" aria-hidden="true"></i> Set password</a>
+                  </div>
+                </div>
+
+                <figure class="ui-profile-media">
+                  <div class="ui-profile-cover">
+                    <img id="profile-cover-image" src="https://images.pexels.com/photos/30004491/pexels-photo-30004491/free-photo-of-professional-portrait-of-a-woman-in-office-setting.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" width="1600" height="480" decoding="async" fetchpriority="high" alt="">
+                    <label class="ui-button is-secondary is-small ui-image-upload">
+                      <i data-lucide="image-up" aria-hidden="true"></i>
+                      Change cover
+                      <input type="file" accept="image/jpeg,image/png,image/webp" data-ui-image-upload="profile-cover-image" data-ui-image-status="profile-media-status" aria-describedby="profile-media-help profile-media-status">
+                    </label>
+                    <span class="ui-profile-avatar-frame">
+                      <img id="profile-avatar-image" src="https://images.pexels.com/photos/30004491/pexels-photo-30004491/free-photo-of-professional-portrait-of-a-woman-in-office-setting.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=360" width="160" height="160" decoding="async" alt="Profile photo of Marina Costa">
+                      <span class="ui-profile-presence" role="img" aria-label="Available"></span>
+                    </span>
+                  </div>
+                  <figcaption class="ui-profile-summary">
+                    <div>
+                      <h3>Marina Costa</h3>
+                      <p>Product Designer · Lisbon, Portugal</p>
+                      <small>Demo photo by <a href="https://www.pexels.com/photo/professional-portrait-of-a-woman-in-office-setting-30004491/" rel="noreferrer">Daniel &amp; Hannah Snipes / Pexels</a>.</small>
+                    </div>
+                    <label class="ui-button is-secondary ui-image-upload">
+                      <i data-lucide="camera" aria-hidden="true"></i>
+                      Change avatar
+                      <input type="file" accept="image/jpeg,image/png,image/webp" data-ui-image-upload="profile-avatar-image" data-ui-image-status="profile-media-status" aria-describedby="profile-media-help profile-media-status">
+                    </label>
+                  </figcaption>
+                </figure>
+                <p class="ui-help" id="profile-media-help">JPG, PNG or WebP · up to 5 MB. This demo only updates the local preview.</p>
+                <p class="ui-help ui-image-feedback" id="profile-media-status" role="status" aria-live="polite" hidden></p>
+
+                <form class="ui-settings-form ui-section" method="post" action="profile.html" data-ui-form novalidate data-success-message="Profile changes saved in the demo." data-error-message="Review the highlighted profile fields.">
+                  <div class="ui-field-grid">
+                    <div class="ui-field">
+                      <label class="ui-label" for="profile-first-name">First name <small>(required)</small></label>
+                      <div class="ui-input-group">
+                        <span class="ui-input-leading" aria-hidden="true"><i data-lucide="user-round" aria-hidden="true"></i></span>
+                        <input class="ui-input" id="profile-first-name" name="first_name" type="text" value="Marina" autocomplete="given-name" required aria-describedby="profile-first-name-error">
+                      </div>
+                      <p class="ui-error" id="profile-first-name-error" data-error-for="profile-first-name" hidden>Enter your first name.</p>
+                    </div>
+
+                    <div class="ui-field">
+                      <label class="ui-label" for="profile-last-name">Last name <small>(required)</small></label>
+                      <div class="ui-input-group">
+                        <span class="ui-input-leading" aria-hidden="true"><i data-lucide="user-round" aria-hidden="true"></i></span>
+                        <input class="ui-input" id="profile-last-name" name="last_name" type="text" value="Costa" autocomplete="family-name" required aria-describedby="profile-last-name-error">
+                      </div>
+                      <p class="ui-error" id="profile-last-name-error" data-error-for="profile-last-name" hidden>Enter your last name.</p>
+                    </div>
+
+                    <div class="ui-field">
+                      <div class="ui-field-label-row">
+                        <label class="ui-label" for="profile-email">Email <small>(required)</small></label>
+                        <span class="ui-badge is-success" id="profile-email-status">Verified</span>
+                      </div>
+                      <div class="ui-input-group">
+                        <span class="ui-input-leading" aria-hidden="true"><i data-lucide="mail" aria-hidden="true"></i></span>
+                        <input class="ui-input" id="profile-email" name="email" type="email" value="marina.costa@example.com" autocomplete="email" required data-ui-verification-field="profile-email-status" aria-describedby="profile-email-help profile-email-error profile-email-status">
+                      </div>
+                      <p class="ui-help" id="profile-email-help">Used for sign-in and account recovery.</p>
+                      <p class="ui-error" id="profile-email-error" data-error-for="profile-email" hidden>Enter a valid email address.</p>
+                    </div>
+
+                    <div class="ui-field">
+                      <label class="ui-label" for="profile-location">Location</label>
+                      <div class="ui-input-group">
+                        <span class="ui-input-leading" aria-hidden="true"><i data-lucide="map-pin" aria-hidden="true"></i></span>
+                        <input class="ui-input" id="profile-location" name="location" type="text" value="Lisbon, Portugal" autocomplete="address-level2">
+                      </div>
+                    </div>
+
+                    <div class="ui-field is-full">
+                      <label class="ui-label" for="profile-title">Job title</label>
+                      <div class="ui-input-group">
+                        <span class="ui-input-leading" aria-hidden="true"><i data-lucide="briefcase-business" aria-hidden="true"></i></span>
+                        <input class="ui-input" id="profile-title" name="job_title" type="text" value="Product Designer" autocomplete="organization-title">
+                      </div>
+                    </div>
+
+                    <div class="ui-field is-full">
+                      <label class="ui-label" for="profile-bio">Short bio</label>
+                      <div class="ui-input-group">
+                        <span class="ui-input-leading" aria-hidden="true"><i data-lucide="align-left" aria-hidden="true"></i></span>
+                        <textarea class="ui-textarea" id="profile-bio" name="bio" maxlength="240" placeholder="Share a short introduction about your work and responsibilities."></textarea>
+                      </div>
+                      <p class="ui-help">Up to 240 characters. Avoid private or sensitive information.</p>
+                    </div>
+                  </div>
+
+                  <div class="ui-settings-actions">
+                    <button class="ui-button" type="submit"><i data-lucide="save" aria-hidden="true"></i> Save changes</button>
+                    <button class="ui-button is-secondary" type="reset">Cancel</button>
+                  </div>
+                </form>
+              </section>
+
+              <section class="ui-panel ui-settings-panel" id="notifications" role="tabpanel" aria-labelledby="notifications-tab" tabindex="0">
+                <div class="ui-panel-heading">
+                  <div><p class="ui-kicker">Communication</p><h2>My Notifications</h2><p>Choose which updates reach you and how frequently they are delivered.</p></div>
+                  <span class="ui-badge">5 preferences</span>
+                </div>
+
+                <form class="ui-settings-form" method="post" action="profile.html" data-ui-form novalidate data-success-message="Notification preferences saved in the demo.">
+                  <fieldset class="ui-settings-fieldset">
+                    <legend>Notification channels</legend>
+                    <p>Critical security alerts remain enabled to protect your account.</p>
+                    <div class="ui-preference-list">
+                      <div class="ui-preference-row">
+                        <span class="ui-preference-icon is-danger"><i data-lucide="shield-alert" aria-hidden="true"></i></span>
+                        <span class="ui-preference-copy"><strong>Security alerts</strong><small>New sign-ins, password changes and recovery activity.</small></span>
+                        <span class="ui-badge is-success">Always on</span>
+                      </div>
+                      <div class="ui-preference-row">
+                        <span class="ui-preference-icon"><i data-lucide="at-sign" aria-hidden="true"></i></span>
+                        <span class="ui-preference-copy"><strong>Mentions and comments</strong><small id="mentions-description">Receive an email when someone mentions you or replies.</small></span>
+                        <label class="ui-switch"><input type="checkbox" name="mentions" checked aria-describedby="mentions-description"><span class="ui-switch-track" aria-hidden="true"></span><span class="ui-visually-hidden">Email notifications for mentions and comments</span></label>
+                      </div>
+                      <div class="ui-preference-row">
+                        <span class="ui-preference-icon is-comment"><i data-lucide="folder-kanban" aria-hidden="true"></i></span>
+                        <span class="ui-preference-copy"><strong>Project updates</strong><small id="project-updates-description">Status changes, assignments and approaching deadlines.</small></span>
+                        <label class="ui-switch"><input type="checkbox" name="project_updates" checked aria-describedby="project-updates-description"><span class="ui-switch-track" aria-hidden="true"></span><span class="ui-visually-hidden">Notifications for project updates</span></label>
+                      </div>
+                      <div class="ui-preference-row">
+                        <span class="ui-preference-icon is-success"><i data-lucide="layout-dashboard" aria-hidden="true"></i></span>
+                        <span class="ui-preference-copy"><strong>In-app notifications</strong><small id="in-app-description">Keep a persistent activity history inside the workspace.</small></span>
+                        <label class="ui-switch"><input type="checkbox" name="in_app" checked aria-describedby="in-app-description"><span class="ui-switch-track" aria-hidden="true"></span><span class="ui-visually-hidden">In-app notifications</span></label>
+                      </div>
+                      <div class="ui-preference-row">
+                        <span class="ui-preference-icon is-warning"><i data-lucide="newspaper" aria-hidden="true"></i></span>
+                        <span class="ui-preference-copy"><strong>Weekly digest</strong><small id="weekly-digest-description">A concise Monday summary of projects, tasks and messages.</small></span>
+                        <label class="ui-switch"><input type="checkbox" name="weekly_digest" checked aria-describedby="weekly-digest-description"><span class="ui-switch-track" aria-hidden="true"></span><span class="ui-visually-hidden">Weekly digest email</span></label>
+                      </div>
+                    </div>
+                  </fieldset>
+
+                  <div class="ui-field-grid ui-section">
+                    <div class="ui-field">
+                      <label class="ui-label" for="digest-frequency">Digest frequency</label>
+                      <select class="ui-select" id="digest-frequency" name="digest_frequency">
+                        <option>Weekly</option>
+                        <option>Daily</option>
+                        <option>Never</option>
+                      </select>
+                    </div>
+                    <div class="ui-field">
+                      <label class="ui-label" for="quiet-hours">Quiet hours</label>
+                      <select class="ui-select" id="quiet-hours" name="quiet_hours">
+                        <option>8:00 PM – 8:00 AM</option>
+                        <option>10:00 PM – 7:00 AM</option>
+                        <option>Disabled</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="ui-settings-actions">
+                    <button class="ui-button" type="submit"><i data-lucide="save" aria-hidden="true"></i> Save notifications</button>
+                    <button class="ui-button is-secondary" type="reset">Cancel</button>
+                  </div>
+                </form>
+              </section>
+
+              <section class="ui-panel ui-settings-panel" id="security" role="tabpanel" aria-labelledby="security-tab" tabindex="0">
+                <div class="ui-panel-heading">
+                  <div><p class="ui-kicker">Access</p><h2>Security &amp; Sessions</h2><p>Set a strong password and review the controls protecting your account.</p></div>
+                  <span class="ui-badge is-success">Protected</span>
+                </div>
+
+                <form class="ui-settings-form" method="post" action="profile.html" data-ui-form novalidate data-success-message="Password updated in the demo." data-error-message="Review the highlighted password fields.">
+                  <div class="ui-section-heading">
+                    <div><h3>Set password</h3><p class="ui-help">Use at least 12 characters and avoid passwords used elsewhere.</p></div>
+                  </div>
+                  <div class="ui-field-grid">
+                    <div class="ui-field is-full">
+                      <label class="ui-label" for="current-password">Current password <small>(required)</small></label>
+                      <div class="ui-input-group">
+                        <span class="ui-input-leading" aria-hidden="true"><i data-lucide="lock-keyhole" aria-hidden="true"></i></span>
+                        <input class="ui-input" id="current-password" name="current_password" type="password" autocomplete="current-password" required aria-describedby="current-password-error">
+                        <button class="ui-icon-button ui-input-action" type="button" data-ui-password-toggle="current-password" data-show-label="Show current password" data-hide-label="Hide current password" aria-label="Show current password"><i data-lucide="eye" aria-hidden="true"></i></button>
+                      </div>
+                      <p class="ui-error" id="current-password-error" data-error-for="current-password" hidden>Enter your current password.</p>
+                    </div>
+                    <div class="ui-field">
+                      <label class="ui-label" for="new-password">New password <small>(required)</small></label>
+                      <div class="ui-input-group">
+                        <span class="ui-input-leading" aria-hidden="true"><i data-lucide="key-round" aria-hidden="true"></i></span>
+                        <input class="ui-input" id="new-password" name="new_password" type="password" minlength="12" autocomplete="new-password" required aria-describedby="new-password-help new-password-error">
+                        <button class="ui-icon-button ui-input-action" type="button" data-ui-password-toggle="new-password" data-show-label="Show new password" data-hide-label="Hide new password" aria-label="Show new password"><i data-lucide="eye" aria-hidden="true"></i></button>
+                      </div>
+                      <p class="ui-help" id="new-password-help">12+ characters with a mix of words, numbers or symbols.</p>
+                      <p class="ui-error" id="new-password-error" data-error-for="new-password" hidden>Use at least 12 characters.</p>
+                    </div>
+                    <div class="ui-field">
+                      <label class="ui-label" for="confirm-password">Confirm password <small>(required)</small></label>
+                      <div class="ui-input-group">
+                        <span class="ui-input-leading" aria-hidden="true"><i data-lucide="check-check" aria-hidden="true"></i></span>
+                        <input class="ui-input" id="confirm-password" name="confirm_password" type="password" autocomplete="new-password" required data-ui-confirm-field="new-password" aria-describedby="confirm-password-error">
+                        <button class="ui-icon-button ui-input-action" type="button" data-ui-password-toggle="confirm-password" data-show-label="Show password confirmation" data-hide-label="Hide password confirmation" aria-label="Show password confirmation"><i data-lucide="eye" aria-hidden="true"></i></button>
+                      </div>
+                      <p class="ui-error" id="confirm-password-error" data-error-for="confirm-password" hidden>Passwords must match.</p>
+                    </div>
+                  </div>
+                  <div class="ui-settings-actions">
+                    <button class="ui-button" type="submit"><i data-lucide="key-round" aria-hidden="true"></i> Update password</button>
+                  </div>
+                </form>
+
+                <div class="ui-security-grid ui-section">
+                  <article class="ui-security-card">
+                    <span class="ui-preference-icon is-success"><i data-lucide="smartphone" aria-hidden="true"></i></span>
+                    <div><strong>Two-factor authentication</strong><p>Add a second verification step when signing in.</p></div>
+                    <button class="ui-button is-secondary is-small" type="button" data-ui-toast-trigger data-message="Two-factor setup opened in the demo.">Enable 2FA</button>
+                  </article>
+                  <article class="ui-security-card">
+                    <span class="ui-preference-icon"><i data-lucide="laptop" aria-hidden="true"></i></span>
+                    <div><strong>Current session</strong><p>Safari on macOS · Lisbon, Portugal · Active now</p></div>
+                    <span class="ui-badge is-success">This device</span>
+                  </article>
+                </div>
+              </section>
+
+              <section class="ui-panel ui-settings-panel" id="preferences" role="tabpanel" aria-labelledby="preferences-tab" tabindex="0">
+                <div class="ui-panel-heading">
+                  <div><p class="ui-kicker">Personalization</p><h2>Preferences</h2><p>Adapt regional formats, interface density and profile visibility.</p></div>
+                  <span class="ui-badge is-comment">Personal</span>
+                </div>
+
+                <form class="ui-settings-form" method="post" action="profile.html" data-ui-form novalidate data-success-message="Account preferences saved in the demo.">
+                  <div class="ui-field-grid">
+                    <div class="ui-field">
+                      <label class="ui-label" for="profile-language">Language</label>
+                      <div class="ui-input-group">
+                        <span class="ui-input-leading" aria-hidden="true"><i data-lucide="languages" aria-hidden="true"></i></span>
+                        <select class="ui-select" id="profile-language" name="language">
+                          <option>English</option>
+                          <option>Português (Brasil)</option>
+                          <option>Español</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="ui-field">
+                      <label class="ui-label" for="profile-timezone">Timezone</label>
+                      <div class="ui-input-group">
+                        <span class="ui-input-leading" aria-hidden="true"><i data-lucide="clock-3" aria-hidden="true"></i></span>
+                        <select class="ui-select" id="profile-timezone" name="timezone">
+                          <option>(UTC+01:00) Lisbon</option>
+                          <option>(UTC-03:00) São Paulo</option>
+                          <option>(UTC+00:00) London</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="ui-field">
+                      <label class="ui-label" for="date-format">Date format</label>
+                      <select class="ui-select" id="date-format" name="date_format">
+                        <option>24 Aug 2026</option>
+                        <option>24/08/2026</option>
+                        <option>08/24/2026</option>
+                      </select>
+                    </div>
+                    <div class="ui-field">
+                      <label class="ui-label" for="interface-density">Interface density</label>
+                      <select class="ui-select" id="interface-density" name="interface_density">
+                        <option>Comfortable</option>
+                        <option>Compact</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <fieldset class="ui-settings-fieldset ui-section">
+                    <legend>Profile privacy</legend>
+                    <p>Control which details are visible to other workspace members.</p>
+                    <div class="ui-preference-list">
+                      <div class="ui-preference-row">
+                        <span class="ui-preference-icon"><i data-lucide="contact-round" aria-hidden="true"></i></span>
+                        <span class="ui-preference-copy"><strong>Show profile in member directory</strong><small id="directory-visibility-description">Allow teammates to find your name, role and profile photo.</small></span>
+                        <label class="ui-switch"><input type="checkbox" name="directory_visibility" checked aria-describedby="directory-visibility-description"><span class="ui-switch-track" aria-hidden="true"></span><span class="ui-visually-hidden">Show profile in member directory</span></label>
+                      </div>
+                      <div class="ui-preference-row">
+                        <span class="ui-preference-icon is-comment"><i data-lucide="clock" aria-hidden="true"></i></span>
+                        <span class="ui-preference-copy"><strong>Show local time</strong><small id="local-time-description">Help teammates choose appropriate collaboration times.</small></span>
+                        <label class="ui-switch"><input type="checkbox" name="show_local_time" checked aria-describedby="local-time-description"><span class="ui-switch-track" aria-hidden="true"></span><span class="ui-visually-hidden">Show local time on profile</span></label>
+                      </div>
+                    </div>
+                  </fieldset>
+
+                  <div class="ui-settings-actions">
+                    <button class="ui-button" type="submit"><i data-lucide="save" aria-hidden="true"></i> Save preferences</button>
+                    <button class="ui-button is-secondary" type="reset">Cancel</button>
+                  </div>
+                </form>
+              </section>
+            </div>
+          </div>
+        </main>
+      </div>
+      <button class="ui-sidebar-backdrop" type="button" data-ui-sidebar-backdrop aria-label="Close main navigation" tabindex="-1"></button>
+    </div>
+    <div class="ui-toast-region" id="ui-toast-region" aria-live="polite"></div>
+    <noscript><p class="ui-noscript">All settings remain readable, but switching panels and previewing images require JavaScript.</p></noscript>
+  </body>
+</html>

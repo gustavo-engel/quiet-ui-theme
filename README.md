@@ -39,6 +39,7 @@ Acesse `http://127.0.0.1:4173`.
 ├── components.html     # chips, menus, tabs, modal, toast e tabela
 ├── charts.html         # Chart.js + alternativas textuais
 ├── loading.html        # loading states nomeados em inglês
+├── profile.html        # perfil, segurança, notificações e preferências
 ├── docs.html           # documentação viva
 ├── AGENTS.md           # regras para agentes de IA
 ├── PROMPT.md           # prompt para novas páginas

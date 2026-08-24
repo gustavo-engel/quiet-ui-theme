@@ -8,6 +8,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlparse
 
 ROOT = Path(__file__).resolve().parent
+SUPPORTED_LANGS = {"pt-BR", "en"}
 EXPECTED_PAGES = {
     "index.html",
     "forms.html",
@@ -16,6 +17,7 @@ EXPECTED_PAGES = {
     "components.html",
     "charts.html",
     "loading.html",
+    "profile.html",
     "docs.html",
 }
 
@@ -77,8 +79,9 @@ def validate_page(path: Path) -> list[str]:
     errors: list[str] = []
     prefix = path.relative_to(ROOT).as_posix()
 
-    if parser.lang != "pt-BR":
-        errors.append(f"{prefix}: <html> precisa usar lang=pt-BR")
+    if parser.lang not in SUPPORTED_LANGS:
+        allowed = ", ".join(sorted(SUPPORTED_LANGS))
+        errors.append(f"{prefix}: <html> precisa usar um lang suportado ({allowed})")
     if not parser.has_charset:
         errors.append(f"{prefix}: meta charset ausente")
     if not parser.has_viewport:
