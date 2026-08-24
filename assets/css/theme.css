@@ -984,10 +984,84 @@ canvas {
 
 .ui-input-group {
   position: relative;
+  width: 100%;
 }
 
-.ui-input-group .ui-input { padding-right: 2.8rem; }
-.ui-input-group .ui-icon-button { position: absolute; top: 0.08rem; right: 0.08rem; border: 0; background: transparent; }
+.ui-input-group:has(> .ui-input-leading) > .ui-input,
+.ui-input-group:has(> .ui-input-leading) > .ui-select,
+.ui-input-group:has(> .ui-input-leading) > .ui-textarea {
+  padding-inline-start: 3rem;
+}
+
+.ui-input-group:has(> .ui-input-action) > .ui-input {
+  padding-inline-end: 3.25rem;
+}
+
+.ui-input-leading {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  inset-inline-start: 0.9rem;
+  display: grid;
+  width: 1.25rem;
+  height: 1.25rem;
+  place-items: center;
+  color: var(--ui-faint);
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition: color var(--ui-transition);
+}
+
+.ui-input-leading svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.ui-input-group:has(> .ui-textarea) > .ui-input-leading {
+  top: 0.9rem;
+  transform: none;
+}
+
+.ui-input-group:focus-within .ui-input-leading,
+.ui-input-group.is-loading .ui-input-leading {
+  color: var(--ui-primary);
+}
+
+.ui-input-group:has([aria-invalid="true"]) .ui-input-leading {
+  color: var(--ui-danger);
+}
+
+.ui-input-group:has(:disabled) .ui-input-leading {
+  color: var(--ui-faint);
+}
+
+.ui-input-group.is-loading {
+  cursor: progress;
+}
+
+.ui-input-group.is-loading .ui-input {
+  background: var(--ui-surface-soft);
+  color: var(--ui-muted);
+}
+
+.ui-input-group .ui-input-action {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  inset-inline-end: 0.25rem;
+  border: 0;
+  background: transparent;
+  transform: translateY(-50%);
+}
+
+.ui-input-group .ui-input-action:hover {
+  background: var(--ui-surface-soft);
+}
+
+.ui-input-leading .ui-spinner {
+  width: 1rem;
+  height: 1rem;
+}
 
 .ui-choice-group {
   display: flex;

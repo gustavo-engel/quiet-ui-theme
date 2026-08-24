@@ -21,7 +21,7 @@
             <div class="ui-page-heading-copy">
               <p class="ui-eyebrow">Formulários</p>
               <h1>Campos com estados completos</h1>
-              <p>Uma página prática com labels, ajuda, validação, escolhas, upload e feedback demonstrativo.</p>
+              <p>Uma página prática com labels, ícones contextuais, ajuda, validação, escolhas, upload e feedback demonstrativo.</p>
             </div>
             <span class="ui-badge is-primary">Nenhum dado será enviado</span>
           </header>
@@ -30,43 +30,65 @@
             <form class="ui-form-card" data-ui-form novalidate>
               <div class="ui-panel-heading">
                 <div><p class="ui-kicker">Exemplo</p><h2>Novo projeto</h2><p>Os campos obrigatórios são identificados no label.</p></div>
-                <span class="ui-badge">Rascunho</span>
+                <span class="ui-badge is-primary">Proposta com ícones inline</span>
               </div>
 
               <div class="ui-field-grid">
                 <div class="ui-field">
                   <label class="ui-label" for="project-name">Nome do projeto <small>(obrigatório)</small></label>
-                  <input class="ui-input" id="project-name" name="project_name" type="text" placeholder="Ex.: Central de operações" required aria-describedby="project-name-help project-name-error">
+                  <div class="ui-input-group">
+                    <span class="ui-input-leading" aria-hidden="true"><i data-lucide="folder"></i></span>
+                    <input class="ui-input" id="project-name" name="project_name" type="text" placeholder="Ex.: Central de operações" required aria-describedby="project-name-help project-name-error">
+                  </div>
                   <p class="ui-help" id="project-name-help">Use um nome curto e reconhecível.</p>
                   <p class="ui-error" id="project-name-error" data-error-for="project-name" hidden>Informe o nome do projeto.</p>
                 </div>
 
                 <div class="ui-field">
                   <label class="ui-label" for="project-code">Código</label>
-                  <input class="ui-input" id="project-code" name="project_code" type="text" value="PRJ-024" disabled>
+                  <div class="ui-input-group">
+                    <span class="ui-input-leading" aria-hidden="true"><i data-lucide="hash"></i></span>
+                    <input class="ui-input" id="project-code" name="project_code" type="text" value="PRJ-024" disabled>
+                  </div>
                   <p class="ui-help">Gerado automaticamente após salvar.</p>
                 </div>
 
                 <div class="ui-field">
-                  <label class="ui-label" for="project-owner">Responsável <small>(obrigatório)</small></label>
-                  <select class="ui-select" id="project-owner" name="project_owner" required aria-describedby="project-owner-error">
-                    <option value="">Selecione uma pessoa</option>
-                    <option>Marina Lopes</option>
-                    <option>Caio Souza</option>
-                    <option>Ana Reis</option>
-                  </select>
-                  <p class="ui-error" id="project-owner-error" data-error-for="project-owner" hidden>Selecione um responsável.</p>
+                  <label class="ui-label" for="project-owner">Usuário responsável <small>(obrigatório)</small></label>
+                  <div class="ui-input-group">
+                    <span class="ui-input-leading" aria-hidden="true"><i data-lucide="user-round"></i></span>
+                    <input class="ui-input" id="project-owner" name="project_owner" type="text" list="project-owners" placeholder="Digite ou selecione uma pessoa" autocomplete="off" required aria-describedby="project-owner-help project-owner-error">
+                  </div>
+                  <datalist id="project-owners"><option value="Marina Lopes"></option><option value="Caio Souza"></option><option value="Ana Reis"></option></datalist>
+                  <p class="ui-help" id="project-owner-help">O ícone identifica o contexto sem substituir o label.</p>
+                  <p class="ui-error" id="project-owner-error" data-error-for="project-owner" hidden>Informe um responsável.</p>
                 </div>
 
                 <div class="ui-field">
                   <label class="ui-label" for="project-date">Data de início <small>(obrigatório)</small></label>
-                  <input class="ui-input" id="project-date" name="project_date" type="date" required aria-describedby="project-date-error">
+                  <div class="ui-input-group">
+                    <span class="ui-input-leading" aria-hidden="true"><i data-lucide="calendar-days"></i></span>
+                    <input class="ui-input" id="project-date" name="project_date" type="date" required aria-describedby="project-date-error">
+                  </div>
                   <p class="ui-error" id="project-date-error" data-error-for="project-date" hidden>Escolha uma data de início.</p>
                 </div>
 
                 <div class="ui-field is-full">
+                  <label class="ui-label" for="project-related-data">Campo com carregamento <small>(estado demonstrativo)</small></label>
+                  <div class="ui-input-group is-loading">
+                    <span class="ui-input-leading" aria-hidden="true"><span class="ui-spinner is-small"></span></span>
+                    <input class="ui-input" id="project-related-data" type="text" placeholder="Carregando opções relacionadas…" readonly aria-busy="true" aria-describedby="project-related-data-help project-related-data-status">
+                  </div>
+                  <p class="ui-help" id="project-related-data-help">O spinner ocupa a mesma posição do ícone e mantém o alinhamento do campo durante a consulta.</p>
+                  <span class="ui-visually-hidden" id="project-related-data-status" role="status" aria-live="polite">Buscando opções relacionadas.</span>
+                </div>
+
+                <div class="ui-field is-full">
                   <label class="ui-label" for="project-description">Descrição</label>
-                  <textarea class="ui-textarea" id="project-description" name="project_description" placeholder="Explique o objetivo, o resultado esperado e o contexto necessário."></textarea>
+                  <div class="ui-input-group">
+                    <span class="ui-input-leading" aria-hidden="true"><i data-lucide="align-left"></i></span>
+                    <textarea class="ui-textarea" id="project-description" name="project_description" placeholder="Explique o objetivo, o resultado esperado e o contexto necessário."></textarea>
+                  </div>
                   <p class="ui-help">Recomendação: até 300 caracteres para facilitar a leitura.</p>
                 </div>
 
@@ -117,8 +139,9 @@
                 <div class="ui-field">
                   <label class="ui-label" for="account-password">Senha de confirmação</label>
                   <div class="ui-input-group">
+                    <span class="ui-input-leading" aria-hidden="true"><i data-lucide="lock"></i></span>
                     <input class="ui-input" id="account-password" name="account_password" type="password" placeholder="Digite sua senha" autocomplete="current-password">
-                    <button class="ui-icon-button" type="button" data-ui-password-toggle="account-password" aria-label="Mostrar senha">
+                    <button class="ui-icon-button ui-input-action" type="button" data-ui-password-toggle="account-password" aria-label="Mostrar senha">
                       <i data-lucide="eye" aria-hidden="true"></i>
                     </button>
                   </div>
@@ -159,6 +182,7 @@
                 <li><i data-lucide="circle-check" aria-hidden="true"></i> Estados disabled e required</li>
                 <li><i data-lucide="circle-check" aria-hidden="true"></i> Controles navegáveis por teclado</li>
                 <li><i data-lucide="circle-check" aria-hidden="true"></i> Escolhas com título, contexto e controle nativo</li>
+                <li><i data-lucide="circle-check" aria-hidden="true"></i> Ícones decorativos que não substituem labels</li>
               </ul>
               <div class="ui-alert is-warning ui-section">
                 <i data-lucide="triangle-alert" aria-hidden="true"></i>
