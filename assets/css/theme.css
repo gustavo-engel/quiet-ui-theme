@@ -1997,16 +1997,17 @@ canvas {
 .ui-calendar-event.is-comment { border-color: var(--ui-comment); background: var(--ui-comment-soft); color: var(--ui-comment); }
 .ui-calendar-detail { display: flex; align-items: center; gap: 0.8rem; min-height: 5rem; padding: 0.9rem 1rem; border-top: 1px solid var(--ui-border); background: var(--ui-surface-soft); }
 .ui-calendar-detail-icon { display: grid; width: 2.4rem; height: 2.4rem; flex: 0 0 auto; place-items: center; border-radius: 0.7rem; background: var(--ui-primary-soft); color: var(--ui-primary); }
+.ui-calendar-detail-icon svg { width: 1.5rem; height: 1.5rem; }
 .ui-calendar-detail-icon.is-success { background: var(--ui-success-soft); color: var(--ui-success); }
 .ui-calendar-detail-icon.is-warning { background: var(--ui-warning-soft); color: var(--ui-warning); }
 .ui-calendar-detail-icon.is-danger { background: var(--ui-danger-soft); color: var(--ui-danger); }
 .ui-calendar-detail-icon.is-comment { background: var(--ui-comment-soft); color: var(--ui-comment); }
 .ui-calendar-detail p,
 .ui-calendar-detail h3,
-.ui-calendar-detail span { margin: 0; }
+.ui-calendar-detail-meta { margin: 0; }
 .ui-calendar-detail p { color: var(--ui-muted); font-size: 0.6rem; text-transform: capitalize; }
 .ui-calendar-detail h3 { margin-top: 0.18rem; font-size: 0.76rem; }
-.ui-calendar-detail span { display: block; margin-top: 0.18rem; color: var(--ui-muted); font-size: 0.62rem; }
+.ui-calendar-detail-meta { display: block; margin-top: 0.18rem; color: var(--ui-muted); font-size: 0.62rem; }
 
 .ui-chart-card { min-width: 0; }
 .ui-chart-wrap { position: relative; height: 21rem; }

@@ -529,7 +529,7 @@
       detail.innerHTML = `
         <span class="ui-calendar-detail-icon is-${eventData[2]}">${icon("calendar-check")}</span>
         <div><p>${date.toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" })}</p>
-        <h3>${escapeHtml(eventData[1])}</h3><span>${eventData[0]} · Evento demonstrativo</span></div>`;
+        <h3>${escapeHtml(eventData[1])}</h3><span class="ui-calendar-detail-meta">${eventData[0]} · Evento demonstrativo</span></div>`;
       refreshIcons();
     };
 
