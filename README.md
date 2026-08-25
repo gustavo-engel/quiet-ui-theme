@@ -73,12 +73,15 @@ Exemplo básico:
 As URLs e versões ficam somente em `assets/js/vendor.js`:
 
 - Chart.js 4.5.1;
+- jsPDF 4.2.1 + jsPDF-AutoTable 5.0.8;
 - Lucide 1.34.0;
-- Poppins via Google Fonts.
+- Poppins via Google Fonts;
+- SheetJS CE 0.20.3.
 
 O layout e os componentes são HTML, CSS e JavaScript próprios. Chart.js só é
-carregado em páginas que exibem gráficos. Em produção, prefira hospedar fontes e
-bibliotecas localmente.
+carregado em páginas que exibem gráficos; as bibliotecas de exportação são
+carregadas somente quando o usuário solicita um arquivo. Em produção, prefira
+hospedar fontes e bibliotecas localmente.
 
 ## Contratos reutilizáveis
 
@@ -87,7 +90,7 @@ bibliotecas localmente.
 - `data-ui-*`: comportamento JavaScript;
 - `--ui-space-*`: ritmo de espaçamento;
 - `role`, `aria-*`, `time`, `figure`, `figcaption` e `dl`: semântica preservada.
-- `[data-ui-data-table]`: tabela funcional; linhas expõem valores ordenáveis e filtráveis em `data-*`.
+- `[data-ui-data-table]`: tabela funcional; linhas expõem valores ordenáveis e filtráveis em `data-*`, e `[data-ui-table-export]` reutiliza o conjunto filtrado.
 
 ## Continuidade com agentes de IA
 

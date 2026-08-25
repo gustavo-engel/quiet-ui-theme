@@ -696,6 +696,14 @@
         .toLocaleLowerCase("pt-BR")
         .trim();
     const collator = new Intl.Collator("pt-BR", { numeric: true, sensitivity: "base" });
+    const cellText = (cell) => {
+      const copy = cell.cloneNode(true);
+      copy.querySelectorAll('[aria-hidden="true"], .ui-progress').forEach((item) => item.remove());
+      copy.querySelectorAll("strong + small").forEach((item) => item.before(" — "));
+      return copy.textContent.replace(/\s+/g, " ").trim();
+    };
+    const safeSheetName = (value) =>
+      value.replace(/[\\/*?:[\]]/g, " ").trim().slice(0, 31) || "Dados";
 
     document.querySelectorAll("[data-ui-data-table]").forEach((tableRoot) => {
       const body = tableRoot.querySelector("[data-ui-table-body]");
@@ -707,6 +715,10 @@
       const reset = tableRoot.querySelector("[data-ui-table-reset]");
       const summary = tableRoot.querySelector("[data-ui-table-summary]");
       const pagination = tableRoot.querySelector("[data-ui-table-pagination]");
+      const exportButtons = [...tableRoot.querySelectorAll("[data-ui-table-export]")];
+      const exportStatus = tableRoot.querySelector("[data-ui-table-export-status]");
+      const exportTitle = tableRoot.dataset.exportTitle || "Data table";
+      const exportFile = tableRoot.dataset.exportFile || "data-table";
       const counter = tableRoot.id
         ? document.querySelector(`[data-ui-table-count-for="${tableRoot.id}"]`)
         : null;
@@ -736,6 +748,163 @@
           result = collator.compare(firstValue, secondValue);
         }
         return sortDirection === "ascending" ? result : -result;
+      };
+
+      const getOrderedRows = () => sortKey ? [...rows].sort(compareRows) : [...rows];
+      const getFilteredRows = (orderedRows = getOrderedRows()) => {
+        const query = normalize(search?.value);
+        return orderedRows.filter((row) => {
+          const matchesSearch = !query || normalize(row.textContent).includes(query);
+          const matchesFilters = filters.every((filter) => {
+            const value = filter.value;
+            return !value || row.dataset[filter.dataset.uiTableFilter] === value;
+          });
+          return matchesSearch && matchesFilters;
+        });
+      };
+
+      const getExportMatrix = (filteredRows) => {
+        const table = tableRoot.querySelector("table");
+        const headers = [...table.querySelectorAll("thead th")].map(cellText);
+        const data = filteredRows.map((row) => [...row.children].map(cellText));
+        return { headers, data };
+      };
+
+      const updateExportStatus = (message) => {
+        if (exportStatus) exportStatus.textContent = message;
+      };
+
+      const exportPdf = async (filteredRows) => {
+        await window.ThemeVendors?.ready("jspdf");
+        await window.ThemeVendors?.ready("jspdf-autotable");
+        const JsPdf = window.jspdf?.jsPDF;
+        if (!JsPdf) throw new Error("jsPDF indisponível");
+        const documentPdf = new JsPdf({ orientation: "landscape", unit: "pt", format: "a4" });
+        const { headers, data } = getExportMatrix(filteredRows);
+        const renderTable = typeof documentPdf.autoTable === "function"
+          ? (options) => documentPdf.autoTable(options)
+          : typeof window.autoTable === "function"
+            ? (options) => window.autoTable(documentPdf, options)
+            : null;
+        if (!renderTable) throw new Error("AutoTable indisponível");
+
+        documentPdf.setProperties({ title: exportTitle, subject: "Quiet UI data table" });
+        documentPdf.setFont("helvetica", "bold");
+        documentPdf.setFontSize(16);
+        documentPdf.setTextColor(23, 32, 51);
+        documentPdf.text(exportTitle, 40, 34);
+        documentPdf.setFont("helvetica", "normal");
+        documentPdf.setFontSize(8);
+        documentPdf.setTextColor(102, 112, 133);
+        const exportedAt = new Intl.DateTimeFormat("pt-BR", {
+          dateStyle: "medium",
+          timeStyle: "short",
+        }).format(new Date());
+        documentPdf.text(`${filteredRows.length} registros · Exportado em ${exportedAt}`, 40, 49);
+        renderTable({
+          head: [headers],
+          body: data,
+          startY: 62,
+          theme: "grid",
+          showHead: "everyPage",
+          margin: { top: 40, right: 32, bottom: 32, left: 32 },
+          styles: {
+            cellPadding: 4,
+            font: "helvetica",
+            fontSize: 6.8,
+            overflow: "linebreak",
+            textColor: [23, 32, 51],
+            lineColor: [226, 231, 240],
+            lineWidth: 0.5,
+          },
+          headStyles: {
+            fillColor: [23, 35, 63],
+            textColor: [255, 255, 255],
+            fontStyle: "bold",
+          },
+          alternateRowStyles: { fillColor: [248, 250, 253] },
+        });
+        documentPdf.save(`${exportFile}.pdf`);
+      };
+
+      const exportExcel = async (filteredRows) => {
+        await window.ThemeVendors?.ready("xlsx");
+        if (!window.XLSX) throw new Error("SheetJS indisponível");
+        const { headers, data } = getExportMatrix(filteredRows);
+        const worksheet = window.XLSX.utils.aoa_to_sheet([headers, ...data]);
+        worksheet["!cols"] = headers.map((_, columnIndex) => ({
+          wch: Math.min(
+            42,
+            Math.max(12, ...[headers, ...data].map((row) => String(row[columnIndex] || "").length + 2)),
+          ),
+        }));
+        const workbook = window.XLSX.utils.book_new();
+        window.XLSX.utils.book_append_sheet(workbook, worksheet, safeSheetName(exportTitle));
+        const workbookBytes = window.XLSX.write(workbook, {
+          bookType: "xlsx",
+          compression: true,
+          type: "array",
+        });
+        const downloadUrl = URL.createObjectURL(new Blob([workbookBytes], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        }));
+        const download = document.createElement("a");
+        download.href = downloadUrl;
+        download.download = `${exportFile}.xlsx`;
+        document.body.append(download);
+        download.click();
+        download.remove();
+        window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+      };
+
+      const printTable = (filteredRows) => {
+        const previousTitle = document.title;
+        const pageStyle = document.createElement("style");
+        pageStyle.dataset.uiTablePrintPage = "true";
+        pageStyle.textContent = "@page { size: landscape; margin: 12mm; }";
+        let cleanupTimer;
+        let cleaned = false;
+        const cleanup = () => {
+          if (cleaned) return;
+          cleaned = true;
+          window.clearTimeout(cleanupTimer);
+          window.removeEventListener("afterprint", cleanup);
+          pageStyle.remove();
+          document.title = previousTitle;
+          document.body.classList.remove("is-table-printing");
+          tableRoot.classList.remove("is-print-target");
+          rows.forEach((row) => row.classList.remove("is-print-excluded"));
+        };
+        rows.forEach((row) => row.classList.toggle("is-print-excluded", !filteredRows.includes(row)));
+        document.head.append(pageStyle);
+        document.title = exportTitle;
+        document.body.classList.add("is-table-printing");
+        tableRoot.classList.add("is-print-target");
+        window.addEventListener("afterprint", cleanup, { once: true });
+        cleanupTimer = window.setTimeout(cleanup, 60000);
+        try {
+          window.print();
+        } catch (error) {
+          cleanup();
+          throw error;
+        }
+      };
+
+      const runExport = async (button, operation) => {
+        const originalContent = button.innerHTML;
+        button.disabled = true;
+        button.classList.add("is-loading");
+        button.setAttribute("aria-busy", "true");
+        button.innerHTML = '<span class="ui-button-loading"><span class="ui-spinner is-small" aria-hidden="true"></span> Preparando…</span>';
+        try {
+          await operation();
+        } finally {
+          button.disabled = false;
+          button.classList.remove("is-loading");
+          button.removeAttribute("aria-busy");
+          button.innerHTML = originalContent;
+          refreshIcons();
+        }
       };
 
       const createPageButton = ({ label, page, current = false, disabled = false, accessibleLabel }) => {
@@ -788,16 +957,8 @@
       };
 
       const render = () => {
-        const query = normalize(search?.value);
-        const orderedRows = sortKey ? [...rows].sort(compareRows) : [...rows];
-        const filteredRows = orderedRows.filter((row) => {
-          const matchesSearch = !query || normalize(row.textContent).includes(query);
-          const matchesFilters = filters.every((filter) => {
-            const value = filter.value;
-            return !value || row.dataset[filter.dataset.uiTableFilter] === value;
-          });
-          return matchesSearch && matchesFilters;
-        });
+        const orderedRows = getOrderedRows();
+        const filteredRows = getFilteredRows(orderedRows);
         const totalPages = Math.ceil(filteredRows.length / pageSize);
         currentPage = Math.min(Math.max(1, currentPage), Math.max(1, totalPages));
         const start = (currentPage - 1) * pageSize;
@@ -855,6 +1016,40 @@
             );
           });
           render();
+        });
+      });
+      exportButtons.forEach((button) => {
+        button.addEventListener("click", async () => {
+          const filteredRows = getFilteredRows();
+          if (!filteredRows.length) {
+            const message = "Não há registros filtrados para exportar.";
+            updateExportStatus(message);
+            showToast(message, "danger");
+            return;
+          }
+          const format = button.dataset.uiTableExport;
+          const countLabel = `${filteredRows.length} ${filteredRows.length === 1 ? "registro" : "registros"}`;
+          try {
+            if (format === "print") {
+              printTable(filteredRows);
+              const message = `Impressão preparada com ${countLabel}.`;
+              updateExportStatus(message);
+              showToast(message);
+              return;
+            }
+            updateExportStatus(`Preparando ${format === "pdf" ? "PDF" : "Excel"}.`);
+            await runExport(button, () => format === "pdf"
+              ? exportPdf(filteredRows)
+              : exportExcel(filteredRows));
+            const message = `${format === "pdf" ? "PDF" : "Excel"} exportado com ${countLabel}.`;
+            updateExportStatus(message);
+            showToast(message);
+          } catch (error) {
+            console.error("[theme] Falha ao exportar data table", error);
+            const message = "Não foi possível concluir a exportação. Verifique a conexão e tente novamente.";
+            updateExportStatus(message);
+            showToast(message, "danger");
+          }
         });
       });
       reset?.addEventListener("click", () => {
