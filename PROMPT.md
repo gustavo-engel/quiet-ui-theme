@@ -27,5 +27,6 @@ Entregue a página funcional, atualize a navegação central e rode python3 vali
 Substitua `{{PÁGINA}}` por algo direto, como:
 
 - “uma lista de clientes com busca, filtros e paginação”;
+- “uma data table com ordenação, estados semânticos e barras de progresso”;
 - “uma tela de configurações com abas e formulário”;
 - “um detalhe de projeto com histórico e comentários”.

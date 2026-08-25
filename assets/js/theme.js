@@ -7,6 +7,7 @@
     calendar: "Calendário",
     timeline: "Timeline de projetos",
     components: "Componentes",
+    datatables: "Data Tables",
     charts: "Gráficos",
     loading: "Loading states",
     profile: "Account Settings",
@@ -19,6 +20,7 @@
     { page: "calendar", href: "calendar.html", label: "Calendário", icon: "calendar-days" },
     { page: "timeline", href: "timeline.html", label: "Timeline", icon: "milestone" },
     { page: "components", href: "components.html", label: "Componentes", icon: "blocks" },
+    { page: "datatables", href: "datatables.html", label: "Data Tables", icon: "table-2" },
     { page: "charts", href: "charts.html", label: "Gráficos", icon: "chart-no-axes-combined" },
     { divider: true, label: "Referência" },
     { page: "loading", href: "loading.html", label: "Loading states", icon: "loader-circle" },
@@ -91,7 +93,7 @@
             aria-controls="ui-sidebar" aria-expanded="true" aria-label="Recolher menu lateral">
             ${icon("panel-left")}
           </button>
-          <div><strong>Quiet UI</strong><span${page === "profile" ? ' lang="en"' : ""}>${escapeHtml(title)}</span></div>
+          <div><strong>Quiet UI</strong><span${["profile", "datatables"].includes(page) ? ' lang="en"' : ""}>${escapeHtml(title)}</span></div>
         </div>
         <div class="ui-topbar-actions">
           <a class="ui-icon-button ui-hide-mobile" href="docs.html" aria-label="Abrir guia rápido"
@@ -686,6 +688,195 @@
     });
   };
 
+  const initializeDataTables = () => {
+    const normalize = (value) =>
+      String(value ?? "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLocaleLowerCase("pt-BR")
+        .trim();
+    const collator = new Intl.Collator("pt-BR", { numeric: true, sensitivity: "base" });
+
+    document.querySelectorAll("[data-ui-data-table]").forEach((tableRoot) => {
+      const body = tableRoot.querySelector("[data-ui-table-body]");
+      const rows = [...tableRoot.querySelectorAll("[data-ui-table-row]")];
+      const emptyRow = tableRoot.querySelector("[data-ui-table-empty]");
+      const search = tableRoot.querySelector("[data-ui-table-search]");
+      const filters = [...tableRoot.querySelectorAll("[data-ui-table-filter]")];
+      const sortButtons = [...tableRoot.querySelectorAll("[data-ui-table-sort]")];
+      const reset = tableRoot.querySelector("[data-ui-table-reset]");
+      const summary = tableRoot.querySelector("[data-ui-table-summary]");
+      const pagination = tableRoot.querySelector("[data-ui-table-pagination]");
+      const counter = tableRoot.id
+        ? document.querySelector(`[data-ui-table-count-for="${tableRoot.id}"]`)
+        : null;
+      const pageSize = Math.max(1, Number.parseInt(tableRoot.dataset.pageSize || "10", 10));
+      if (!body || !rows.length) return;
+
+      let currentPage = 1;
+      let sortKey = "";
+      let sortDirection = "ascending";
+
+      sortButtons.forEach((button) => {
+        button.dataset.sortLabel = button.textContent.trim();
+        button.setAttribute("aria-label", `Ordenar por ${button.dataset.sortLabel}`);
+      });
+
+      const compareRows = (first, second) => {
+        const button = sortButtons.find((item) => item.dataset.uiTableSort === sortKey);
+        const type = button?.dataset.sortType || "text";
+        const firstValue = first.dataset[sortKey] || "";
+        const secondValue = second.dataset[sortKey] || "";
+        let result;
+        if (type === "number") {
+          result = Number(firstValue) - Number(secondValue);
+        } else if (type === "date") {
+          result = Date.parse(firstValue) - Date.parse(secondValue);
+        } else {
+          result = collator.compare(firstValue, secondValue);
+        }
+        return sortDirection === "ascending" ? result : -result;
+      };
+
+      const createPageButton = ({ label, page, current = false, disabled = false, accessibleLabel }) => {
+        const button = document.createElement("button");
+        button.className = `ui-page-button${current ? " is-active" : ""}`;
+        button.type = "button";
+        button.textContent = label;
+        button.disabled = disabled;
+        if (current) button.setAttribute("aria-current", "page");
+        if (accessibleLabel) button.setAttribute("aria-label", accessibleLabel);
+        button.addEventListener("click", () => {
+          currentPage = page;
+          render();
+          tableRoot.querySelector(".ui-table-wrap")?.focus({ preventScroll: true });
+        });
+        return button;
+      };
+
+      const renderPagination = (totalPages) => {
+        if (!pagination) return;
+        pagination.replaceChildren();
+        pagination.hidden = totalPages <= 1;
+        if (totalPages <= 1) return;
+        pagination.append(
+          createPageButton({
+            label: "‹",
+            page: Math.max(1, currentPage - 1),
+            disabled: currentPage === 1,
+            accessibleLabel: "Página anterior",
+          }),
+        );
+        for (let page = 1; page <= totalPages; page += 1) {
+          pagination.append(
+            createPageButton({
+              label: String(page),
+              page,
+              current: page === currentPage,
+              accessibleLabel: `Página ${page}`,
+            }),
+          );
+        }
+        pagination.append(
+          createPageButton({
+            label: "›",
+            page: Math.min(totalPages, currentPage + 1),
+            disabled: currentPage === totalPages,
+            accessibleLabel: "Próxima página",
+          }),
+        );
+      };
+
+      const render = () => {
+        const query = normalize(search?.value);
+        const orderedRows = sortKey ? [...rows].sort(compareRows) : [...rows];
+        const filteredRows = orderedRows.filter((row) => {
+          const matchesSearch = !query || normalize(row.textContent).includes(query);
+          const matchesFilters = filters.every((filter) => {
+            const value = filter.value;
+            return !value || row.dataset[filter.dataset.uiTableFilter] === value;
+          });
+          return matchesSearch && matchesFilters;
+        });
+        const totalPages = Math.ceil(filteredRows.length / pageSize);
+        currentPage = Math.min(Math.max(1, currentPage), Math.max(1, totalPages));
+        const start = (currentPage - 1) * pageSize;
+        const visibleRows = filteredRows.slice(start, start + pageSize);
+
+        orderedRows.forEach((row) => {
+          body.append(row);
+          row.classList.remove("is-even");
+          row.hidden = !visibleRows.includes(row);
+        });
+        visibleRows.forEach((row, index) => row.classList.toggle("is-even", index % 2 === 1));
+        if (emptyRow) {
+          body.append(emptyRow);
+          emptyRow.hidden = filteredRows.length > 0;
+        }
+
+        if (summary) {
+          summary.textContent = filteredRows.length
+            ? `Exibindo ${start + 1}–${start + visibleRows.length} de ${filteredRows.length} registros.`
+            : "Nenhum registro encontrado.";
+        }
+        if (counter) {
+          counter.textContent = `${filteredRows.length} ${filteredRows.length === 1 ? "registro" : "registros"}`;
+        }
+        renderPagination(totalPages);
+      };
+
+      search?.addEventListener("input", () => {
+        currentPage = 1;
+        render();
+      });
+      filters.forEach((filter) => {
+        filter.addEventListener("change", () => {
+          currentPage = 1;
+          render();
+        });
+      });
+      sortButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const nextKey = button.dataset.uiTableSort;
+          sortDirection = sortKey === nextKey && sortDirection === "ascending"
+            ? "descending"
+            : "ascending";
+          sortKey = nextKey;
+          currentPage = 1;
+          sortButtons.forEach((item) => {
+            const active = item === button;
+            const direction = active ? sortDirection : "none";
+            item.closest("th")?.setAttribute("aria-sort", direction);
+            item.setAttribute(
+              "aria-label",
+              active
+                ? `Ordenar por ${item.dataset.sortLabel}, atualmente ${sortDirection === "ascending" ? "crescente" : "decrescente"}`
+                : `Ordenar por ${item.dataset.sortLabel}`,
+            );
+          });
+          render();
+        });
+      });
+      reset?.addEventListener("click", () => {
+        if (search) search.value = "";
+        filters.forEach((filter) => {
+          filter.value = "";
+        });
+        sortKey = "";
+        sortDirection = "ascending";
+        currentPage = 1;
+        sortButtons.forEach((button) => {
+          button.closest("th")?.setAttribute("aria-sort", "none");
+          button.setAttribute("aria-label", `Ordenar por ${button.dataset.sortLabel}`);
+        });
+        render();
+        search?.focus();
+      });
+
+      render();
+    });
+  };
+
   const initializeCharts = async () => {
     const canvases = [...document.querySelectorAll("canvas[data-ui-chart]")];
     if (!canvases.length) return;
@@ -868,6 +1059,7 @@
     initializeCounters();
     initializeReveals();
     initializeLoadingDemos();
+    initializeDataTables();
     initializeCharts();
   };
 

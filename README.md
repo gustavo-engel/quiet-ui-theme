@@ -37,6 +37,7 @@ Acesse `http://127.0.0.1:4173`.
 ├── calendar.html       # calendário mensal
 ├── timeline.html       # timeline vertical com fotografias
 ├── components.html     # chips, menus, tabs, modal, toast e tabela
+├── datatables.html     # tabelas com busca, filtros, ordenação e paginação
 ├── charts.html         # Chart.js + alternativas textuais
 ├── loading.html        # loading states nomeados em inglês
 ├── profile.html        # perfil, segurança, notificações e preferências
@@ -86,6 +87,7 @@ bibliotecas localmente.
 - `data-ui-*`: comportamento JavaScript;
 - `--ui-space-*`: ritmo de espaçamento;
 - `role`, `aria-*`, `time`, `figure`, `figcaption` e `dl`: semântica preservada.
+- `[data-ui-data-table]`: tabela funcional; linhas expõem valores ordenáveis e filtráveis em `data-*`.
 
 ## Continuidade com agentes de IA
 

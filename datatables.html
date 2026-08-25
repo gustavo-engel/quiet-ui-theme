@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <meta name="description" content="Duas variações funcionais de data tables do tema administrativo Quiet UI.">
+    <title>Data Tables — Quiet UI</title>
+    <script src="assets/js/vendor.js" data-vendors="poppins,lucide"></script>
+    <link rel="stylesheet" href="assets/css/theme.css">
+    <script src="assets/js/theme.js" defer></script>
+  </head>
+  <body class="ui-page" data-page="datatables" data-demo-data="fictional">
+    <a class="ui-skip-link" href="#main-content">Ir para o conteúdo principal</a>
+    <div class="ui-shell" data-ui-shell data-sidebar-open="false">
+      <aside class="ui-sidebar" id="ui-sidebar" data-ui-sidebar aria-label="Navegação principal"></aside>
+      <div class="ui-workspace">
+        <header class="ui-topbar" data-ui-topbar></header>
+        <main class="ui-main" id="main-content" tabindex="-1">
+          <header class="ui-page-heading">
+            <div class="ui-page-heading-copy">
+              <p class="ui-eyebrow" lang="en">Data Tables</p>
+              <h1>Dados claros, densidade controlada</h1>
+              <p>Duas tabelas reutilizáveis com busca, filtros, ordenação, paginação, estados semânticos e progresso acessível.</p>
+            </div>
+            <div class="ui-heading-actions">
+              <span class="ui-badge is-primary"><i data-lucide="database" aria-hidden="true"></i> Dados fictícios</span>
+              <button class="ui-button is-secondary" type="button" data-ui-toast-trigger data-message="Exportação demonstrativa preparada.">
+                <i data-lucide="download" aria-hidden="true"></i> Exportar
+              </button>
+            </div>
+          </header>
+
+          <section class="ui-section" aria-labelledby="portfolio-title">
+            <div class="ui-section-heading">
+              <div>
+                <p class="ui-kicker">Variação ampla</p>
+                <h2 id="portfolio-title">Portfólio de projetos</h2>
+              </div>
+              <span class="ui-counter" data-ui-table-count-for="portfolio-table">12 registros</span>
+            </div>
+
+            <article class="ui-data-table" id="portfolio-table" aria-labelledby="portfolio-title" data-ui-data-table data-page-size="6">
+              <div class="ui-data-table-toolbar" role="search" aria-label="Filtrar portfólio de projetos">
+                <div class="ui-table-search">
+                  <label class="ui-label" for="portfolio-search">Buscar registros</label>
+                  <div class="ui-input-group">
+                    <span class="ui-input-leading" aria-hidden="true"><i data-lucide="search"></i></span>
+                    <input class="ui-input" id="portfolio-search" type="search" placeholder="Projeto, cidade ou categoria" autocomplete="off" data-ui-table-search>
+                  </div>
+                </div>
+                <div class="ui-table-filter">
+                  <label class="ui-label" for="portfolio-status">Situação</label>
+                  <select class="ui-select" id="portfolio-status" data-ui-table-filter="status">
+                    <option value="">Todas as situações</option>
+                    <option value="on-track">No prazo</option>
+                    <option value="in-progress">Em andamento</option>
+                    <option value="attention">Atenção</option>
+                    <option value="at-risk">Em risco</option>
+                    <option value="completed">Concluído</option>
+                  </select>
+                </div>
+                <button class="ui-button is-secondary ui-table-reset" type="button" data-ui-table-reset>
+                  <i data-lucide="rotate-ccw" aria-hidden="true"></i> Limpar
+                </button>
+              </div>
+
+              <p class="ui-table-mobile-hint" id="portfolio-scroll-hint"><i data-lucide="move-horizontal" aria-hidden="true"></i> Role ou deslize horizontalmente para ver todas as colunas.</p>
+              <div class="ui-table-wrap" role="region" aria-labelledby="portfolio-title" aria-describedby="portfolio-scroll-hint" tabindex="0">
+                <table class="ui-table is-wide">
+                  <caption class="ui-visually-hidden">Portfólio fictício de projetos com indicadores, datas, situações e progresso.</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col" aria-sort="none"><button class="ui-sort-button" type="button" data-ui-table-sort="project" data-sort-type="text">Projeto <i data-lucide="chevrons-up-down" aria-hidden="true"></i></button></th>
+                      <th scope="col" aria-sort="none"><button class="ui-sort-button" type="button" data-ui-table-sort="city" data-sort-type="text">Local <i data-lucide="chevrons-up-down" aria-hidden="true"></i></button></th>
+                      <th scope="col">Categoria</th>
+                      <th scope="col" aria-sort="none"><button class="ui-sort-button" type="button" data-ui-table-sort="score" data-sort-type="number">Score <i data-lucide="chevrons-up-down" aria-hidden="true"></i></button></th>
+                      <th scope="col" aria-sort="none"><button class="ui-sort-button" type="button" data-ui-table-sort="updated" data-sort-type="date">Atualizado <i data-lucide="chevrons-up-down" aria-hidden="true"></i></button></th>
+                      <th scope="col" aria-sort="none"><button class="ui-sort-button" type="button" data-ui-table-sort="quantity" data-sort-type="number">Itens <i data-lucide="chevrons-up-down" aria-hidden="true"></i></button></th>
+                      <th scope="col">Situação</th>
+                      <th scope="col" aria-sort="none"><button class="ui-sort-button" type="button" data-ui-table-sort="progress" data-sort-type="number">Progresso <i data-lucide="chevrons-up-down" aria-hidden="true"></i></button></th>
+                    </tr>
+                  </thead>
+                  <tbody data-ui-table-body>
+                    <tr data-ui-table-row data-project="Portal Aurora" data-city="Lisboa" data-score="96.4" data-updated="2026-08-21" data-quantity="74" data-progress="86" data-status="on-track">
+                      <th scope="row"><span class="ui-table-entity"><span class="ui-table-entity-icon is-primary"><i data-lucide="panels-top-left" aria-hidden="true"></i></span><span><strong>Portal Aurora</strong><small>Experiência do cliente</small></span></span></th>
+                      <td>Lisboa, Portugal</td><td>Customer success</td><td><strong>96,4%</strong></td><td><time datetime="2026-08-21">21 ago 2026</time></td><td>74</td><td><span class="ui-badge is-success">No prazo</span></td>
+                      <td><div class="ui-table-progress"><span>86%</span><div class="ui-progress" role="progressbar" aria-label="Portal Aurora, 86% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="86"><span class="ui-progress-bar is-success" style="width: 86%"></span></div></div></td>
+                    </tr>
+                    <tr data-ui-table-row data-project="Atlas Finance Hub" data-city="São Paulo" data-score="88.7" data-updated="2026-08-18" data-quantity="42" data-progress="54" data-status="attention">
+                      <th scope="row"><span class="ui-table-entity"><span class="ui-table-entity-icon is-warning"><i data-lucide="landmark" aria-hidden="true"></i></span><span><strong>Atlas Finance Hub</strong><small>Gestão financeira</small></span></span></th>
+                      <td>São Paulo, Brasil</td><td>Finanças</td><td><strong>88,7%</strong></td><td><time datetime="2026-08-18">18 ago 2026</time></td><td>42</td><td><span class="ui-badge is-warning">Atenção</span></td>
+                      <td><div class="ui-table-progress"><span>54%</span><div class="ui-progress" role="progressbar" aria-label="Atlas Finance Hub, 54% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="54"><span class="ui-progress-bar is-warning" style="width: 54%"></span></div></div></td>
+                    </tr>
+                    <tr data-ui-table-row data-project="Nexus Support Desk" data-city="Toronto" data-score="99.2" data-updated="2026-08-22" data-quantity="108" data-progress="100" data-status="completed">
+                      <th scope="row"><span class="ui-table-entity"><span class="ui-table-entity-icon is-success"><i data-lucide="headphones" aria-hidden="true"></i></span><span><strong>Nexus Support Desk</strong><small>Central omnichannel</small></span></span></th>
+                      <td>Toronto, Canadá</td><td>Suporte</td><td><strong>99,2%</strong></td><td><time datetime="2026-08-22">22 ago 2026</time></td><td>108</td><td><span class="ui-badge is-success">Concluído</span></td>
+                      <td><div class="ui-table-progress"><span>100%</span><div class="ui-progress" role="progressbar" aria-label="Nexus Support Desk, 100% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><span class="ui-progress-bar is-success" style="width: 100%"></span></div></div></td>
+                    </tr>
+                    <tr data-ui-table-row data-project="Lumen Analytics" data-city="Berlim" data-score="92.8" data-updated="2026-08-20" data-quantity="63" data-progress="72" data-status="in-progress">
+                      <th scope="row"><span class="ui-table-entity"><span class="ui-table-entity-icon is-comment"><i data-lucide="chart-spline" aria-hidden="true"></i></span><span><strong>Lumen Analytics</strong><small>Inteligência de dados</small></span></span></th>
+                      <td>Berlim, Alemanha</td><td>Analytics</td><td><strong>92,8%</strong></td><td><time datetime="2026-08-20">20 ago 2026</time></td><td>63</td><td><span class="ui-badge is-primary">Em andamento</span></td>
+                      <td><div class="ui-table-progress"><span>72%</span><div class="ui-progress" role="progressbar" aria-label="Lumen Analytics, 72% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="72"><span class="ui-progress-bar" style="width: 72%"></span></div></div></td>
+                    </tr>
+                    <tr data-ui-table-row data-project="Orion Operations" data-city="Austin" data-score="71.5" data-updated="2026-08-13" data-quantity="35" data-progress="28" data-status="at-risk">
+                      <th scope="row"><span class="ui-table-entity"><span class="ui-table-entity-icon is-danger"><i data-lucide="factory" aria-hidden="true"></i></span><span><strong>Orion Operations</strong><small>Automação de processos</small></span></span></th>
+                      <td>Austin, Estados Unidos</td><td>Operações</td><td><strong>71,5%</strong></td><td><time datetime="2026-08-13">13 ago 2026</time></td><td>35</td><td><span class="ui-badge is-danger">Em risco</span></td>
+                      <td><div class="ui-table-progress"><span>28%</span><div class="ui-progress" role="progressbar" aria-label="Orion Operations, 28% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="28"><span class="ui-progress-bar is-danger" style="width: 28%"></span></div></div></td>
+                    </tr>
+                    <tr data-ui-table-row data-project="Vela Commerce" data-city="Madri" data-score="97.1" data-updated="2026-08-23" data-quantity="91" data-progress="91" data-status="on-track">
+                      <th scope="row"><span class="ui-table-entity"><span class="ui-table-entity-icon is-success"><i data-lucide="shopping-bag" aria-hidden="true"></i></span><span><strong>Vela Commerce</strong><small>Experiência de compra</small></span></span></th>
+                      <td>Madri, Espanha</td><td>E-commerce</td><td><strong>97,1%</strong></td><td><time datetime="2026-08-23">23 ago 2026</time></td><td>91</td><td><span class="ui-badge is-success">No prazo</span></td>
+                      <td><div class="ui-table-progress"><span>91%</span><div class="ui-progress" role="progressbar" aria-label="Vela Commerce, 91% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="91"><span class="ui-progress-bar is-success" style="width: 91%"></span></div></div></td>
+                    </tr>
+                    <tr data-ui-table-row data-project="Cobalt Workspace" data-city="Dublin" data-score="90.3" data-updated="2026-08-19" data-quantity="48" data-progress="65" data-status="in-progress">
+                      <th scope="row"><span class="ui-table-entity"><span class="ui-table-entity-icon is-primary"><i data-lucide="briefcase-business" aria-hidden="true"></i></span><span><strong>Cobalt Workspace</strong><small>Colaboração distribuída</small></span></span></th>
+                      <td>Dublin, Irlanda</td><td>Produtividade</td><td><strong>90,3%</strong></td><td><time datetime="2026-08-19">19 ago 2026</time></td><td>48</td><td><span class="ui-badge is-primary">Em andamento</span></td>
+                      <td><div class="ui-table-progress"><span>65%</span><div class="ui-progress" role="progressbar" aria-label="Cobalt Workspace, 65% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="65"><span class="ui-progress-bar" style="width: 65%"></span></div></div></td>
+                    </tr>
+                    <tr data-ui-table-row data-project="Sage Knowledge Base" data-city="Melbourne" data-score="98.5" data-updated="2026-08-17" data-quantity="126" data-progress="100" data-status="completed">
+                      <th scope="row"><span class="ui-table-entity"><span class="ui-table-entity-icon is-success"><i data-lucide="library-big" aria-hidden="true"></i></span><span><strong>Sage Knowledge Base</strong><small>Conteúdo de produto</small></span></span></th>
+                      <td>Melbourne, Austrália</td><td>Conhecimento</td><td><strong>98,5%</strong></td><td><time datetime="2026-08-17">17 ago 2026</time></td><td>126</td><td><span class="ui-badge is-success">Concluído</span></td>
+                      <td><div class="ui-table-progress"><span>100%</span><div class="ui-progress" role="progressbar" aria-label="Sage Knowledge Base, 100% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><span class="ui-progress-bar is-success" style="width: 100%"></span></div></div></td>
+                    </tr>
+                    <tr data-ui-table-row data-project="Pulse Campaigns" data-city="Cidade do México" data-score="84.6" data-updated="2026-08-16" data-quantity="29" data-progress="43" data-status="attention">
+                      <th scope="row"><span class="ui-table-entity"><span class="ui-table-entity-icon is-warning"><i data-lucide="megaphone" aria-hidden="true"></i></span><span><strong>Pulse Campaigns</strong><small>Orquestração de campanhas</small></span></span></th>
+                      <td>Cidade do México, México</td><td>Marketing</td><td><strong>84,6%</strong></td><td><time datetime="2026-08-16">16 ago 2026</time></td><td>29</td><td><span class="ui-badge is-warning">Atenção</span></td>
+                      <td><div class="ui-table-progress"><span>43%</span><div class="ui-progress" role="progressbar" aria-label="Pulse Campaigns, 43% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="43"><span class="ui-progress-bar is-warning" style="width: 43%"></span></div></div></td>
+                    </tr>
+                    <tr data-ui-table-row data-project="Northwind Mobile" data-city="Estocolmo" data-score="94.9" data-updated="2026-08-20" data-quantity="57" data-progress="78" data-status="on-track">
+                      <th scope="row"><span class="ui-table-entity"><span class="ui-table-entity-icon is-primary"><i data-lucide="smartphone" aria-hidden="true"></i></span><span><strong>Northwind Mobile</strong><small>Aplicativo de campo</small></span></span></th>
+                      <td>Estocolmo, Suécia</td><td>Mobile</td><td><strong>94,9%</strong></td><td><time datetime="2026-08-20">20 ago 2026</time></td><td>57</td><td><span class="ui-badge is-success">No prazo</span></td>
+                      <td><div class="ui-table-progress"><span>78%</span><div class="ui-progress" role="progressbar" aria-label="Northwind Mobile, 78% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="78"><span class="ui-progress-bar" style="width: 78%"></span></div></div></td>
+                    </tr>
+                    <tr data-ui-table-row data-project="Terra Inventory" data-city="Santiago" data-score="68.2" data-updated="2026-08-11" data-quantity="18" data-progress="16" data-status="at-risk">
+                      <th scope="row"><span class="ui-table-entity"><span class="ui-table-entity-icon is-danger"><i data-lucide="package-search" aria-hidden="true"></i></span><span><strong>Terra Inventory</strong><small>Controle de estoque</small></span></span></th>
+                      <td>Santiago, Chile</td><td>Logística</td><td><strong>68,2%</strong></td><td><time datetime="2026-08-11">11 ago 2026</time></td><td>18</td><td><span class="ui-badge is-danger">Em risco</span></td>
+                      <td><div class="ui-table-progress"><span>16%</span><div class="ui-progress" role="progressbar" aria-label="Terra Inventory, 16% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="16"><span class="ui-progress-bar is-danger" style="width: 16%"></span></div></div></td>
+                    </tr>
+                    <tr data-ui-table-row data-project="Canvas Learning" data-city="Amsterdã" data-score="89.4" data-updated="2026-08-15" data-quantity="51" data-progress="58" data-status="in-progress">
+                      <th scope="row"><span class="ui-table-entity"><span class="ui-table-entity-icon is-comment"><i data-lucide="graduation-cap" aria-hidden="true"></i></span><span><strong>Canvas Learning</strong><small>Trilhas de capacitação</small></span></span></th>
+                      <td>Amsterdã, Países Baixos</td><td>Learning</td><td><strong>89,4%</strong></td><td><time datetime="2026-08-15">15 ago 2026</time></td><td>51</td><td><span class="ui-badge is-primary">Em andamento</span></td>
+                      <td><div class="ui-table-progress"><span>58%</span><div class="ui-progress" role="progressbar" aria-label="Canvas Learning, 58% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="58"><span class="ui-progress-bar is-comment" style="width: 58%"></span></div></div></td>
+                    </tr>
+                    <tr class="ui-table-empty-row" data-ui-table-empty hidden><td colspan="8"><span class="ui-empty-icon"><i data-lucide="search-x" aria-hidden="true"></i></span><strong>Nenhum projeto encontrado</strong><small>Altere a busca ou limpe os filtros para tentar novamente.</small></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <footer class="ui-data-table-footer">
+                <p class="ui-help" role="status" aria-live="polite" data-ui-table-summary>12 registros.</p>
+                <nav class="ui-pagination-pages" aria-label="Paginação do portfólio de projetos" data-ui-table-pagination hidden></nav>
+              </footer>
+            </article>
+          </section>
+
+          <section class="ui-section" aria-labelledby="delivery-title">
+            <div class="ui-section-heading">
+              <div>
+                <p class="ui-kicker">Variação compacta</p>
+                <h2 id="delivery-title">Entregas da equipe</h2>
+              </div>
+              <span class="ui-counter" data-ui-table-count-for="delivery-table">8 registros</span>
+            </div>
+
+            <article class="ui-data-table" id="delivery-table" aria-labelledby="delivery-title" data-ui-data-table data-page-size="5">
+              <div class="ui-data-table-toolbar" role="search" aria-label="Filtrar entregas da equipe">
+                <div class="ui-table-search">
+                  <label class="ui-label" for="delivery-search">Buscar entrega</label>
+                  <div class="ui-input-group">
+                    <span class="ui-input-leading" aria-hidden="true"><i data-lucide="search"></i></span>
+                    <input class="ui-input" id="delivery-search" type="search" placeholder="Entrega, responsável ou equipe" autocomplete="off" data-ui-table-search>
+                  </div>
+                </div>
+                <div class="ui-table-filter">
+                  <label class="ui-label" for="delivery-priority">Prioridade</label>
+                  <select class="ui-select" id="delivery-priority" data-ui-table-filter="priority">
+                    <option value="">Todas as prioridades</option>
+                    <option value="high">Alta</option>
+                    <option value="medium">Média</option>
+                    <option value="low">Baixa</option>
+                  </select>
+                </div>
+                <button class="ui-button is-secondary ui-table-reset" type="button" data-ui-table-reset>
+                  <i data-lucide="rotate-ccw" aria-hidden="true"></i> Limpar
+                </button>
+              </div>
+
+              <p class="ui-table-mobile-hint" id="delivery-scroll-hint"><i data-lucide="move-horizontal" aria-hidden="true"></i> Role ou deslize horizontalmente para ver todas as colunas.</p>
+              <div class="ui-table-wrap" role="region" aria-labelledby="delivery-title" aria-describedby="delivery-scroll-hint" tabindex="0">
+                <table class="ui-table is-compact">
+                  <caption class="ui-visually-hidden">Entregas fictícias da equipe com responsável, prioridade, prazo, situação e andamento.</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col" aria-sort="none"><button class="ui-sort-button" type="button" data-ui-table-sort="task" data-sort-type="text">Entrega <i data-lucide="chevrons-up-down" aria-hidden="true"></i></button></th>
+                      <th scope="col" aria-sort="none"><button class="ui-sort-button" type="button" data-ui-table-sort="owner" data-sort-type="text">Responsável <i data-lucide="chevrons-up-down" aria-hidden="true"></i></button></th>
+                      <th scope="col">Equipe</th>
+                      <th scope="col">Prioridade</th>
+                      <th scope="col" aria-sort="none"><button class="ui-sort-button" type="button" data-ui-table-sort="due" data-sort-type="date">Prazo <i data-lucide="chevrons-up-down" aria-hidden="true"></i></button></th>
+                      <th scope="col">Situação</th>
+                      <th scope="col" aria-sort="none"><button class="ui-sort-button" type="button" data-ui-table-sort="progress" data-sort-type="number">Andamento <i data-lucide="chevrons-up-down" aria-hidden="true"></i></button></th>
+                    </tr>
+                  </thead>
+                  <tbody data-ui-table-body>
+                    <tr class="is-accent-primary" data-ui-table-row data-task="Revisar fluxo de aprovação" data-owner="Ana Reis" data-due="2026-08-25" data-progress="82" data-priority="high">
+                      <th scope="row"><strong>Revisar fluxo de aprovação</strong><small>Checklist de publicação</small></th><td><span class="ui-table-person"><span class="ui-avatar is-small" aria-hidden="true">AR</span><span>Ana Reis</span></span></td><td>Produto</td><td><span class="ui-badge is-danger">Alta</span></td><td><time datetime="2026-08-25">25 ago</time></td><td><span class="ui-badge is-comment">Em revisão</span></td><td><div class="ui-table-progress is-compact"><span>82%</span><div class="ui-progress" role="progressbar" aria-label="Revisar fluxo de aprovação, 82% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="82"><span class="ui-progress-bar is-comment" style="width: 82%"></span></div></div></td>
+                    </tr>
+                    <tr class="is-accent-primary" data-ui-table-row data-task="Mapear automações críticas" data-owner="Caio Lima" data-due="2026-08-29" data-progress="56" data-priority="medium">
+                      <th scope="row"><strong>Mapear automações críticas</strong><small>Inventário de integrações</small></th><td><span class="ui-table-person"><span class="ui-avatar is-small" aria-hidden="true">CL</span><span>Caio Lima</span></span></td><td>Operações</td><td><span class="ui-badge is-warning">Média</span></td><td><time datetime="2026-08-29">29 ago</time></td><td><span class="ui-badge is-primary">Em andamento</span></td><td><div class="ui-table-progress is-compact"><span>56%</span><div class="ui-progress" role="progressbar" aria-label="Mapear automações críticas, 56% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="56"><span class="ui-progress-bar" style="width: 56%"></span></div></div></td>
+                    </tr>
+                    <tr class="is-accent-success" data-ui-table-row data-task="Atualizar guia de onboarding" data-owner="Marina Costa" data-due="2026-08-24" data-progress="100" data-priority="low">
+                      <th scope="row"><strong>Atualizar guia de onboarding</strong><small>Versão para novos clientes</small></th><td><span class="ui-table-person"><span class="ui-avatar is-small" aria-hidden="true">MC</span><span>Marina Costa</span></span></td><td>Customer success</td><td><span class="ui-badge">Baixa</span></td><td><time datetime="2026-08-24">24 ago</time></td><td><span class="ui-badge is-success">Concluída</span></td><td><div class="ui-table-progress is-compact"><span>100%</span><div class="ui-progress" role="progressbar" aria-label="Atualizar guia de onboarding, 100% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><span class="ui-progress-bar is-success" style="width: 100%"></span></div></div></td>
+                    </tr>
+                    <tr class="is-accent-warning" data-ui-table-row data-task="Validar relatório mensal" data-owner="Rui Melo" data-due="2026-08-26" data-progress="68" data-priority="high">
+                      <th scope="row"><strong>Validar relatório mensal</strong><small>Indicadores consolidados</small></th><td><span class="ui-table-person"><span class="ui-avatar is-small" aria-hidden="true">RM</span><span>Rui Melo</span></span></td><td>Analytics</td><td><span class="ui-badge is-danger">Alta</span></td><td><time datetime="2026-08-26">26 ago</time></td><td><span class="ui-badge is-warning">Aguardando</span></td><td><div class="ui-table-progress is-compact"><span>68%</span><div class="ui-progress" role="progressbar" aria-label="Validar relatório mensal, 68% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="68"><span class="ui-progress-bar is-warning" style="width: 68%"></span></div></div></td>
+                    </tr>
+                    <tr class="is-accent-danger" data-ui-table-row data-task="Corrigir alertas de estoque" data-owner="Bia Nunes" data-due="2026-08-22" data-progress="34" data-priority="high">
+                      <th scope="row"><strong>Corrigir alertas de estoque</strong><small>Regra de quantidade mínima</small></th><td><span class="ui-table-person"><span class="ui-avatar is-small" aria-hidden="true">BN</span><span>Bia Nunes</span></span></td><td>Logística</td><td><span class="ui-badge is-danger">Alta</span></td><td><time datetime="2026-08-22">22 ago</time></td><td><span class="ui-badge is-danger">Atrasada</span></td><td><div class="ui-table-progress is-compact"><span>34%</span><div class="ui-progress" role="progressbar" aria-label="Corrigir alertas de estoque, 34% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="34"><span class="ui-progress-bar is-danger" style="width: 34%"></span></div></div></td>
+                    </tr>
+                    <tr class="is-accent-primary" data-ui-table-row data-task="Preparar campanha de setembro" data-owner="Leo Moraes" data-due="2026-09-02" data-progress="47" data-priority="medium">
+                      <th scope="row"><strong>Preparar campanha de setembro</strong><small>Peças e segmentação</small></th><td><span class="ui-table-person"><span class="ui-avatar is-small" aria-hidden="true">LM</span><span>Leo Moraes</span></span></td><td>Marketing</td><td><span class="ui-badge is-warning">Média</span></td><td><time datetime="2026-09-02">2 set</time></td><td><span class="ui-badge is-primary">Em andamento</span></td><td><div class="ui-table-progress is-compact"><span>47%</span><div class="ui-progress" role="progressbar" aria-label="Preparar campanha de setembro, 47% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="47"><span class="ui-progress-bar" style="width: 47%"></span></div></div></td>
+                    </tr>
+                    <tr class="is-accent-success" data-ui-table-row data-task="Publicar central de ajuda" data-owner="Lia Freitas" data-due="2026-08-27" data-progress="93" data-priority="medium">
+                      <th scope="row"><strong>Publicar central de ajuda</strong><small>Artigos da primeira versão</small></th><td><span class="ui-table-person"><span class="ui-avatar is-small" aria-hidden="true">LF</span><span>Lia Freitas</span></span></td><td>Suporte</td><td><span class="ui-badge is-warning">Média</span></td><td><time datetime="2026-08-27">27 ago</time></td><td><span class="ui-badge is-success">Pronta</span></td><td><div class="ui-table-progress is-compact"><span>93%</span><div class="ui-progress" role="progressbar" aria-label="Publicar central de ajuda, 93% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="93"><span class="ui-progress-bar is-success" style="width: 93%"></span></div></div></td>
+                    </tr>
+                    <tr class="is-accent-warning" data-ui-table-row data-task="Planejar pesquisa de satisfação" data-owner="Ivo Cruz" data-due="2026-09-05" data-progress="18" data-priority="low">
+                      <th scope="row"><strong>Planejar pesquisa de satisfação</strong><small>Questionário e amostragem</small></th><td><span class="ui-table-person"><span class="ui-avatar is-small" aria-hidden="true">IC</span><span>Ivo Cruz</span></span></td><td>Pesquisa</td><td><span class="ui-badge">Baixa</span></td><td><time datetime="2026-09-05">5 set</time></td><td><span class="ui-badge is-warning">Planejada</span></td><td><div class="ui-table-progress is-compact"><span>18%</span><div class="ui-progress" role="progressbar" aria-label="Planejar pesquisa de satisfação, 18% concluído" aria-valuemin="0" aria-valuemax="100" aria-valuenow="18"><span class="ui-progress-bar is-warning" style="width: 18%"></span></div></div></td>
+                    </tr>
+                    <tr class="ui-table-empty-row" data-ui-table-empty hidden><td colspan="7"><span class="ui-empty-icon"><i data-lucide="search-x" aria-hidden="true"></i></span><strong>Nenhuma entrega encontrada</strong><small>Altere a busca ou limpe os filtros para tentar novamente.</small></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <footer class="ui-data-table-footer">
+                <p class="ui-help" role="status" aria-live="polite" data-ui-table-summary>8 registros.</p>
+                <nav class="ui-pagination-pages" aria-label="Paginação das entregas da equipe" data-ui-table-pagination hidden></nav>
+              </footer>
+            </article>
+          </section>
+        </main>
+      </div>
+      <button class="ui-sidebar-backdrop" type="button" data-ui-sidebar-backdrop aria-label="Fechar menu lateral" tabindex="-1"></button>
+    </div>
+    <div class="ui-toast-region" id="ui-toast-region" aria-live="polite"></div>
+    <noscript><p class="ui-noscript">As tabelas continuam legíveis, mas busca, filtros, ordenação e paginação interativa precisam de JavaScript.</p></noscript>
+  </body>
+</html>
