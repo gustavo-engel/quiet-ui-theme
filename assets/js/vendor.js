@@ -22,6 +22,23 @@
       version: "4.5.1",
       scripts: ["https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"],
     },
+    jspdf: {
+      version: "4.2.1",
+      scripts: ["https://unpkg.com/jspdf@4.2.1/dist/jspdf.umd.min.js"],
+    },
+    "jspdf-autotable": {
+      version: "5.0.8",
+      dependencies: ["jspdf"],
+      scripts: [
+        "https://unpkg.com/jspdf-autotable@5.0.8/dist/jspdf.plugin.autotable.min.js",
+      ],
+    },
+    xlsx: {
+      version: "0.20.3",
+      scripts: [
+        "https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.mini.min.js",
+      ],
+    },
   });
 
   const loaded = new Map();
@@ -48,7 +65,10 @@
       link.addEventListener("load", () => resolve(link), { once: true });
       link.addEventListener(
         "error",
-        () => reject(new Error(`Não foi possível carregar ${options.href}`)),
+        () => {
+          link.remove();
+          reject(new Error(`Não foi possível carregar ${options.href}`));
+        },
         { once: true },
       );
       source?.before(link);
@@ -81,7 +101,10 @@
       );
       script.addEventListener(
         "error",
-        () => reject(new Error(`Não foi possível carregar ${options.src}`)),
+        () => {
+          script.remove();
+          reject(new Error(`Não foi possível carregar ${options.src}`));
+        },
         { once: true },
       );
       document.head.append(script);
@@ -95,10 +118,11 @@
       return Promise.reject(new Error(`Biblioteca desconhecida: ${name}`));
     }
 
-    const promise = Promise.all([
-      ...(definition.styles || []).map(loadStylesheet),
-      ...(definition.scripts || []).map(loadScript),
-    ])
+    const promise = Promise.all((definition.dependencies || []).map(load))
+      .then(() => Promise.all([
+        ...(definition.styles || []).map(loadStylesheet),
+        ...(definition.scripts || []).map(loadScript),
+      ]))
       .then(() => {
         document.dispatchEvent(
           new CustomEvent("ui:vendor-ready", { detail: { name } }),
@@ -106,6 +130,7 @@
         return definition;
       })
       .catch((error) => {
+        loaded.delete(name);
         console.warn(`[theme] ${error.message}`);
         document.dispatchEvent(
           new CustomEvent("ui:vendor-error", { detail: { name, error } }),

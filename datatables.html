@@ -25,9 +25,6 @@
             </div>
             <div class="ui-heading-actions">
               <span class="ui-badge is-primary"><i data-lucide="database" aria-hidden="true"></i> Dados fictícios</span>
-              <button class="ui-button is-secondary" type="button" data-ui-toast-trigger data-message="Exportação demonstrativa preparada.">
-                <i data-lucide="download" aria-hidden="true"></i> Exportar
-              </button>
             </div>
           </header>
 
@@ -40,7 +37,19 @@
               <span class="ui-counter" data-ui-table-count-for="portfolio-table">12 registros</span>
             </div>
 
-            <article class="ui-data-table" id="portfolio-table" aria-labelledby="portfolio-title" data-ui-data-table data-page-size="6">
+            <article class="ui-data-table" id="portfolio-table" aria-labelledby="portfolio-title" data-ui-data-table data-page-size="6" data-export-title="Portfólio de projetos" data-export-file="portfolio-de-projetos">
+              <div class="ui-data-table-actions">
+                <div class="ui-data-table-actions-copy">
+                  <span class="ui-label" id="portfolio-actions-label">Exportar ou imprimir</span>
+                  <p class="ui-help">Usa todos os resultados filtrados, não apenas a página atual.</p>
+                </div>
+                <div class="ui-data-table-action-group" role="group" aria-labelledby="portfolio-actions-label portfolio-title">
+                  <button class="ui-button is-secondary ui-table-export-button is-pdf" type="button" data-ui-table-export="pdf"><i data-lucide="file-text" aria-hidden="true"></i> Exportar PDF</button>
+                  <button class="ui-button is-secondary ui-table-export-button is-excel" type="button" data-ui-table-export="excel"><i data-lucide="file-spreadsheet" aria-hidden="true"></i> Exportar Excel</button>
+                  <button class="ui-button is-secondary ui-table-export-button is-print" type="button" data-ui-table-export="print"><i data-lucide="printer" aria-hidden="true"></i> Imprimir</button>
+                </div>
+                <span class="ui-visually-hidden" role="status" aria-live="polite" data-ui-table-export-status></span>
+              </div>
               <div class="ui-data-table-toolbar" role="search" aria-label="Filtrar portfólio de projetos">
                 <div class="ui-table-search">
                   <label class="ui-label" for="portfolio-search">Buscar registros</label>
@@ -162,7 +171,19 @@
               <span class="ui-counter" data-ui-table-count-for="delivery-table">8 registros</span>
             </div>
 
-            <article class="ui-data-table" id="delivery-table" aria-labelledby="delivery-title" data-ui-data-table data-page-size="5">
+            <article class="ui-data-table" id="delivery-table" aria-labelledby="delivery-title" data-ui-data-table data-page-size="5" data-export-title="Entregas da equipe" data-export-file="entregas-da-equipe">
+              <div class="ui-data-table-actions">
+                <div class="ui-data-table-actions-copy">
+                  <span class="ui-label" id="delivery-actions-label">Exportar ou imprimir</span>
+                  <p class="ui-help">Usa todos os resultados filtrados, não apenas a página atual.</p>
+                </div>
+                <div class="ui-data-table-action-group" role="group" aria-labelledby="delivery-actions-label delivery-title">
+                  <button class="ui-button is-secondary ui-table-export-button is-pdf" type="button" data-ui-table-export="pdf"><i data-lucide="file-text" aria-hidden="true"></i> Exportar PDF</button>
+                  <button class="ui-button is-secondary ui-table-export-button is-excel" type="button" data-ui-table-export="excel"><i data-lucide="file-spreadsheet" aria-hidden="true"></i> Exportar Excel</button>
+                  <button class="ui-button is-secondary ui-table-export-button is-print" type="button" data-ui-table-export="print"><i data-lucide="printer" aria-hidden="true"></i> Imprimir</button>
+                </div>
+                <span class="ui-visually-hidden" role="status" aria-live="polite" data-ui-table-export-status></span>
+              </div>
               <div class="ui-data-table-toolbar" role="search" aria-label="Filtrar entregas da equipe">
                 <div class="ui-table-search">
                   <label class="ui-label" for="delivery-search">Buscar entrega</label>
@@ -240,6 +261,6 @@
       <button class="ui-sidebar-backdrop" type="button" data-ui-sidebar-backdrop aria-label="Fechar menu lateral" tabindex="-1"></button>
     </div>
     <div class="ui-toast-region" id="ui-toast-region" aria-live="polite"></div>
-    <noscript><p class="ui-noscript">As tabelas continuam legíveis, mas busca, filtros, ordenação e paginação interativa precisam de JavaScript.</p></noscript>
+    <noscript><p class="ui-noscript">As tabelas continuam legíveis, mas busca, filtros, ordenação, paginação e exportações precisam de JavaScript.</p></noscript>
   </body>
 </html>
