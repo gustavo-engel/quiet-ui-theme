@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <meta name="description" content="Catálogo de bandeiras reutilizáveis do Quiet UI.">
+    <title>Flags — Quiet UI</title>
+    <script src="assets/js/vendor.js" data-vendors="poppins,lucide"></script>
+    <link rel="stylesheet" href="assets/css/theme.css">
+    <script src="assets/js/theme.js" defer></script>
+  </head>
+  <body class="ui-page" data-page="flags">
+    <a class="ui-skip-link" href="#main-content">Ir para o conteúdo principal</a>
+    <div class="ui-shell" data-ui-shell data-sidebar-open="false">
+      <aside class="ui-sidebar" id="ui-sidebar" data-ui-sidebar aria-label="Navegação principal"></aside>
+      <div class="ui-workspace">
+        <header class="ui-topbar" data-ui-topbar></header>
+        <main class="ui-main" id="main-content" tabindex="-1">
+          <header class="ui-page-heading">
+            <div class="ui-page-heading-copy">
+              <p class="ui-eyebrow">Identidade internacional</p>
+              <h1>Flags</h1>
+              <p>Bandeiras leves para idiomas, países e localizações, usando o mesmo vocabulário visual do Quiet UI.</p>
+            </div>
+            <span class="ui-badge is-success">Sem dependência externa</span>
+          </header>
+
+          <section class="ui-section" aria-labelledby="flag-pattern-title">
+            <div class="ui-section-heading">
+              <div><p class="ui-kicker">Padrão reutilizável</p><h2 id="flag-pattern-title">Uma bandeira, três tamanhos</h2></div>
+              <span class="ui-badge">Código ISO 3166-1</span>
+            </div>
+            <div class="ui-grid-2">
+              <article class="ui-panel">
+                <div class="ui-panel-heading"><div><h2>Escala do componente</h2><p>O nome acessível fica no contexto; a bandeira é complementar.</p></div></div>
+                <div class="ui-button-row" aria-label="Tamanhos disponíveis para a bandeira do Brasil">
+                  <span class="ui-flag is-small" role="img" aria-label="Brasil">🇧🇷</span>
+                  <span class="ui-flag" role="img" aria-label="Brasil">🇧🇷</span>
+                  <span class="ui-flag is-large" role="img" aria-label="Brasil">🇧🇷</span>
+                </div>
+              </article>
+              <article class="ui-panel">
+                <div class="ui-panel-heading"><div><h2>Aplicações comuns</h2><p>Idioma e localização permanecem explícitos em texto.</p></div></div>
+                <div class="ui-flag-example-list">
+                  <div class="ui-flag-example"><span class="ui-flag is-small" aria-hidden="true">🇧🇷</span><span><strong>Português</strong><small>Brasil · pt-BR</small></span><span class="ui-badge is-success">Ativo</span></div>
+                  <div class="ui-flag-example"><span class="ui-flag is-small" aria-hidden="true">🇺🇸</span><span><strong>English</strong><small>United States · en-US</small></span><span class="ui-badge">Disponível</span></div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="ui-section" aria-labelledby="flag-catalog-title" data-ui-flag-catalog>
+            <div class="ui-section-heading">
+              <div><p class="ui-kicker">Catálogo</p><h2 id="flag-catalog-title">Países disponíveis</h2></div>
+              <span class="ui-counter"><strong data-ui-flag-count>24</strong> resultados</span>
+            </div>
+            <div class="ui-flag-toolbar" role="search" aria-label="Filtrar bandeiras">
+              <label class="ui-field" for="flag-search"><span class="ui-label">Buscar país ou código</span><span class="ui-input-group has-leading"><span class="ui-input-leading" aria-hidden="true"><i data-lucide="search"></i></span><input class="ui-input" id="flag-search" type="search" placeholder="Ex.: Brasil ou BR" autocomplete="off" data-ui-flag-search></span></label>
+              <label class="ui-field" for="flag-region"><span class="ui-label">Região</span><select class="ui-select" id="flag-region" data-ui-flag-region><option value="all">Todas as regiões</option><option value="south-america">América do Sul</option><option value="north-america">América do Norte</option><option value="europe">Europa</option><option value="asia">Ásia</option><option value="oceania">Oceania</option><option value="africa">África</option></select></label>
+            </div>
+            <span class="ui-visually-hidden" data-ui-flag-live role="status" aria-live="polite"></span>
+            <div class="ui-flag-grid" aria-label="Lista de bandeiras">
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Brasil BR" data-flag-region="south-america"><span class="ui-flag" role="img" aria-label="Bandeira do Brasil">🇧🇷</span><span class="ui-flag-copy"><strong>Brasil</strong><span>América do Sul</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="BR" aria-label="Copiar código BR">BR</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Argentina AR" data-flag-region="south-america"><span class="ui-flag" role="img" aria-label="Bandeira da Argentina">🇦🇷</span><span class="ui-flag-copy"><strong>Argentina</strong><span>América do Sul</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="AR" aria-label="Copiar código AR">AR</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Uruguai UY" data-flag-region="south-america"><span class="ui-flag" role="img" aria-label="Bandeira do Uruguai">🇺🇾</span><span class="ui-flag-copy"><strong>Uruguai</strong><span>América do Sul</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="UY" aria-label="Copiar código UY">UY</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Chile CL" data-flag-region="south-america"><span class="ui-flag" role="img" aria-label="Bandeira do Chile">🇨🇱</span><span class="ui-flag-copy"><strong>Chile</strong><span>América do Sul</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="CL" aria-label="Copiar código CL">CL</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Colômbia Colombia CO" data-flag-region="south-america"><span class="ui-flag" role="img" aria-label="Bandeira da Colômbia">🇨🇴</span><span class="ui-flag-copy"><strong>Colômbia</strong><span>América do Sul</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="CO" aria-label="Copiar código CO">CO</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="México Mexico MX" data-flag-region="north-america"><span class="ui-flag" role="img" aria-label="Bandeira do México">🇲🇽</span><span class="ui-flag-copy"><strong>México</strong><span>América do Norte</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="MX" aria-label="Copiar código MX">MX</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Estados Unidos United States US" data-flag-region="north-america"><span class="ui-flag" role="img" aria-label="Bandeira dos Estados Unidos">🇺🇸</span><span class="ui-flag-copy"><strong>Estados Unidos</strong><span>América do Norte</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="US" aria-label="Copiar código US">US</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Canadá Canada CA" data-flag-region="north-america"><span class="ui-flag" role="img" aria-label="Bandeira do Canadá">🇨🇦</span><span class="ui-flag-copy"><strong>Canadá</strong><span>América do Norte</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="CA" aria-label="Copiar código CA">CA</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Portugal PT" data-flag-region="europe"><span class="ui-flag" role="img" aria-label="Bandeira de Portugal">🇵🇹</span><span class="ui-flag-copy"><strong>Portugal</strong><span>Europa</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="PT" aria-label="Copiar código PT">PT</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Espanha Spain ES" data-flag-region="europe"><span class="ui-flag" role="img" aria-label="Bandeira da Espanha">🇪🇸</span><span class="ui-flag-copy"><strong>Espanha</strong><span>Europa</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="ES" aria-label="Copiar código ES">ES</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="França France FR" data-flag-region="europe"><span class="ui-flag" role="img" aria-label="Bandeira da França">🇫🇷</span><span class="ui-flag-copy"><strong>França</strong><span>Europa</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="FR" aria-label="Copiar código FR">FR</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Alemanha Germany DE" data-flag-region="europe"><span class="ui-flag" role="img" aria-label="Bandeira da Alemanha">🇩🇪</span><span class="ui-flag-copy"><strong>Alemanha</strong><span>Europa</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="DE" aria-label="Copiar código DE">DE</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Itália Italy IT" data-flag-region="europe"><span class="ui-flag" role="img" aria-label="Bandeira da Itália">🇮🇹</span><span class="ui-flag-copy"><strong>Itália</strong><span>Europa</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="IT" aria-label="Copiar código IT">IT</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Reino Unido United Kingdom GB" data-flag-region="europe"><span class="ui-flag" role="img" aria-label="Bandeira do Reino Unido">🇬🇧</span><span class="ui-flag-copy"><strong>Reino Unido</strong><span>Europa</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="GB" aria-label="Copiar código GB">GB</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Irlanda Ireland IE" data-flag-region="europe"><span class="ui-flag" role="img" aria-label="Bandeira da Irlanda">🇮🇪</span><span class="ui-flag-copy"><strong>Irlanda</strong><span>Europa</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="IE" aria-label="Copiar código IE">IE</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Países Baixos Netherlands NL" data-flag-region="europe"><span class="ui-flag" role="img" aria-label="Bandeira dos Países Baixos">🇳🇱</span><span class="ui-flag-copy"><strong>Países Baixos</strong><span>Europa</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="NL" aria-label="Copiar código NL">NL</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Suécia Sweden SE" data-flag-region="europe"><span class="ui-flag" role="img" aria-label="Bandeira da Suécia">🇸🇪</span><span class="ui-flag-copy"><strong>Suécia</strong><span>Europa</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="SE" aria-label="Copiar código SE">SE</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Suíça Switzerland CH" data-flag-region="europe"><span class="ui-flag" role="img" aria-label="Bandeira da Suíça">🇨🇭</span><span class="ui-flag-copy"><strong>Suíça</strong><span>Europa</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="CH" aria-label="Copiar código CH">CH</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Japão Japan JP" data-flag-region="asia"><span class="ui-flag" role="img" aria-label="Bandeira do Japão">🇯🇵</span><span class="ui-flag-copy"><strong>Japão</strong><span>Ásia</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="JP" aria-label="Copiar código JP">JP</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="China CN" data-flag-region="asia"><span class="ui-flag" role="img" aria-label="Bandeira da China">🇨🇳</span><span class="ui-flag-copy"><strong>China</strong><span>Ásia</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="CN" aria-label="Copiar código CN">CN</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Índia India IN" data-flag-region="asia"><span class="ui-flag" role="img" aria-label="Bandeira da Índia">🇮🇳</span><span class="ui-flag-copy"><strong>Índia</strong><span>Ásia</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="IN" aria-label="Copiar código IN">IN</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Coreia do Sul South Korea KR" data-flag-region="asia"><span class="ui-flag" role="img" aria-label="Bandeira da Coreia do Sul">🇰🇷</span><span class="ui-flag-copy"><strong>Coreia do Sul</strong><span>Ásia</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="KR" aria-label="Copiar código KR">KR</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="Austrália Australia AU" data-flag-region="oceania"><span class="ui-flag" role="img" aria-label="Bandeira da Austrália">🇦🇺</span><span class="ui-flag-copy"><strong>Austrália</strong><span>Oceania</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="AU" aria-label="Copiar código AU">AU</button></article>
+              <article class="ui-flag-card" data-ui-flag-card data-flag-search="África do Sul South Africa ZA" data-flag-region="africa"><span class="ui-flag" role="img" aria-label="Bandeira da África do Sul">🇿🇦</span><span class="ui-flag-copy"><strong>África do Sul</strong><span>África</span></span><button class="ui-flag-code" type="button" data-ui-flag-copy="ZA" aria-label="Copiar código ZA">ZA</button></article>
+            </div>
+            <article class="ui-empty ui-flag-empty" data-ui-flag-empty hidden><div><span class="ui-empty-icon"><i data-lucide="flag-off" aria-hidden="true"></i></span><h3>Nenhuma bandeira encontrada</h3><p>Altere o termo ou selecione outra região.</p></div></article>
+          </section>
+        </main>
+      </div>
+      <button class="ui-sidebar-backdrop" type="button" data-ui-sidebar-backdrop aria-label="Fechar menu lateral" tabindex="-1"></button>
+    </div>
+    <div class="ui-toast-region" id="ui-toast-region" aria-live="polite"></div>
+    <noscript><p class="ui-noscript">A busca e a cópia de códigos precisam de JavaScript.</p></noscript>
+  </body>
+</html>

@@ -15,6 +15,7 @@ EXPECTED_PAGES = {
     "calendar.html",
     "timeline.html",
     "components.html",
+    "flags.html",
     "datatables.html",
     "charts.html",
     "loading.html",

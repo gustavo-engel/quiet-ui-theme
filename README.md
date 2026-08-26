@@ -37,6 +37,7 @@ Acesse `http://127.0.0.1:4173`.
 ├── calendar.html       # calendário mensal
 ├── timeline.html       # timeline vertical com fotografias
 ├── components.html     # chips, menus, tabs, modal, toast e tabela
+├── flags.html          # bandeiras por código ISO, busca e padrões de uso
 ├── datatables.html     # tabelas com busca, filtros, ordenação e paginação
 ├── charts.html         # Chart.js + alternativas textuais
 ├── loading.html        # loading states nomeados em inglês
@@ -93,6 +94,7 @@ hospedar fontes e bibliotecas localmente.
 - `[data-ui-data-table]`: tabela funcional; linhas expõem valores ordenáveis e filtráveis em `data-*`, e `[data-ui-table-export]` reutiliza o conjunto filtrado.
 - `[data-ui-notification-center]`: sino global com histórico, contador e leitura persistida no modo demonstrativo.
 - `[data-ui-footer]`: rodapé global; versão, data e autoria ficam centralizadas em `themeRelease` no `theme.js`.
+- `[data-ui-flag]`: bandeira Unicode gerada a partir do código ISO, sem imagens ou dependência adicional.
 
 ## Centro de notificações
 
