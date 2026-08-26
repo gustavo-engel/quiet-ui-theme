@@ -54,8 +54,8 @@ http://127.0.0.1:4173</code></pre>
             <div class="ui-section-heading"><div><p class="ui-kicker">Arquitetura</p><h2 id="files-title">Poucos arquivos, papéis claros</h2></div></div>
             <div class="ui-grid-3">
               <article class="ui-card"><span class="ui-list-icon"><i data-lucide="palette" aria-hidden="true"></i></span><h3>theme.css</h3><p class="ui-help">Tokens, shell, componentes, fotografia, animações e responsividade em um único CSS autoral.</p></article>
-              <article class="ui-card"><span class="ui-list-icon is-success"><i data-lucide="braces" aria-hidden="true"></i></span><h3>theme.js</h3><p class="ui-help">Sidebar, menus, chips, calendário, gráficos, contadores, reveals e demonstrações de loading.</p></article>
-              <article class="ui-card"><span class="ui-list-icon is-comment"><i data-lucide="package-open" aria-hidden="true"></i></span><h3>vendor.js</h3><p class="ui-help">Manifesto central e enxuto para Poppins, Lucide e Chart.js.</p></article>
+              <article class="ui-card"><span class="ui-list-icon is-success"><i data-lucide="braces" aria-hidden="true"></i></span><h3>theme.js</h3><p class="ui-help">Sidebar, menus, notificações, chips, calendário, gráficos, contadores, reveals e demonstrações de loading.</p></article>
+              <article class="ui-card"><span class="ui-list-icon is-comment"><i data-lucide="package-open" aria-hidden="true"></i></span><h3>vendor.js</h3><p class="ui-help">Manifesto central para Poppins, Lucide, Chart.js e bibliotecas de exportação.</p></article>
             </div>
           </section>
 
@@ -131,7 +131,30 @@ http://127.0.0.1:4173</code></pre>
                 <p class="ui-help">Duas densidades com busca, filtros, ordenação, paginação, progresso e ações reutilizáveis para PDF, Excel e impressão.</p>
                 <a class="ui-button is-secondary ui-section" href="datatables.html">Ver data tables</a>
               </article>
+              <article class="ui-card">
+                <span class="ui-badge is-comment">Persistência + eventos</span>
+                <h3>Centro de notificações</h3>
+                <p class="ui-help">Sino global com contador, histórico, horários, tipos semânticos e leitura confirmada antes de atualizar o estado.</p>
+                <a class="ui-button is-secondary ui-section" href="#notification-contract">Ver contrato</a>
+              </article>
             </div>
+          </section>
+
+          <section class="ui-section ui-code-card" id="notification-contract" aria-labelledby="notification-contract-title">
+            <h2 id="notification-contract-title">Contrato do centro de notificações</h2>
+            <p>O modo demonstrativo mantém o histórico no navegador. Em uma aplicação real, use <code>data-notification-mode="external"</code> no <code>body</code>, persista no backend e confirme a leitura com <code>upsert</code> ou <code>replace</code>.</p>
+            <pre><code>window.QuietUI.notifications.upsert({
+  id: "sync:845:completed",
+  type: "system", // system | message | execution
+  title: "Sincronização concluída",
+  body: "Finalizada às 14:32 · 18 registros atualizados.",
+  createdAt: new Date().toISOString(),
+  readAt: null
+});
+
+document.addEventListener("quietui:notification:read-request", (event) =&gt; {
+  // Persista event.detail.id; depois devolva o item confirmado por upsert.
+});</code></pre>
           </section>
 
           <section class="ui-section ui-code-card" aria-labelledby="naming-title">
@@ -143,7 +166,9 @@ http://127.0.0.1:4173</code></pre>
 [data-ui-loading-trigger]   /* loading demonstrativo */
 [data-ui-data-table]        /* tabela funcional */
 [data-ui-table-sort]        /* coluna ordenável */
-[data-ui-table-export]      /* PDF, Excel ou impressão */</code></pre>
+[data-ui-table-export]      /* PDF, Excel ou impressão */
+[data-ui-notification-center] /* histórico e leitura */
+[data-ui-footer]            /* versão e autoria */</code></pre>
           </section>
         </main>
       </div>

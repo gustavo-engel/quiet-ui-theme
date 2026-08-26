@@ -14,6 +14,12 @@
     docs: "Guia rápido",
   });
 
+  const themeRelease = Object.freeze({
+    version: "2026.08.25",
+    date: "2026-08-25",
+    author: "Gustavo Engel",
+  });
+
   const navigation = Object.freeze([
     { page: "dashboard", href: "index.html", label: "Dashboard", icon: "layout-dashboard" },
     { page: "forms", href: "forms.html", label: "Formulários", icon: "notebook-pen" },
@@ -52,6 +58,7 @@
     const page = document.body.dataset.page || "dashboard";
     const sidebar = document.querySelector("[data-ui-sidebar]");
     const topbar = document.querySelector("[data-ui-topbar]");
+    const workspace = document.querySelector(".ui-workspace");
 
     if (sidebar) {
       const items = navigation
@@ -87,6 +94,7 @@
 
     if (topbar) {
       const title = pageNames[page] || document.querySelector("h1")?.textContent || "Quiet UI";
+      const notificationMode = document.body.dataset.notificationMode === "external" ? "external" : "demo";
       topbar.innerHTML = `
         <div class="ui-topbar-start">
           <button class="ui-icon-button" type="button" data-ui-sidebar-toggle
@@ -96,8 +104,34 @@
           <div><strong>Quiet UI</strong><span${["profile", "datatables"].includes(page) ? ' lang="en"' : ""}>${escapeHtml(title)}</span></div>
         </div>
         <div class="ui-topbar-actions">
-          <a class="ui-icon-button ui-hide-mobile" href="docs.html" aria-label="Abrir guia rápido"
-            title="Guia rápido">${icon("circle-help")}</a>
+          <div class="ui-menu ui-notification-center" data-ui-menu data-ui-notification-center
+            data-ui-notification-mode="${notificationMode}">
+            <button class="ui-icon-button ui-notification-trigger" type="button"
+              data-ui-menu-button data-ui-notification-toggle aria-controls="ui-notification-panel"
+              aria-expanded="false" aria-haspopup="dialog" aria-label="Notificações" title="Notificações">
+              ${icon("bell")}
+              <span class="ui-notification-count" data-ui-notification-count aria-hidden="true" hidden>0</span>
+            </button>
+            <section class="ui-notification-panel" id="ui-notification-panel" data-ui-menu-panel
+              data-ui-notification-panel role="dialog" aria-modal="false"
+              aria-labelledby="ui-notification-title" hidden>
+              <header class="ui-notification-header">
+                <div>
+                  <h2 id="ui-notification-title">Notificações</h2>
+                  <p data-ui-notification-summary>Carregando histórico...</p>
+                </div>
+                <button class="ui-notification-mark-all" type="button"
+                  data-ui-notification-mark-all aria-disabled="true">Marcar todas como lidas</button>
+              </header>
+              <span class="ui-visually-hidden" data-ui-notification-live role="status"
+                aria-live="polite" aria-atomic="true"></span>
+              <ol class="ui-notification-list" data-ui-notification-list></ol>
+              <footer class="ui-notification-footer">
+                <a href="profile.html#notifications">${icon("settings-2")} Configurar notificações</a>
+                <p data-ui-notification-storage-note>As notificações lidas permanecem neste navegador.</p>
+              </footer>
+            </section>
+          </div>
           <div class="ui-menu" data-ui-menu>
             <button class="ui-user-button" type="button" data-ui-menu-button aria-expanded="false">
               <span class="ui-avatar" aria-hidden="true">MC</span>
@@ -114,6 +148,22 @@
             </div>
           </div>
         </div>`;
+    }
+
+    if (workspace && !workspace.querySelector("[data-ui-footer]")) {
+      const footer = document.createElement("footer");
+      footer.className = "ui-footer";
+      footer.dataset.uiFooter = "";
+      footer.innerHTML = `
+        <div class="ui-footer-inner">
+          <p class="ui-footer-brand"><strong>Quiet UI</strong><span>Biblioteca de componentes</span></p>
+          <p class="ui-footer-meta">
+            <span>Versão</span>
+            <time datetime="${themeRelease.date}">v${escapeHtml(themeRelease.version)}</time>
+            <span>${escapeHtml(themeRelease.author)}</span>
+          </p>
+        </div>`;
+      workspace.append(footer);
     }
   };
 
@@ -210,7 +260,9 @@
         closeAll(willOpen ? menu : undefined);
         panel.toggleAttribute("hidden", !willOpen);
         button.setAttribute("aria-expanded", String(willOpen));
-        if (willOpen) panel.querySelector("a, button")?.focus();
+        if (willOpen) {
+          panel.querySelector('a, button:not([disabled]):not([aria-disabled="true"])')?.focus();
+        }
       });
       panel.addEventListener("keydown", (event) => {
         if (event.key !== "Escape") return;
@@ -223,6 +275,430 @@
     document.addEventListener("click", (event) => {
       if (!event.target.closest("[data-ui-menu]")) closeAll();
     });
+  };
+
+  const initializeNotifications = () => {
+    const center = document.querySelector("[data-ui-notification-center]");
+    if (!center) return;
+
+    const trigger = center.querySelector("[data-ui-notification-toggle]");
+    const count = center.querySelector("[data-ui-notification-count]");
+    const summary = center.querySelector("[data-ui-notification-summary]");
+    const list = center.querySelector("[data-ui-notification-list]");
+    const markAll = center.querySelector("[data-ui-notification-mark-all]");
+    const live = center.querySelector("[data-ui-notification-live]");
+    const storageNote = center.querySelector("[data-ui-notification-storage-note]");
+    if (!trigger || !count || !summary || !list || !markAll || !live) return;
+
+    const mode = center.dataset.uiNotificationMode === "external" ? "external" : "demo";
+    const storageKey = "quiet-ui.notifications.demo.v1";
+    const schemaVersion = 1;
+    const seedVersion = "demo-v1";
+    const maxReadHistoryItems = 100;
+    const typeConfig = Object.freeze({
+      system: { label: "Sistema", icon: "refresh-cw", tone: "primary" },
+      message: { label: "Mensagem", icon: "message-square", tone: "comment" },
+      execution: { label: "Execução", icon: "circle-check", tone: "success" },
+    });
+    const clockFormatter = new Intl.DateTimeFormat("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    const fullFormatter = new Intl.DateTimeFormat("pt-BR", {
+      dateStyle: "full",
+      timeStyle: "medium",
+    });
+    const shortDateFormatter = new Intl.DateTimeFormat("pt-BR", {
+      day: "2-digit",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    let notifications = [];
+    let storageAvailable = mode !== "demo";
+
+    const cleanText = (value, maximum) => String(value ?? "").trim().slice(0, maximum);
+    const validIsoDate = (value) => {
+      if (typeof value !== "string"
+        || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/.test(value)) return null;
+      const year = Number(value.slice(0, 4));
+      const month = Number(value.slice(5, 7));
+      const day = Number(value.slice(8, 10));
+      const hour = Number(value.slice(11, 13));
+      const minute = Number(value.slice(14, 16));
+      const second = Number(value.slice(17, 19));
+      const daysInMonth = new Date(Date.UTC(year, month, 0)).getUTCDate();
+      if (year < 1 || month < 1 || month > 12 || day < 1 || day > daysInMonth
+        || hour > 23 || minute > 59 || second > 59) return null;
+      const parsed = new Date(value);
+      return Number.isNaN(parsed.getTime()) ? null : parsed.toISOString();
+    };
+    const normalizeNotification = (value) => {
+      if (!value || typeof value !== "object") return null;
+      const id = String(value.id ?? "").trim();
+      const type = cleanText(value.type, 24);
+      const title = cleanText(value.title, 120);
+      const body = cleanText(value.body, 280);
+      const createdAt = validIsoDate(value.createdAt);
+      const readAt = value.readAt == null ? null : validIsoDate(value.readAt);
+      if (!id || id.length > 128 || !title || !createdAt || !Object.hasOwn(typeConfig, type)) return null;
+      if (value.readAt != null && !readAt) return null;
+      return { id, type, title, body, createdAt, readAt };
+    };
+    const sortNotifications = (values) =>
+      [...values].sort((left, right) => Date.parse(right.createdAt) - Date.parse(left.createdAt));
+    const retainHistory = (values) => {
+      const sorted = sortNotifications(values);
+      const unread = sorted.filter((item) => !item.readAt);
+      const read = sorted.filter((item) => item.readAt);
+      return sortNotifications([
+        ...unread,
+        // Notificações não lidas nunca são descartadas automaticamente.
+        ...read.slice(0, maxReadHistoryItems),
+      ]);
+    };
+    const normalizeCollection = (values) => {
+      const unique = new Map();
+      (Array.isArray(values) ? values : []).forEach((value) => {
+        const normalized = normalizeNotification(value);
+        if (normalized) unique.set(normalized.id, normalized);
+      });
+      return retainHistory([...unique.values()]);
+    };
+    const normalizeStrictCollection = (values) => {
+      if (!Array.isArray(values)) return null;
+      const normalized = values.map(normalizeNotification);
+      return normalized.some((item) => !item) ? null : normalizeCollection(normalized);
+    };
+    const createDemoNotifications = () => {
+      const now = Date.now();
+      const at = (minutesAgo) => new Date(now - minutesAgo * 60_000).toISOString();
+      const syncFinishedAt = at(2);
+      const executionFinishedAt = at(54);
+      return [
+        {
+          id: "demo:sync:completed",
+          type: "system",
+          title: "Sincronização concluída",
+          body: `Finalizada às ${clockFormatter.format(new Date(syncFinishedAt))} · 18 registros atualizados.`,
+          createdAt: syncFinishedAt,
+          readAt: null,
+        },
+        {
+          id: "demo:message:project",
+          type: "message",
+          title: "Nova mensagem no projeto",
+          body: "Marina enviou uma atualização sobre a revisão semanal.",
+          createdAt: at(18),
+          readAt: null,
+        },
+        {
+          id: "demo:execution:report",
+          type: "execution",
+          title: "Execução finalizada",
+          body: `Relatório mensal concluído às ${clockFormatter.format(new Date(executionFinishedAt))}.`,
+          createdAt: executionFinishedAt,
+          readAt: null,
+        },
+        {
+          id: "demo:system:preferences",
+          type: "system",
+          title: "Preferências atualizadas",
+          body: "Os novos canais de notificação já estão ativos.",
+          createdAt: at(1_440),
+          readAt: at(1_420),
+        },
+      ].map(normalizeNotification).filter(Boolean);
+    };
+    const persistDemo = (values) => {
+      if (mode !== "demo") return true;
+      try {
+        localStorage.setItem(
+          storageKey,
+          JSON.stringify({ schemaVersion, seedVersion, items: values }),
+        );
+        storageAvailable = true;
+        return true;
+      } catch {
+        storageAvailable = false;
+        return false;
+      }
+    };
+    const loadDemo = () => {
+      const seeds = createDemoNotifications();
+      try {
+        const stored = localStorage.getItem(storageKey);
+        storageAvailable = true;
+        if (!stored) {
+          notifications = retainHistory(seeds);
+          persistDemo(notifications);
+          return;
+        }
+        const parsed = JSON.parse(stored);
+        if (parsed?.schemaVersion !== schemaVersion) throw new Error("Schema incompatível");
+        const storedItems = normalizeStrictCollection(parsed.items);
+        if (!storedItems) throw new Error("Coleção inválida");
+        const merged = new Map(storedItems.map((item) => [item.id, item]));
+        if (parsed.seedVersion !== seedVersion) {
+          seeds.forEach((item) => {
+            if (!merged.has(item.id)) merged.set(item.id, item);
+          });
+        }
+        notifications = retainHistory([...merged.values()]);
+        if (parsed.seedVersion !== seedVersion) persistDemo(notifications);
+      } catch {
+        notifications = retainHistory(seeds);
+        persistDemo(notifications);
+      }
+    };
+    const sameCalendarDay = (left, right) =>
+      left.getFullYear() === right.getFullYear()
+      && left.getMonth() === right.getMonth()
+      && left.getDate() === right.getDate();
+    const displayTime = (value) => {
+      const date = new Date(value);
+      return sameCalendarDay(date, new Date())
+        ? `Hoje, ${clockFormatter.format(date)}`
+        : shortDateFormatter.format(date);
+    };
+    const emitChanged = (reason) => {
+      document.dispatchEvent(new CustomEvent("quietui:notifications:changed", {
+        detail: {
+          reason,
+          unreadCount: notifications.filter((item) => !item.readAt).length,
+          ids: notifications.map((item) => item.id),
+        },
+      }));
+    };
+    const createNotificationItem = (item) => {
+      const config = typeConfig[item.type];
+      const unread = !item.readAt;
+      const row = document.createElement("li");
+      row.className = `ui-notification-item ${unread ? "is-unread" : "is-read"}`;
+      row.dataset.notificationId = item.id;
+
+      const article = document.createElement("article");
+      const itemIcon = document.createElement("span");
+      itemIcon.className = `ui-notification-icon is-${config.tone}`;
+      itemIcon.setAttribute("aria-hidden", "true");
+      itemIcon.innerHTML = icon(config.icon);
+
+      const copy = document.createElement("div");
+      copy.className = "ui-notification-copy";
+      const meta = document.createElement("div");
+      meta.className = "ui-notification-meta";
+      const type = document.createElement("span");
+      type.className = "ui-notification-type";
+      type.textContent = config.label;
+      const time = document.createElement("time");
+      time.dateTime = item.createdAt;
+      time.title = fullFormatter.format(new Date(item.createdAt));
+      time.textContent = displayTime(item.createdAt);
+      meta.append(type, time);
+
+      const title = document.createElement("h3");
+      title.textContent = item.title;
+      const body = document.createElement("p");
+      body.textContent = item.body;
+      const action = document.createElement("button");
+      action.className = "ui-notification-action";
+      action.type = "button";
+      action.dataset.uiNotificationRead = item.id;
+      action.setAttribute(
+        "aria-label",
+        `${unread ? "Marcar como lida" : "Marcar como não lida"}: ${item.title}`,
+      );
+      action.innerHTML = `${icon(unread ? "check" : "rotate-ccw")}<span>${unread ? "Marcar como lida" : "Marcar como não lida"}</span>`;
+      copy.append(meta, title, body, action);
+
+      const state = document.createElement("span");
+      state.className = `ui-notification-state ${unread ? "is-new" : "is-read"}`;
+      state.textContent = unread ? "Nova" : "Lida";
+      article.append(itemIcon, copy, state);
+      row.append(article);
+      return row;
+    };
+    const createEmptyState = () => {
+      const row = document.createElement("li");
+      row.className = "ui-notification-empty";
+      const emptyIcon = document.createElement("span");
+      emptyIcon.className = "ui-notification-empty-icon";
+      emptyIcon.setAttribute("aria-hidden", "true");
+      emptyIcon.innerHTML = icon("bell-off");
+      const title = document.createElement("strong");
+      title.textContent = "Tudo em dia";
+      const copy = document.createElement("span");
+      copy.textContent = "Novas notificações aparecerão aqui.";
+      row.append(emptyIcon, title, copy);
+      return row;
+    };
+    const focusItemAction = (id) => {
+      const action = [...list.querySelectorAll("[data-ui-notification-read]")]
+        .find((candidate) => candidate.dataset.uiNotificationRead === id);
+      action?.focus();
+      return Boolean(action);
+    };
+    const render = (focusId) => {
+      const activeElement = document.activeElement;
+      const hadListFocus = activeElement instanceof HTMLElement && list.contains(activeElement);
+      const activeItemId = hadListFocus ? activeElement.dataset.uiNotificationRead : undefined;
+      const restoreItemId = focusId || activeItemId;
+      const unreadCount = notifications.filter((item) => !item.readAt).length;
+      count.hidden = unreadCount === 0;
+      count.textContent = unreadCount > 99 ? "99+" : String(unreadCount);
+      trigger.classList.toggle("has-unread", unreadCount > 0);
+      trigger.setAttribute(
+        "aria-label",
+        unreadCount
+          ? `Notificações, ${unreadCount} não ${unreadCount === 1 ? "lida" : "lidas"}`
+          : "Notificações, nenhuma não lida",
+      );
+      summary.textContent = notifications.length
+        ? `${unreadCount} não ${unreadCount === 1 ? "lida" : "lidas"} · ${notifications.length} no histórico`
+        : "Nenhuma notificação no histórico";
+      markAll.setAttribute("aria-disabled", String(unreadCount === 0));
+      list.replaceChildren(
+        ...(notifications.length ? notifications.map(createNotificationItem) : [createEmptyState()]),
+      );
+      if (storageNote) {
+        storageNote.textContent = mode === "external"
+          ? "O estado de leitura é confirmado pela aplicação conectada."
+          : storageAvailable
+            ? "As notificações lidas permanecem neste navegador."
+            : "O histórico ficará disponível apenas nesta aba.";
+      }
+      refreshIcons();
+      if (restoreItemId || hadListFocus) {
+        window.requestAnimationFrame(() => {
+          if (!focusItemAction(restoreItemId) && hadListFocus) trigger.focus();
+        });
+      }
+    };
+    const commit = (next, reason, focusId) => {
+      const normalized = normalizeCollection(next);
+      if (mode === "demo" && !persistDemo(normalized)) {
+        live.textContent = "Não foi possível salvar a alteração. O estado anterior foi preservado.";
+        showToast("Não foi possível salvar o estado da notificação.", "danger");
+        render(focusId);
+        return false;
+      }
+      notifications = normalized;
+      render(focusId);
+      emitChanged(reason);
+      return true;
+    };
+    const upsert = (payload, reason = "upsert") => {
+      const normalized = normalizeNotification(payload);
+      if (!normalized) return false;
+      const existing = notifications.find((item) => item.id === normalized.id);
+      if (existing && !Object.prototype.hasOwnProperty.call(payload, "readAt")) {
+        normalized.readAt = existing.readAt;
+      }
+      const updated = commit(
+        [...notifications.filter((item) => item.id !== normalized.id), normalized],
+        reason,
+      );
+      if (updated && mode === "external") {
+        live.textContent = `Histórico confirmado pela aplicação. ${notifications.filter((item) => !item.readAt).length} não lidas.`;
+      }
+      return updated;
+    };
+    const replace = (values, reason = "replace") => {
+      const normalized = normalizeStrictCollection(values);
+      if (!normalized) return false;
+      const updated = commit(normalized, reason);
+      if (updated && mode === "external") {
+        live.textContent = `Histórico confirmado pela aplicação. ${notifications.filter((item) => !item.readAt).length} não lidas.`;
+      }
+      return updated;
+    };
+    const snapshot = () => notifications.map((item) => ({ ...item }));
+    const applyReadState = (id, shouldRead) => {
+      const current = notifications.find((item) => item.id === id);
+      if (!current || Boolean(current.readAt) === shouldRead) return false;
+      const readAt = shouldRead ? new Date().toISOString() : null;
+      const next = notifications.map((item) => item.id === id ? { ...item, readAt } : item);
+      if (!commit(next, shouldRead ? "read" : "unread", id)) return false;
+      live.textContent = `${current.title} marcada como ${shouldRead ? "lida" : "não lida"}. ${notifications.filter((item) => !item.readAt).length} não lidas.`;
+      return true;
+    };
+
+    list.addEventListener("click", (event) => {
+      const action = event.target.closest("[data-ui-notification-read]");
+      if (!action || !list.contains(action)) return;
+      const id = action.dataset.uiNotificationRead;
+      const current = notifications.find((item) => item.id === id);
+      if (!current) return;
+      const shouldRead = !current.readAt;
+      if (mode !== "demo") {
+        live.textContent = "Solicitação enviada. Aguardando confirmação da aplicação.";
+      }
+      document.dispatchEvent(new CustomEvent("quietui:notification:read-request", {
+        detail: { id, read: shouldRead },
+      }));
+      if (mode === "demo") applyReadState(id, shouldRead);
+    });
+    markAll.addEventListener("click", () => {
+      const unreadIds = notifications.filter((item) => !item.readAt).map((item) => item.id);
+      if (!unreadIds.length) return;
+      if (mode !== "demo") {
+        live.textContent = "Solicitação enviada. Aguardando confirmação da aplicação.";
+      }
+      document.dispatchEvent(new CustomEvent("quietui:notifications:read-all-request", {
+        detail: { ids: unreadIds },
+      }));
+      if (mode !== "demo") return;
+      const readAt = new Date().toISOString();
+      const next = notifications.map((item) => item.readAt ? item : { ...item, readAt });
+      if (commit(next, "read-all")) {
+        live.textContent = `${unreadIds.length} notificações marcadas como lidas.`;
+        markAll.focus();
+      }
+    });
+    document.addEventListener("quietui:notification:upsert", (event) => {
+      upsert(event.detail, "event-upsert");
+    });
+    document.addEventListener("quietui:notifications:replace", (event) => {
+      replace(event.detail?.items ?? event.detail, "event-replace");
+    });
+    if (mode === "demo") {
+      window.addEventListener("storage", (event) => {
+        if (event.key !== storageKey || !event.newValue) return;
+        try {
+          const parsed = JSON.parse(event.newValue);
+          if (parsed?.schemaVersion !== schemaVersion) return;
+          const synchronized = normalizeStrictCollection(parsed.items);
+          if (!synchronized) return;
+          notifications = synchronized;
+          storageAvailable = true;
+          render();
+          emitChanged("storage");
+        } catch {
+          // Uma aba com estado inválido não substitui o histórico atual.
+        }
+      });
+      loadDemo();
+    }
+
+    const quietUi = window.QuietUI && typeof window.QuietUI === "object" ? window.QuietUI : {};
+    quietUi.notifications = Object.freeze({
+      upsert: (payload) => upsert(payload, "api-upsert"),
+      replace: (values) => replace(values, "api-replace"),
+      snapshot,
+    });
+    window.QuietUI = quietUi;
+    render();
+    emitChanged("initialize");
+    const refreshAtMidnight = () => {
+      const now = new Date();
+      const nextDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+      window.setTimeout(() => {
+        render();
+        refreshAtMidnight();
+      }, nextDay.getTime() - now.getTime() + 100);
+    };
+    refreshAtMidnight();
   };
 
   const initializeTabs = () => {
@@ -1240,9 +1716,10 @@
 
   const initialize = async () => {
     renderShell();
-    await refreshIcons();
     initializeSidebar();
     initializeMenus();
+    initializeNotifications();
+    await refreshIcons();
     initializeTabs();
     initializeToasts();
     initializeModals();

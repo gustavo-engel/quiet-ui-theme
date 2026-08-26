@@ -48,7 +48,7 @@ Acesse `http://127.0.0.1:4173`.
     ├── css/theme.css   # único CSS autoral
     └── js/
         ├── vendor.js   # bibliotecas e versões
-        └── theme.js    # todos os comportamentos próprios
+        └── theme.js    # shell, notificações e comportamentos próprios
 ```
 
 ## Reutilizar
@@ -91,6 +91,20 @@ hospedar fontes e bibliotecas localmente.
 - `--ui-space-*`: ritmo de espaçamento;
 - `role`, `aria-*`, `time`, `figure`, `figcaption` e `dl`: semântica preservada.
 - `[data-ui-data-table]`: tabela funcional; linhas expõem valores ordenáveis e filtráveis em `data-*`, e `[data-ui-table-export]` reutiliza o conjunto filtrado.
+- `[data-ui-notification-center]`: sino global com histórico, contador e leitura persistida no modo demonstrativo.
+- `[data-ui-footer]`: rodapé global; versão, data e autoria ficam centralizadas em `themeRelease` no `theme.js`.
+
+## Centro de notificações
+
+O exemplo da barra superior usa `localStorage` versionado apenas para demonstrar
+persistência no dispositivo. Abrir o painel não marca itens como lidos; a
+alteração só aparece depois que o novo estado é salvo.
+
+Em aplicações reais, defina `data-notification-mode="external"` no `body` e
+conecte os eventos `quietui:notification:read-request` e
+`quietui:notifications:read-all-request` ao backend. A aplicação confirma o
+resultado por `window.QuietUI.notifications.upsert()` ou `replace()`. Use IDs
+estáveis e o horário real do evento, como o `finished_at` de uma sincronização.
 
 ## Continuidade com agentes de IA
 
