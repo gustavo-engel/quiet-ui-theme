@@ -7,6 +7,7 @@
     calendar: "Calendário",
     timeline: "Timeline de projetos",
     components: "Componentes",
+    flags: "Flags",
     datatables: "Data Tables",
     charts: "Gráficos",
     loading: "Loading states",
@@ -26,6 +27,7 @@
     { page: "calendar", href: "calendar.html", label: "Calendário", icon: "calendar-days" },
     { page: "timeline", href: "timeline.html", label: "Timeline", icon: "milestone" },
     { page: "components", href: "components.html", label: "Componentes", icon: "blocks" },
+    { page: "flags", href: "flags.html", label: "Flags", icon: "flag" },
     { page: "datatables", href: "datatables.html", label: "Data Tables", icon: "table-2" },
     { page: "charts", href: "charts.html", label: "Gráficos", icon: "chart-no-axes-combined" },
     { divider: true, label: "Referência" },
@@ -857,6 +859,59 @@
         if (live) live.textContent = `${value} removido.`;
         input.focus();
       });
+    });
+  };
+
+  const initializeFlags = () => {
+    document.querySelectorAll("[data-ui-flag-catalog]").forEach((catalog) => {
+      const search = catalog.querySelector("[data-ui-flag-search]");
+      const region = catalog.querySelector("[data-ui-flag-region]");
+      const cards = Array.from(catalog.querySelectorAll("[data-ui-flag-card]"));
+      const count = catalog.querySelector("[data-ui-flag-count]");
+      const empty = catalog.querySelector("[data-ui-flag-empty]");
+      const live = catalog.querySelector("[data-ui-flag-live]");
+
+      const normalize = (value) =>
+        String(value)
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLocaleLowerCase("pt-BR")
+          .trim();
+
+      const update = () => {
+        const query = normalize(search?.value || "");
+        const selectedRegion = region?.value || "all";
+        let visible = 0;
+
+        cards.forEach((card) => {
+          const matchesText = !query || normalize(card.dataset.flagSearch).includes(query);
+          const matchesRegion = selectedRegion === "all" || card.dataset.flagRegion === selectedRegion;
+          const matches = matchesText && matchesRegion;
+          card.hidden = !matches;
+          if (matches) visible += 1;
+        });
+
+        if (count) count.textContent = String(visible);
+        if (empty) empty.hidden = visible > 0;
+        if (live) live.textContent = `${visible} ${visible === 1 ? "bandeira encontrada" : "bandeiras encontradas"}.`;
+      };
+
+      search?.addEventListener("input", update);
+      region?.addEventListener("change", update);
+
+      catalog.addEventListener("click", async (event) => {
+        const button = event.target.closest("[data-ui-flag-copy]");
+        if (!button) return;
+        const code = button.dataset.uiFlagCopy;
+        try {
+          await navigator.clipboard.writeText(code);
+          showToast(`Código ${code} copiado.`);
+        } catch {
+          showToast(`Use o código ${code}.`, "warning");
+        }
+      });
+
+      update();
     });
   };
 
@@ -1725,6 +1780,7 @@
     initializeModals();
     initializeDismissible();
     initializeChips();
+    initializeFlags();
     initializeForms();
     initializeImageUploads();
     initializeCalendar();

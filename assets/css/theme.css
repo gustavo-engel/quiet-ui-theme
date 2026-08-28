@@ -2657,6 +2657,100 @@ canvas {
 
 .ui-icons-unavailable [data-lucide] { display: inline-block; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: currentcolor; }
 
+.ui-flag-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.34fr);
+  gap: var(--ui-space-md);
+  padding: 1.25rem;
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-lg);
+  background: var(--ui-surface);
+  box-shadow: var(--ui-shadow);
+}
+
+.ui-flag-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: var(--ui-space-md);
+  margin-top: var(--ui-space-lg);
+}
+
+.ui-flag-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.9rem;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
+  background: var(--ui-surface);
+  transition: border-color var(--ui-transition), box-shadow var(--ui-transition), transform var(--ui-transition);
+}
+
+.ui-flag-card:hover {
+  border-color: #cbd5ea;
+  box-shadow: var(--ui-shadow);
+  transform: translateY(-2px);
+}
+
+.ui-flag {
+  display: inline-grid;
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 auto;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgb(23 32 51 / 9%);
+  border-radius: 50%;
+  background: var(--ui-surface-soft);
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.ui-flag.is-small { width: 1.45rem; height: 1.45rem; font-size: 1rem; }
+.ui-flag.is-large { width: 3rem; height: 3rem; font-size: 2rem; }
+
+.ui-flag-copy { min-width: 0; }
+.ui-flag-copy strong,
+.ui-flag-copy span { display: block; }
+.ui-flag-copy strong { overflow: hidden; font-size: 0.75rem; text-overflow: ellipsis; white-space: nowrap; }
+.ui-flag-copy span { margin-top: 0.18rem; color: var(--ui-muted); font-size: 0.64rem; }
+
+.ui-flag-code {
+  min-width: 2.25rem;
+  padding: 0.35rem 0.45rem;
+  border: 0;
+  border-radius: 0.45rem;
+  background: var(--ui-primary-soft);
+  color: var(--ui-primary);
+  cursor: pointer;
+  font: 700 0.62rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+}
+
+.ui-flag-code:hover { background: #e1e8ff; }
+
+.ui-flag-example-list { display: grid; gap: 0.75rem; }
+.ui-flag-example {
+  display: flex;
+  min-height: 3.5rem;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--ui-divider);
+  border-radius: var(--ui-radius-sm);
+  background: var(--ui-surface-soft);
+}
+.ui-flag-example strong,
+.ui-flag-example small { display: block; }
+.ui-flag-example strong { font-size: 0.72rem; }
+.ui-flag-example small { margin-top: 0.15rem; color: var(--ui-muted); font-size: 0.63rem; }
+.ui-flag-example .ui-badge { margin-left: auto; }
+
+.ui-flag-empty { margin-top: var(--ui-space-lg); }
+
 @keyframes ui-spin { to { transform: rotate(1turn); } }
 @keyframes ui-loading-dot { 50% { opacity: 1; transform: translateY(-0.18rem); } }
 @keyframes ui-progress-indeterminate { from { transform: translateX(-115%); } to { transform: translateX(285%); } }
@@ -2753,6 +2847,7 @@ canvas {
   .ui-grid-3,
   .ui-grid-4,
   .ui-field-grid { grid-template-columns: 1fr; }
+  .ui-flag-toolbar { grid-template-columns: 1fr; }
   .ui-field.is-full { grid-column: auto; }
   .ui-section { margin-top: 2.35rem; }
   .ui-card,
