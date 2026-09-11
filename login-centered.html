@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Login centralizado — Quiet UI</title>
+  <script src="assets/js/vendor.js" data-vendors="poppins,lucide"></script>
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <script src="assets/js/theme.js" defer></script>
+</head>
+<body class="ui-page ui-auth-page is-centered" data-page="authentication">
+  <a class="ui-skip-link" href="#main-content">Ir para o conteúdo principal</a>
+  <div class="ui-workspace">
+    <header class="ui-auth-header">
+      <a class="ui-auth-brand" href="authentication.html"><span class="ui-brand-mark" aria-hidden="true">Q</span><strong>Quiet UI</strong></a>
+      <a class="ui-auth-back" href="authentication.html"><i data-lucide="arrow-left" aria-hidden="true"></i> Voltar aos modelos</a>
+    </header>
+    <main class="ui-auth-main" id="main-content" tabindex="-1">
+      <p class="ui-auth-demo-note"><span class="ui-status-dot" aria-hidden="true"></span> Demonstração · use dados fictícios</p>
+      <div class="ui-auth-card">
+        
+        <div class="ui-auth-content" data-ui-auth-demo>
+  <header class="ui-auth-intro">
+    <span class="ui-auth-emblem" aria-hidden="true"><i data-lucide="log-in"></i></span>
+    <p class="ui-eyebrow">SEU ESPAÇO DE TRABALHO</p>
+    <h1>Bem-vindo de volta</h1><p>Entre para continuar de onde parou.</p>
+  </header>
+  <div class="ui-auth-methods">
+    <form class="ui-auth-form" data-ui-auth-form method="post" novalidate>
+  <fieldset disabled>
+    <legend class="ui-visually-hidden">Entrar com usuário e senha</legend>
+    <div class="ui-field">
+      <label class="ui-label" for="centered-username">Usuário ou e-mail</label>
+      <div class="ui-input-group"><span class="ui-input-leading" aria-hidden="true"><i data-lucide="user-round"></i></span><input class="ui-input" id="centered-username" name="username" autocomplete="username" type="text" placeholder="Seu usuário ou e-mail" required aria-describedby="centered-username-error"></div>
+      <p class="ui-error" id="centered-username-error" hidden>Informe seu usuário ou e-mail.</p>
+    </div>
+    <div class="ui-field">
+      <label class="ui-label" for="centered-password">Senha</label>
+      <div class="ui-input-group">
+        <span class="ui-input-leading" aria-hidden="true"><i data-lucide="lock-keyhole"></i></span>
+        <input class="ui-input" id="centered-password" name="password" autocomplete="current-password" type="password" placeholder="Digite sua senha" required aria-describedby="centered-password-error">
+        <button class="ui-icon-button ui-input-action" type="button" data-ui-password-toggle="centered-password" aria-label="Mostrar senha"><i data-lucide="eye" aria-hidden="true"></i></button>
+      </div>
+      <p class="ui-error" id="centered-password-error" hidden>Informe sua senha.</p>
+    </div>
+    <button class="ui-button ui-auth-submit" type="submit">Entrar</button>
+  </fieldset>
+</form>
+    <div class="ui-auth-divider"><span>ou</span></div>
+    <section class="ui-auth-sso" aria-labelledby="sso-title">
+  <h2 id="sso-title">Use sua conta</h2>
+  <p>Escolha um provedor para continuar.</p>
+  <button class="ui-auth-provider is-microsoft" type="button" data-ui-auth-provider="microsoft"><img src="assets/logos/microsoft.svg" alt="" width="20" height="20"><span>Entrar com Microsoft</span></button>
+  <button class="ui-auth-provider is-cyberark" type="button" data-ui-auth-provider="cyberark"><img src="assets/logos/cyberark.ico" alt="" width="20" height="20"><span>Entrar com CyberArk</span></button>
+  <button class="ui-auth-provider is-google" type="button" data-ui-auth-provider="google"><img src="assets/logos/google.svg" alt="" width="20" height="20"><span>Entrar com Google</span></button>
+</section>
+  </div>
+  <p class="ui-auth-status" data-ui-auth-status role="status" aria-live="polite" aria-atomic="true"></p>
+  <details class="ui-auth-demo-options"><summary>Testar estados</summary>
+    <label for="centered-outcome">Resultado da demonstração</label>
+    <select class="ui-select" id="centered-outcome" data-ui-auth-outcome><option value="success">Conclusão demonstrativa</option><option value="error">Erro demonstrativo</option></select>
+  </details>
+</div>
+      </div>
+    </main>
+  </div>
+  <noscript><p class="ui-noscript">Ative o JavaScript para testar esta demonstração. O formulário permanece desabilitado e nenhum dado é enviado.</p></noscript>
+</body>
+</html>
