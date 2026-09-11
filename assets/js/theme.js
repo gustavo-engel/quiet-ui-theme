@@ -4,6 +4,7 @@
   const pageNames = Object.freeze({
     dashboard: "Dashboard",
     forms: "Formulários",
+    authentication: "Autenticação",
     calendar: "Calendário",
     timeline: "Timeline de projetos",
     components: "Componentes",
@@ -24,6 +25,7 @@
   const navigation = Object.freeze([
     { page: "dashboard", href: "index.html", label: "Dashboard", icon: "layout-dashboard" },
     { page: "forms", href: "forms.html", label: "Formulários", icon: "notebook-pen" },
+    { page: "authentication", href: "authentication.html", label: "Autenticação", icon: "log-in" },
     { page: "calendar", href: "calendar.html", label: "Calendário", icon: "calendar-days" },
     { page: "timeline", href: "timeline.html", label: "Timeline", icon: "milestone" },
     { page: "components", href: "components.html", label: "Componentes", icon: "blocks" },
@@ -990,6 +992,85 @@
     });
   };
 
+  const initializeAuthDemos = () => {
+    document.querySelectorAll("[data-ui-auth-demo]").forEach((root) => {
+      const form = root.querySelector("[data-ui-auth-form]");
+      const fields = [...form.querySelectorAll("input[required]")];
+      const fieldset = form.querySelector("fieldset");
+      const submit = form.querySelector('[type="submit"]');
+      const status = root.querySelector("[data-ui-auth-status]");
+      const password = form.querySelector('[autocomplete="current-password"]');
+      const outcome = root.querySelector("[data-ui-auth-outcome]");
+      let timer;
+      const message = (text, tone = "") => {
+        status.textContent = text;
+        status.className = "ui-auth-status" + (tone ? " is-" + tone : "");
+      };
+      const resetBusy = () => {
+        window.clearTimeout(timer);
+        fieldset.disabled = false;
+        form.removeAttribute("aria-busy");
+        submit.textContent = "Entrar";
+      };
+      const clearPassword = () => {
+        password.value = "";
+        password.type = "password";
+        const toggle = form.querySelector("[data-ui-password-toggle]");
+        toggle.setAttribute("aria-label", "Mostrar senha");
+        toggle.innerHTML = icon("eye");
+        refreshIcons();
+      };
+      fields.forEach((field) => field.addEventListener("input", () => {
+        field.removeAttribute("aria-invalid");
+        document.getElementById(field.id + "-error").hidden = true;
+        message("");
+      }));
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const invalid = fields.filter(field => field === password ? !field.value : !field.value.trim());
+        fields.forEach(field => {
+          const failed = invalid.includes(field);
+          field.setAttribute("aria-invalid", String(failed));
+          document.getElementById(field.id + "-error").hidden = !failed;
+        });
+        if (invalid.length) {
+          message("Preencha os campos indicados.", "danger");
+          invalid[0].focus();
+          return;
+        }
+        const fail = outcome.value === "error";
+        resetBusy();
+        fieldset.disabled = true;
+        form.setAttribute("aria-busy", "true");
+        submit.innerHTML = '<span class="ui-spinner is-small" aria-hidden="true"></span> Verificando…';
+        message("Validando a demonstração…");
+        timer = window.setTimeout(() => {
+          resetBusy();
+          clearPassword();
+          message(fail
+            ? "Não foi possível entrar. Erro demonstrativo; tente novamente."
+            : "Demonstração concluída. Nenhuma sessão foi criada.", fail ? "danger" : "success");
+          submit.focus();
+        }, 900);
+      });
+      root.querySelectorAll("[data-ui-auth-provider]").forEach(button => {
+        button.addEventListener("click", () => {
+          resetBusy();
+          fields.forEach(field => {
+            field.removeAttribute("aria-invalid");
+            document.getElementById(field.id + "-error").hidden = true;
+          });
+          const labels = new Map([["microsoft", "Microsoft"], ["cyberark", "CyberArk"], ["google", "Google"]]);
+          const provider = labels.get(button.dataset.uiAuthProvider);
+          if (provider) message(provider + " selecionado. Demonstração: nenhum redirecionamento foi realizado.");
+        });
+      });
+      window.addEventListener("pagehide", () => { resetBusy(); password.value = ""; });
+      // Enable only after preventDefault is installed; without JS the demo cannot submit.
+      fieldset.disabled = false;
+    });
+  };
+
   const initializeImageUploads = () => {
     const allowedTypes = new Set(["image/jpeg", "image/png", "image/webp"]);
     const maxSize = 5 * 1024 * 1024;
@@ -1305,6 +1386,45 @@
         if (exportStatus) exportStatus.textContent = message;
       };
 
+      const downloadFile = (content, mimeType, extension) => {
+        const url = URL.createObjectURL(new Blob([content], { type: mimeType }));
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${exportFile}.${extension}`;
+        document.body.append(link);
+        try {
+          link.click();
+        } finally {
+          link.remove();
+          window.setTimeout(() => URL.revokeObjectURL(url), 10000);
+        }
+      };
+
+      const exportCsv = (filteredRows) => {
+        const { headers, data } = getExportMatrix(filteredRows);
+        const csvCell = (value) => {
+          let text = String(value);
+          // Quoting alone does not prevent spreadsheet formula execution.
+          if (/^[\s\u0000-\u001f]*[=+@-]/.test(text) || /^[\t\r\n]/.test(text)) {
+            text = "'" + text;
+          }
+          return '"' + text.replace(/"/g, '""') + '"';
+        };
+        const csv = [headers, ...data].map((row) => row.map(csvCell).join(",")).join("\r\n");
+        downloadFile("\ufeff" + csv + "\r\n", "text/csv;charset=utf-8", "csv");
+      };
+
+      const exportJson = (filteredRows) => {
+        const { headers, data } = getExportMatrix(filteredRows);
+        const payload = {
+          title: exportTitle,
+          exportedAt: new Date().toISOString(),
+          columns: headers,
+          rows: data,
+        };
+        downloadFile(JSON.stringify(payload, null, 2) + "\n", "application/json;charset=utf-8", "json");
+      };
+
       const exportPdf = async (filteredRows) => {
         await window.ThemeVendors?.ready("jspdf");
         await window.ThemeVendors?.ready("jspdf-autotable");
@@ -1376,16 +1496,7 @@
           compression: true,
           type: "array",
         });
-        const downloadUrl = URL.createObjectURL(new Blob([workbookBytes], {
-          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        }));
-        const download = document.createElement("a");
-        download.href = downloadUrl;
-        download.download = `${exportFile}.xlsx`;
-        document.body.append(download);
-        download.click();
-        download.remove();
-        window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+        downloadFile(workbookBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "xlsx");
       };
 
       const printTable = (filteredRows) => {
@@ -1551,6 +1662,21 @@
       });
       exportButtons.forEach((button) => {
         button.addEventListener("click", async () => {
+          const format = button.dataset.uiTableExport;
+          const formats = new Map([
+            ["pdf", { label: "PDF", run: exportPdf }],
+            ["excel", { label: "Excel", run: exportExcel }],
+            ["csv", { label: "CSV", run: exportCsv }],
+            ["json", { label: "JSON", run: exportJson }],
+            ["print", { label: "Impressão", run: printTable }],
+          ]);
+          const selected = formats.get(format);
+          if (!selected) {
+            const message = "Formato de exportação não suportado.";
+            updateExportStatus(message);
+            showToast(message, "danger");
+            return;
+          }
           const filteredRows = getFilteredRows();
           if (!filteredRows.length) {
             const message = "Não há registros filtrados para exportar.";
@@ -1558,7 +1684,6 @@
             showToast(message, "danger");
             return;
           }
-          const format = button.dataset.uiTableExport;
           const countLabel = `${filteredRows.length} ${filteredRows.length === 1 ? "registro" : "registros"}`;
           try {
             if (format === "print") {
@@ -1568,16 +1693,16 @@
               showToast(message);
               return;
             }
-            updateExportStatus(`Preparando ${format === "pdf" ? "PDF" : "Excel"}.`);
-            await runExport(button, () => format === "pdf"
-              ? exportPdf(filteredRows)
-              : exportExcel(filteredRows));
-            const message = `${format === "pdf" ? "PDF" : "Excel"} exportado com ${countLabel}.`;
+            updateExportStatus(`Preparando ${selected.label}.`);
+            await runExport(button, () => selected.run(filteredRows));
+            const message = `${selected.label} preparado com ${countLabel}.`;
             updateExportStatus(message);
             showToast(message);
           } catch (error) {
             console.error("[theme] Falha ao exportar data table", error);
-            const message = "Não foi possível concluir a exportação. Verifique a conexão e tente novamente.";
+            const message = ["pdf", "excel"].includes(format)
+              ? "Não foi possível concluir a exportação. Verifique a conexão e tente novamente."
+              : "Não foi possível concluir a exportação. Tente novamente.";
             updateExportStatus(message);
             showToast(message, "danger");
           }
@@ -1774,6 +1899,10 @@
     initializeSidebar();
     initializeMenus();
     initializeNotifications();
+    // Local exports and filters must not wait for icons fetched from a CDN.
+    initializeDataTables();
+    initializeAuthDemos();
+    initializeForms();
     await refreshIcons();
     initializeTabs();
     initializeToasts();
@@ -1781,13 +1910,11 @@
     initializeDismissible();
     initializeChips();
     initializeFlags();
-    initializeForms();
     initializeImageUploads();
     initializeCalendar();
     initializeCounters();
     initializeReveals();
     initializeLoadingDemos();
-    initializeDataTables();
     initializeCharts();
   };
 

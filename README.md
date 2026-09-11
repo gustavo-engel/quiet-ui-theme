@@ -34,6 +34,10 @@ Acesse `http://127.0.0.1:4173`.
 .
 ├── index.html          # dashboard
 ├── forms.html          # formulários e validação
+├── authentication.html # catálogo de modelos de autenticação
+├── login-centered.html # login em card central
+├── login-split.html    # login com painel de identidade
+├── login-enterprise.html # login local e SSO lado a lado
 ├── calendar.html       # calendário mensal
 ├── timeline.html       # timeline vertical com fotografias
 ├── components.html     # chips, menus, tabs, modal, toast e tabela
@@ -95,6 +99,28 @@ hospedar fontes e bibliotecas localmente.
 - `[data-ui-notification-center]`: sino global com histórico, contador e leitura persistida no modo demonstrativo.
 - `[data-ui-footer]`: rodapé global; versão, data e autoria ficam centralizadas em `themeRelease` no `theme.js`.
 - `[data-ui-flag]`: bandeira Unicode gerada a partir do código ISO, sem imagens ou dependência adicional.
+
+## Exportações e personalização do rodapé
+
+Consulte o [exemplo completo de exportação](docs.html#export-contract) para
+reutilizar PDF, Excel (.xlsx), CSV, JSON e impressão nas suas tabelas.
+Todos usam os resultados filtrados e ordenados carregados, incluindo outras
+páginas. Paginação no servidor exige integração com a fonte completa.
+CSV/JSON funcionam sem rede; PDF/Excel precisam das bibliotecas do manifesto,
+hospedadas localmente para uso offline. CSV não equivale a XLSX.
+
+O [contrato do rodapé](docs.html#footer-contract) mostra como adaptar marca,
+descrição, versão/data e autoria ou fornecer seu próprio HTML sem duplicação.
+
+## Autenticação
+
+O [catálogo](authentication.html) oferece três layouts com usuário/senha e
+botões Microsoft (Entra ID), CyberArk e Google. Os modelos são demonstrações:
+não enviam credenciais nem criam sessão. Incluem validação, mostrar senha,
+loading e seleção de resultado em “Testar estados”.
+Consulte o [guia de integração](docs.html#auth-contract) para substituir o modo
+demo por autenticação local ou SSO no seu backend e o
+[registro dos logos](assets/logos/README.md) para a origem dos assets.
 
 ## Centro de notificações
 

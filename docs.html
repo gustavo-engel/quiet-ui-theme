@@ -128,7 +128,7 @@ http://127.0.0.1:4173</code></pre>
               <article class="ui-card">
                 <span class="ui-badge is-primary">Dados + progresso</span>
                 <h3>Data Tables</h3>
-                <p class="ui-help">Duas densidades com busca, filtros, ordenação, paginação, progresso e ações reutilizáveis para PDF, Excel e impressão.</p>
+                <p class="ui-help">Duas densidades com filtros, ordenação e exportação para PDF, Excel, CSV, JSON e impressão. <a href="#export-contract">Copiar o exemplo completo</a>.</p>
                 <a class="ui-button is-secondary ui-section" href="datatables.html">Ver data tables</a>
               </article>
               <article class="ui-card">
@@ -144,6 +144,176 @@ http://127.0.0.1:4173</code></pre>
                 <a class="ui-button is-secondary ui-section" href="#notification-contract">Ver contrato</a>
               </article>
             </div>
+          </section>
+
+          <section class="ui-section" id="export-contract" aria-labelledby="export-contract-title">
+            <div class="ui-section-heading"><div><p class="ui-kicker">Guia de implementação</p><h2 id="export-contract-title">Exportações prontas para reutilizar</h2></div><a class="ui-button is-secondary" href="datatables.html">Testar as cinco opções</a></div>
+            <article class="ui-panel">
+              <h3>Formato, resultado e dependência</h3>
+              <ul class="ui-help">
+                <li><code>pdf</code>: arquivo PDF direto, A4 horizontal, título e horário; usa jsPDF + AutoTable.</li>
+                <li><code>excel</code>: planilha .xlsx; usa SheetJS. CSV não é XLSX.</li>
+                <li><code>csv</code>: texto tabular .csv, UTF-8 com BOM, separador vírgula e CRLF; nenhuma biblioteca.</li>
+                <li><code>json</code>: arquivo .json com título, horário, colunas e linhas; nenhuma biblioteca.</li>
+                <li><code>print</code>: diálogo do navegador, com Salvar como PDF quando disponível. É diferente de gerar o PDF diretamente.</li>
+              </ul>
+              <p class="ui-help">CSV/JSON funcionam sem rede. PDF/Excel carregam bibliotecas sob demanda pelo manifesto vendor.js; para uso offline, hospede-as localmente e ajuste o manifesto. Não adicione scripts CDN diretamente na página.</p>
+              <h3>Contrato da tabela</h3>
+              <ul class="ui-help">
+                <li>Todos os formatos usam os mesmos resultados filtrados e ordenados, incluindo outras páginas carregadas. Cada raiz <code>data-ui-data-table</code> mantém suas ações independentes.</li>
+                <li>Configure <code>data-export-title</code> e <code>data-export-file</code> (nome simples, sem extensão). Troque todos os IDs, labels e referências ao copiar; mantenha a faixa de ações antes da busca.</li>
+                <li>O componente captura as linhas presentes na inicialização. Paginação no servidor ou carregamento posterior exige adaptar a fonte de exportação para buscar todos os resultados autorizados com os mesmos filtros e ordenação.</li>
+                <li>A extração usa texto das células: remove ícones decorativos e barras de progresso, junta espaços/quebras de linha e conserva percentuais escritos. Use cabeçalhos simples, sem colspan/rowspan, e igual número de células por linha. Colunas de ações também viram texto; se necessário, adapte a matriz compartilhada para excluí-las em todos os formatos.</li>
+                <li>O CSV coloca cada célula entre aspas e duplica aspas internas. Textos iniciados por sinais de fórmula recebem apóstrofo de proteção. JSON e XLSX mantêm valores como textos; não inferem números ou datas.</li>
+                <li>Formatos desconhecidos geram erro. Sem resultados, nenhum arquivo é preparado. Preserve status acessível, loading e recuperação do botão após sucesso ou falha. Arquivo preparado não confirma que o usuário o salvou.</li>
+                <li>A impressão mostra só a tabela selecionada e todos os resultados filtrados; depois restaura título e layout, inclusive ao cancelar. O rodapé global é ocultado na impressão.</li>
+              </ul>
+            </article>
+            <article class="ui-code-card ui-section">
+              <h3>Exemplo completo: copie para uma página com o shell Quiet UI</h3>
+              <p>Inclua os recursos uma vez no head e a seção diretamente em main.ui-main. Dois registros e página de tamanho 1 permitem conferir a exportação de ambas as páginas.</p>
+              <pre data-ui-export-example><code>&lt;!-- No head da página; inclua os recursos uma única vez. --&gt;
+&lt;script src="assets/js/vendor.js" data-vendors="poppins,lucide"&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" href="assets/css/theme.css"&gt;
+&lt;script src="assets/js/theme.js" defer&gt;&lt;/script&gt;
+
+&lt;!-- Dentro de main.ui-main, como seção direta (necessário à impressão). --&gt;
+&lt;section class="ui-section" aria-labelledby="customers-title"&gt;
+  &lt;div class="ui-section-heading"&gt;&lt;h2 id="customers-title"&gt;Clientes&lt;/h2&gt;&lt;/div&gt;
+  &lt;article class="ui-data-table" id="customers-table"
+    aria-labelledby="customers-title" data-ui-data-table
+    data-page-size="1" data-export-title="Clientes" data-export-file="clientes"&gt;
+    &lt;div class="ui-data-table-actions"&gt;
+      &lt;div class="ui-data-table-actions-copy"&gt;
+        &lt;span class="ui-label" id="customers-actions"&gt;Exportar ou imprimir&lt;/span&gt;
+        &lt;p class="ui-help"&gt;Inclui todos os resultados filtrados carregados.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="ui-data-table-action-group" role="group"
+        aria-labelledby="customers-actions customers-title"&gt;
+        &lt;button class="ui-button is-secondary ui-table-export-button is-pdf"
+          type="button" data-ui-table-export="pdf"&gt;
+          &lt;i data-lucide="file-text" aria-hidden="true"&gt;&lt;/i&gt; Exportar PDF
+        &lt;/button&gt;
+        &lt;button class="ui-button is-secondary ui-table-export-button is-excel"
+          type="button" data-ui-table-export="excel"&gt;
+          &lt;i data-lucide="file-spreadsheet" aria-hidden="true"&gt;&lt;/i&gt; Exportar Excel
+        &lt;/button&gt;
+        &lt;button class="ui-button is-secondary ui-table-export-button is-csv"
+          type="button" data-ui-table-export="csv"&gt;
+          &lt;i data-lucide="file-spreadsheet" aria-hidden="true"&gt;&lt;/i&gt; Exportar CSV
+        &lt;/button&gt;
+        &lt;button class="ui-button is-secondary ui-table-export-button is-json"
+          type="button" data-ui-table-export="json"&gt;
+          &lt;i data-lucide="braces" aria-hidden="true"&gt;&lt;/i&gt; Exportar JSON
+        &lt;/button&gt;
+        &lt;button class="ui-button is-secondary ui-table-export-button is-print"
+          type="button" data-ui-table-export="print"&gt;
+          &lt;i data-lucide="printer" aria-hidden="true"&gt;&lt;/i&gt; Imprimir
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;span class="ui-visually-hidden" role="status" aria-live="polite"
+        data-ui-table-export-status&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="ui-data-table-toolbar" role="search" aria-label="Filtrar clientes"&gt;
+      &lt;div&gt;
+        &lt;label class="ui-label" for="customers-search"&gt;Buscar registros&lt;/label&gt;
+        &lt;input class="ui-input" id="customers-search" type="search" data-ui-table-search&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;label class="ui-label" for="customers-status"&gt;Situação&lt;/label&gt;
+        &lt;select class="ui-select" id="customers-status" data-ui-table-filter="status"&gt;
+          &lt;option value=""&gt;Todas&lt;/option&gt;
+          &lt;option value="active"&gt;Ativo&lt;/option&gt;
+          &lt;option value="pending"&gt;Pendente&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+      &lt;button class="ui-button is-secondary ui-table-reset" type="button"
+        data-ui-table-reset&gt;Limpar&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="ui-table-wrap" role="region" aria-labelledby="customers-title" tabindex="0"&gt;
+      &lt;table class="ui-table"&gt;
+        &lt;caption class="ui-visually-hidden"&gt;Clientes fictícios para demonstração&lt;/caption&gt;
+        &lt;thead&gt;&lt;tr&gt;
+          &lt;th scope="col" aria-sort="none"&gt;&lt;button class="ui-sort-button" type="button"
+            data-ui-table-sort="name" data-sort-type="text"&gt;Cliente&lt;/button&gt;&lt;/th&gt;
+          &lt;th scope="col"&gt;Situação&lt;/th&gt;
+        &lt;/tr&gt;&lt;/thead&gt;
+        &lt;tbody data-ui-table-body&gt;
+          &lt;tr data-ui-table-row data-name="Aurora" data-status="active"&gt;
+            &lt;th scope="row"&gt;Aurora&lt;/th&gt;&lt;td&gt;Ativo&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr data-ui-table-row data-name="Brisa" data-status="pending"&gt;
+            &lt;th scope="row"&gt;Brisa&lt;/th&gt;&lt;td&gt;Pendente&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr data-ui-table-empty hidden&gt;&lt;td colspan="2"&gt;Nenhum registro encontrado.&lt;/td&gt;&lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+    &lt;footer class="ui-data-table-footer"&gt;
+      &lt;p class="ui-help" data-ui-table-summary&gt;&lt;/p&gt;
+      &lt;nav class="ui-pagination-pages" aria-label="Paginação dos clientes"
+        data-ui-table-pagination&gt;&lt;/nav&gt;
+    &lt;/footer&gt;
+  &lt;/article&gt;
+&lt;/section&gt;</code></pre>
+            </article>
+            <article class="ui-code-card ui-section">
+              <h3>Contrato JSON</h3>
+              <p><code>exportedAt</code> é o horário de geração em UTC ISO 8601. <code>columns</code> e <code>rows</code> mantêm a ordem da tabela. Arrays permitem cabeçalhos repetidos sem perder valores.</p>
+              <pre><code>{
+  "title": "Clientes",
+  "exportedAt": "2026-09-08T15:30:00.000Z",
+  "columns": ["Cliente", "Situação"],
+  "rows": [["Aurora", "Ativo"], ["Brisa", "Pendente"]]
+}</code></pre>
+            </article>
+          </section>
+
+          <section class="ui-section ui-code-card" id="footer-contract" aria-labelledby="footer-contract-title">
+            <h2 id="footer-contract-title">Personalize o rodapé</h2>
+            <p>No rodapé gerado, versão, data e autoria vêm de <code>themeRelease</code> em theme.js; nome e descrição ficam no bloco do rodapé em <code>renderShell()</code>. A data representa a versão publicada, não muda a cada visita. Preserve as classes para manter espaçamento e comportamento mobile.</p>
+            <p>Para personalizar uma página, forneça o HTML abaixo dentro de <code>.ui-workspace</code> antes da inicialização. O shell respeita <code>data-ui-footer</code> e não gera outro rodapé. Troque os textos pela identidade do projeto; créditos devem corresponder às dependências realmente usadas.</p>
+            <pre><code>&lt;footer class="ui-footer" data-ui-footer&gt;
+  &lt;div class="ui-footer-inner"&gt;
+    &lt;p class="ui-footer-brand"&gt;
+      &lt;strong&gt;Meu projeto&lt;/strong&gt;&lt;span&gt;Uma descrição curta do produto.&lt;/span&gt;
+    &lt;/p&gt;
+    &lt;p class="ui-footer-meta"&gt;
+      &lt;span&gt;Versão 1.0.0&lt;/span&gt;
+      &lt;time datetime="2026-09-08"&gt;08/09/2026&lt;/time&gt;
+      &lt;span&gt;Gustavo Engel&lt;/span&gt;
+    &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/footer&gt;</code></pre>
+          </section>
+
+          <section class="ui-section ui-code-card" id="auth-contract" aria-labelledby="auth-contract-title">
+            <h2 id="auth-contract-title">Modelos de autenticação</h2>
+            <p><a href="authentication.html">Abrir o catálogo</a> e escolher entre login centralizado, dividido e corporativo. Copie a página completa: campos, rótulos, erros, botões, região de status e rodapé. Os três modelos usam usuário/senha e Microsoft, CyberArk e Google.</p>
+            <p>As páginas usam <code>.ui-workspace</code> para receber o rodapé global; não incluem os ganchos de sidebar ou topbar. Preserve <code>autocomplete="username"</code> e <code>autocomplete="current-password"</code>, os IDs únicos e <code>data-ui-password-toggle</code>. Os logos ficam em <code>assets/logos/</code>; veja <a href="assets/logos/README.md">origens e diretrizes</a>.</p>
+            <p><code>data-ui-auth-demo</code> ativa a demonstração. O formulário <code>data-ui-auth-form</code> bloqueia o envio antes de habilitar seu fieldset; sem JavaScript, permanece desabilitado. Dados não são transmitidos, registrados ou persistidos pelo tema. O campo de senha é limpo após o resultado. O navegador pode aplicar seu próprio preenchimento automático.</p>
+            <p>Em “Testar estados”, selecione conclusão ou erro demonstrativo. <code>data-ui-auth-status</code> anuncia o resultado. Os botões <code>data-ui-auth-provider="microsoft"</code>, <code>"cyberark"</code> e <code>"google"</code> são do tipo button, ficam fora do formulário e funcionam mesmo com campos vazios. Não criam sessão nem redirecionam nesta prévia.</p>
+            <h3>Conectar ao seu backend</h3>
+            <p>Retire <code>data-ui-auth-demo</code> e os controles de simulação. Substitua o comportamento demonstrativo pelo fluxo real do projeto e habilite o fieldset. Para login local, mantenha method POST, configure action, proteção CSRF e tratamento de erro no servidor. Não basta alterar action enquanto o handler de demonstração continua ativo.</p>
+            <pre><code>&lt;!-- Exemplo de rota da SUA aplicação; não existe no tema. --&gt;
+&lt;form method="post" action="/auth/login"&gt;
+  &lt;!-- Token CSRF fornecido pelo servidor, campos username/password e submit. --&gt;
+&lt;/form&gt;
+
+// Execute somente na versão integrada, sem data-ui-auth-demo.
+// Troque estas rotas pelas rotas de início de SSO do seu backend.
+const routes = new Map([
+  ["microsoft", "/auth/microsoft/start"],
+  ["cyberark", "/auth/cyberark/start"],
+  ["google", "/auth/google/start"],
+]);
+document.querySelectorAll("[data-ui-auth-provider]").forEach((button) =&gt; {
+  button.addEventListener("click", () =&gt; {
+    const route = routes.get(button.dataset.uiAuthProvider);
+    if (route) window.location.assign(route);
+  });
+});</code></pre>
+            <p>O backend inicia o protocolo escolhido, valida a resposta do provedor e cria a sessão. Senhas locais nunca são enviadas ao provedor SSO. Segredos de cliente e validação de credenciais pertencem ao servidor. As rotas acima são ilustrativas, não endpoints dos provedores. Microsoft Entra ID é identificado no botão pela marca Microsoft; as marcas mantêm cores e proporções próprias.</p>
           </section>
 
           <section class="ui-section ui-code-card" id="notification-contract" aria-labelledby="notification-contract-title">
@@ -172,7 +342,7 @@ document.addEventListener("quietui:notification:read-request", (event) =&gt; {
 [data-ui-loading-trigger]   /* loading demonstrativo */
 [data-ui-data-table]        /* tabela funcional */
 [data-ui-table-sort]        /* coluna ordenável */
-[data-ui-table-export]      /* PDF, Excel ou impressão */
+[data-ui-table-export]      /* pdf | excel | csv | json | print */
 [data-ui-notification-center] /* histórico e leitura */
 [data-ui-footer]            /* versão e autoria */</code></pre>
           </section>

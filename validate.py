@@ -12,6 +12,10 @@ SUPPORTED_LANGS = {"pt-BR", "en"}
 EXPECTED_PAGES = {
     "index.html",
     "forms.html",
+    "authentication.html",
+    "login-centered.html",
+    "login-split.html",
+    "login-enterprise.html",
     "calendar.html",
     "timeline.html",
     "components.html",
