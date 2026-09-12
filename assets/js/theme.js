@@ -906,7 +906,7 @@
         if (!button) return;
         const code = button.dataset.uiFlagCopy;
         try {
-          await navigator.clipboard.writeText(code);
+          await writeClipboard(code);
           showToast(`Código ${code} copiado.`);
         } catch {
           showToast(`Use o código ${code}.`, "warning");
@@ -914,6 +914,92 @@
       });
 
       update();
+    });
+  };
+
+  const writeClipboard = async (text) => {
+    if (!navigator.clipboard?.writeText) throw new Error("Clipboard unavailable");
+    await navigator.clipboard.writeText(text);
+  };
+
+  const initializeClipboard = () => {
+    document.querySelectorAll("[data-ui-copy-docs] pre").forEach((pre, index) => {
+      const content = pre.querySelector("code") || pre;
+      if (!content.id) {
+        let id = `ui-copy-code-${index}`;
+        while (document.getElementById(id)) id += "-code";
+        content.id = id;
+      }
+      const box = document.createElement("div");
+      box.className = "ui-copy is-code";
+      box.setAttribute("data-ui-copy-box", "");
+      pre.before(box);
+      box.append(pre);
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "ui-icon-button ui-copy-button";
+      button.dataset.uiCopyTarget = content.id;
+      button.setAttribute("aria-label", "Copiar código");
+      button.innerHTML = icon("copy");
+      box.append(button);
+    });
+    document.querySelectorAll("[data-ui-copy-target]").forEach((button) => {
+      const box = button.closest(".ui-copy") || button.parentElement;
+      const status = document.createElement("span");
+      status.className = "ui-copy-status";
+      status.setAttribute("role", "status");
+      status.setAttribute("aria-live", "polite");
+      box.append(status);
+      let timer;
+      let busy = false;
+      let pointerStart;
+      const copy = async () => {
+        if (busy) return;
+        clearTimeout(timer);
+        const target = document.getElementById(button.dataset.uiCopyTarget);
+        const text = target && (target.matches("input, textarea") ? target.value : target.textContent);
+        button.classList.remove("is-copied");
+        button.innerHTML = icon("copy");
+        if (!target || text === "") {
+          status.textContent = target ? "Nada para copiar." : "Conteúdo não encontrado.";
+          refreshIcons();
+          return;
+        }
+        busy = true;
+        button.setAttribute("aria-busy", "true");
+        status.textContent = "Copiando…";
+        try {
+          await writeClipboard(text);
+          status.textContent = "Copiado!";
+          button.classList.add("is-copied");
+          button.innerHTML = icon("check");
+          timer = window.setTimeout(() => {
+            status.textContent = "";
+            button.classList.remove("is-copied");
+            button.innerHTML = icon("copy");
+            refreshIcons();
+          }, 2000);
+        } catch {
+          status.textContent = "Não foi possível copiar. Selecione o texto e copie manualmente";
+        } finally {
+          busy = false;
+          button.removeAttribute("aria-busy");
+          refreshIcons();
+        }
+      };
+      button.addEventListener("click", (event) => { event.stopPropagation(); copy(); });
+      if (box.hasAttribute("data-ui-copy-box")) {
+        box.addEventListener("pointerdown", (event) => {
+          pointerStart = { x: event.clientX, y: event.clientY };
+        });
+        box.addEventListener("click", (event) => {
+          if (event.target.closest("button, a, input, textarea, select, label, summary, [contenteditable], [role='button']")) return;
+          const moved = pointerStart && Math.hypot(event.clientX - pointerStart.x, event.clientY - pointerStart.y) > 5;
+          pointerStart = null;
+          if (moved || window.getSelection()?.toString()) return;
+          copy();
+        });
+      }
     });
   };
 
@@ -1903,6 +1989,7 @@
     initializeDataTables();
     initializeAuthDemos();
     initializeForms();
+    initializeClipboard();
     await refreshIcons();
     initializeTabs();
     initializeToasts();

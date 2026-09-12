@@ -112,6 +112,13 @@ hospedadas localmente para uso offline. CSV não equivale a XLSX.
 O [contrato do rodapé](docs.html#footer-contract) mostra como adaptar marca,
 descrição, versão/data e autoria ou fornecer seu próprio HTML sem duplicação.
 
+## Copy to Clipboard
+
+O [componente de cópia](components.html#copy-title) funciona com campos editáveis
+e caixas de código. O [contrato completo](docs.html#copy-contract) inclui HTML
+copiável, seleção manual, estados acessíveis e tratamento de permissões.
+O guia já permite copiar cada bloco pelo ícone ou pelo clique na caixa.
+
 ## Autenticação
 
 O [catálogo](authentication.html) oferece três layouts com usuário/senha e
