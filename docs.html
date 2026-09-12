@@ -16,7 +16,7 @@
       <aside class="ui-sidebar" id="ui-sidebar" data-ui-sidebar aria-label="Navegação principal"></aside>
       <div class="ui-workspace">
         <header class="ui-topbar" data-ui-topbar></header>
-        <main class="ui-main" id="main-content" tabindex="-1">
+        <main class="ui-main" id="main-content" tabindex="-1" data-ui-copy-docs>
           <header class="ui-page-heading">
             <div class="ui-page-heading-copy">
               <p class="ui-eyebrow">Guia rápido</p>
@@ -314,6 +314,49 @@ document.querySelectorAll("[data-ui-auth-provider]").forEach((button) =&gt; {
   });
 });</code></pre>
             <p>O backend inicia o protocolo escolhido, valida a resposta do provedor e cria a sessão. Senhas locais nunca são enviadas ao provedor SSO. Segredos de cliente e validação de credenciais pertencem ao servidor. As rotas acima são ilustrativas, não endpoints dos provedores. Microsoft Entra ID é identificado no botão pela marca Microsoft; as marcas mantêm cores e proporções próprias.</p>
+          </section>
+
+          <section class="ui-section ui-code-card" id="table-actions-contract" aria-labelledby="table-actions-title">
+            <h2 id="table-actions-title">Ações em tabelas</h2>
+            <p>Use ui-button is-secondary ui-table-action para ações por registro em tabelas básicas ou Data Tables. Ícone e texto permanecem visíveis, com área mínima de 44px e foco nativo. Use square-pen para Editar e eye para Visualizar. Para múltiplas ações, agrupe com ui-table-actions.</p>
+            <pre><code>&lt;td&gt;
+  &lt;div class="ui-table-actions"&gt;
+    &lt;a class="ui-button is-secondary ui-table-action" href="forms.html"
+      aria-label="Editar Área do cliente"&gt;
+      &lt;i data-lucide="square-pen" aria-hidden="true"&gt;&lt;/i&gt; Editar
+    &lt;/a&gt;
+    &lt;button class="ui-button is-secondary ui-table-action" type="button"
+      data-ui-modal-open="details-modal" aria-label="Visualizar Área do cliente"&gt;
+      &lt;i data-lucide="eye" aria-hidden="true"&gt;&lt;/i&gt; Visualizar
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/td&gt;</code></pre>
+            <p>O exemplo de botão exige um dialog com id details-modal e o contrato de modal do catálogo. Links navegam; botões executam operações. Ajuste destino e nome acessível ao registro real. Não aplique o estilo globalmente a links comuns, menus, ordenação ou exportações. As Data Tables atuais não têm coluna de ações: não acrescente colunas sem necessidade; ao adicionar, exclua controles dos dados exportados pela integração.</p>
+          </section>
+
+          <section class="ui-section ui-code-card" id="copy-contract" aria-labelledby="copy-contract-title">
+            <h2 id="copy-contract-title">Copy to Clipboard</h2>
+            <p><a href="components.html#copy-title">Testar os três exemplos</a>. Use um botão type="button" com data-ui-copy-target apontando para um ID único, sem #. O alvo é o input/textarea ou code, nunca a caixa que contém botões e mensagens.</p>
+            <p>O componente lê o valor atual dos campos ou textContent de código, sem remover espaços e quebras de linha. Cada botão recebe uma região role="status" independente: Copiando…, Copiado! por dois segundos, aviso de vazio ou erro. O foco permanece no botão.</p>
+            <pre><code>&lt;label class="ui-label" for="copy-note"&gt;Anotação&lt;/label&gt;
+&lt;div class="ui-copy"&gt;
+  &lt;textarea class="ui-textarea" id="copy-note"&gt;Olá, equipe!&lt;/textarea&gt;
+  &lt;button class="ui-icon-button ui-copy-button" type="button"
+    data-ui-copy-target="copy-note" aria-label="Copiar anotação"&gt;
+    &lt;i data-lucide="copy" aria-hidden="true"&gt;&lt;/i&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class="ui-copy is-code" data-ui-copy-box&gt;
+  &lt;pre&gt;&lt;code id="copy-command"&gt;python3 -m http.server 4173&lt;/code&gt;&lt;/pre&gt;
+  &lt;button class="ui-icon-button ui-copy-button" type="button"
+    data-ui-copy-target="copy-command" aria-label="Copiar comando"&gt;
+    &lt;i data-lucide="copy" aria-hidden="true"&gt;&lt;/i&gt;
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            <p>Inclua os assets centrais do tema. Use uma ação por .ui-copy. data-ui-copy-box habilita cópia ao clicar na caixa; não aplique em campos editáveis. Arraste, seleção ativa e controles internos não disparam a cópia da caixa. O botão continua acessível por Tab, Enter e Espaço.</p>
+            <p>Para documentação, data-ui-copy-docs no contêiner transforma automaticamente todos os pre em caixas copiáveis na inicialização. Não misture essa transformação com caixas manuais no mesmo contêiner. IDs de código existentes são preservados; novos IDs são gerados sem colisão.</p>
+            <p>A Clipboard API precisa de contexto seguro (HTTPS ou localhost) e permissão do navegador. Em HTTP não seguro, file:// ou permissão negada, a disponibilidade varia: o componente informa o erro e orienta a cópia manual, sem fallback obsoleto. Não lê o clipboard nem registra, transmite ou persiste o conteúdo. Sem JavaScript, o texto continua disponível para seleção manual. Não adicione cópia a senhas ou segredos por padrão.</p>
           </section>
 
           <section class="ui-section ui-code-card" id="notification-contract" aria-labelledby="notification-contract-title">

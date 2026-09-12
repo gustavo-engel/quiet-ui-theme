@@ -25,6 +25,10 @@ versão/data e autoria. Reutilize as classes existentes; créditos devem refleti
 as dependências usadas. Não duplique um rodapé data-ui-footer já presente.
 
 Para autenticação, consulte authentication.html e docs.html#auth-contract.
+Para copiar texto/código, reutilize docs.html#copy-contract: data-ui-copy-target
+aponta ao ID do conteúdo; data-ui-copy-box ativa clique na caixa sem interferir
+na seleção. Em campos editáveis, copie somente pelo botão. Preserve feedback
+acessível, erros de permissão e os assets centrais; não registre conteúdo.
 Copie um dos três modelos e preserve os botões SSO com logos locais.
 Mantenha a demonstração sem transmissão de credenciais; integração real exige
 substituir o handler demo pelo backend, conforme o contrato documentado.

@@ -106,7 +106,25 @@ associadas; configure título e nome do arquivo sem extensão.
   `.ui-workspace` substitui o padrão gerado, sem duplicação.
   Créditos devem refletir as dependências realmente utilizadas.
 
-## Modelos de autenticação
+## Ações em tabelas
+
+Para ações por registro em qualquer tabela, consulte `docs.html#table-actions-contract`.
+Reutilize `ui-button is-secondary ui-table-action`, ícone e texto visíveis, nome
+acessível com contexto e `ui-table-actions` para grupos. Links navegam; botões
+executam operações. Não transforme links comuns ou itens de menu em botões.
+
+## Copy to Clipboard
+
+Consulte `docs.html#copy-contract` e `components.html#copy-title`. Reutilize
+`.ui-copy` e botão `type="button"` com `data-ui-copy-target="id"`, apontando
+somente para o conteúdo. Use `data-ui-copy-box` para clique na caixa, nunca
+em campos editáveis. `data-ui-copy-docs` transforma todos os pre do contêiner
+na inicialização; não combine com caixas manuais no mesmo contêiner.
+Preserve seleção manual, valor atual, espaços, teclado e status independente.
+Não copie senhas por padrão; não registre conteúdo. Clipboard exige contexto
+seguro e pode ser bloqueado: mantenha erro e orientação manual, sem sucesso falso.
+
+## Modelos de autenticação (integração)
 
 Consulte `authentication.html` e `docs.html#auth-contract` antes de criar login.
 Use os três modelos independentes com usuário/senha e botões Microsoft, CyberArk

@@ -138,15 +138,37 @@
             </div>
           </section>
 
+          <section class="ui-section" aria-labelledby="copy-title">
+            <div class="ui-section-heading"><div><p class="ui-kicker">Utilitário</p><h2 id="copy-title">Copy to Clipboard</h2></div><a href="docs.html#copy-contract">Como reutilizar</a></div>
+            <article class="ui-card">
+              <p class="ui-help">Nos campos, use o ícone. Na caixa de código, clique no ícone ou no texto; selecionar por arraste não copia.</p>
+              <label class="ui-label" for="copy-reference">Referência</label>
+              <div class="ui-copy">
+                <input class="ui-input" id="copy-reference" value="Quiet UI — Projeto Q-2026" type="text">
+                <button class="ui-icon-button ui-copy-button" type="button" data-ui-copy-target="copy-reference" aria-label="Copiar referência"><i data-lucide="copy" aria-hidden="true"></i></button>
+              </div>
+              <label class="ui-label" for="copy-message">Texto editável</label>
+              <div class="ui-copy">
+                <textarea class="ui-textarea" id="copy-message" rows="3">Olá, equipe!
+O projeto está pronto para revisão.</textarea>
+                <button class="ui-icon-button ui-copy-button" type="button" data-ui-copy-target="copy-message" aria-label="Copiar texto editável"><i data-lucide="copy" aria-hidden="true"></i></button>
+              </div>
+              <div class="ui-copy is-code" data-ui-copy-box>
+                <pre><code id="copy-code">&lt;button class="ui-button" type="button"&gt;Continuar&lt;/button&gt;</code></pre>
+                <button class="ui-icon-button ui-copy-button" type="button" data-ui-copy-target="copy-code" aria-label="Copiar exemplo HTML"><i data-lucide="copy" aria-hidden="true"></i></button>
+              </div>
+            </article>
+          </section>
+
           <section class="ui-section" aria-labelledby="table-title">
             <div class="ui-section-heading"><div><p class="ui-kicker">Dados</p><h2 id="table-title">Tabela e paginação</h2></div><span class="ui-counter">24 registros</span></div>
             <div class="ui-table-wrap">
               <table class="ui-table">
                 <thead><tr><th>Nome</th><th>Equipe</th><th>Status</th><th>Progresso</th><th>Ação</th></tr></thead>
                 <tbody>
-                  <tr><td><strong>Área do cliente</strong><small>Atualizado hoje</small></td><td>Produto</td><td><span class="ui-badge is-primary">Em andamento</span></td><td>72%</td><td><a href="forms.html">Editar</a></td></tr>
-                  <tr><td><strong>Base de conhecimento</strong><small>Atualizado ontem</small></td><td>Suporte</td><td><span class="ui-badge is-success">Concluído</span></td><td>100%</td><td><a href="forms.html">Visualizar</a></td></tr>
-                  <tr><td><strong>Automação de relatórios</strong><small>Atualizado há 3 dias</small></td><td>Operações</td><td><span class="ui-badge is-warning">Pendente</span></td><td>35%</td><td><a href="forms.html">Editar</a></td></tr>
+                  <tr><td><strong>Área do cliente</strong><small>Atualizado hoje</small></td><td>Produto</td><td><span class="ui-badge is-primary">Em andamento</span></td><td>72%</td><td><a class="ui-button is-secondary ui-table-action" href="forms.html" aria-label="Editar Área do cliente"><i data-lucide="square-pen" aria-hidden="true"></i> Editar</a></td></tr>
+                  <tr><td><strong>Base de conhecimento</strong><small>Atualizado ontem</small></td><td>Suporte</td><td><span class="ui-badge is-success">Concluído</span></td><td>100%</td><td><a class="ui-button is-secondary ui-table-action" href="forms.html" aria-label="Visualizar Base de conhecimento"><i data-lucide="eye" aria-hidden="true"></i> Visualizar</a></td></tr>
+                  <tr><td><strong>Automação de relatórios</strong><small>Atualizado há 3 dias</small></td><td>Operações</td><td><span class="ui-badge is-warning">Pendente</span></td><td>35%</td><td><a class="ui-button is-secondary ui-table-action" href="forms.html" aria-label="Editar Automação de relatórios"><i data-lucide="square-pen" aria-hidden="true"></i> Editar</a></td></tr>
                 </tbody>
               </table>
             </div>

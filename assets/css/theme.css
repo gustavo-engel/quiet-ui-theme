@@ -1157,6 +1157,9 @@ canvas {
 .ui-button.is-success { background: var(--ui-success); }
 .ui-button.is-danger { background: var(--ui-danger); }
 .ui-button.is-small { min-height: 2rem; padding: 0.4rem 0.62rem; font-size: 0.64rem; }
+.ui-button.ui-table-action { min-height: 44px; gap: 0.4rem; padding: 0.45rem 0.7rem; font-size: 0.68rem; white-space: nowrap; }
+.ui-table-action svg { width: 1rem; height: 1rem; flex-shrink: 0; }
+.ui-table-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
 .ui-button[disabled],
 .ui-button.is-disabled { opacity: 0.48; cursor: not-allowed; pointer-events: none; }
 
@@ -2637,6 +2640,19 @@ canvas {
 .ui-toast { display: flex; align-items: center; gap: 0.8rem; padding: 1rem 1.1rem; border: 1px solid #b9ead6; border-radius: 0.75rem; background: var(--ui-surface); color: var(--ui-success); box-shadow: var(--ui-shadow-lg); font-size: 0.72rem; font-weight: 700; animation: ui-toast-in 180ms ease both; }
 .ui-toast.is-danger { border-color: #f2b8b2; color: var(--ui-danger); }
 @keyframes ui-toast-in { from { opacity: 0; transform: translateY(0.6rem); } }
+
+.ui-copy { position: relative; min-width: 0; }
+.ui-copy > .ui-input, .ui-copy > .ui-textarea { padding-right: 4rem; }
+.ui-copy-button { position: absolute; top: 2px; right: 4px; width: 44px; height: 44px; min-width: 44px; border: 0; background: transparent; color: var(--ui-muted); }
+.ui-copy-button svg { width: 20px; height: 20px; }
+.ui-copy-button.is-copied { color: var(--ui-success); }
+.ui-copy-status { display: block; min-height: 1.5rem; margin-top: 0.4rem; font-size: 0.72rem; color: var(--ui-muted); }
+.ui-copy.is-code { margin-top: 1rem; padding: 3.5rem 1.25rem 0.75rem; border-radius: var(--ui-radius); background: var(--ui-sidebar); color: #d7deed; cursor: copy; }
+.ui-copy.is-code > pre { margin: 0; padding: 0; border-radius: 0; overflow-x: auto; background: transparent; color: inherit; font: 0.7rem/1.65 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.ui-copy.is-code > .ui-copy-button { top: 6px; right: 8px; color: #d7deed; }
+.ui-copy.is-code > .ui-copy-button:hover { background: #304263; }
+.ui-copy.is-code > .ui-copy-button.is-copied { color: #79dfb4; }
+.ui-copy.is-code > .ui-copy-status { color: #d7deed; cursor: default; }
 
 .ui-code-card pre {
   overflow-x: auto;
